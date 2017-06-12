@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+	<Version>1.0.0</Version>
+    <Authors>Morten Larsen</Authors>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <Description>Specifications for LINQ queries.</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/baunegaard/linqbuilder.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/baunegaard/linqbuilder</PackageProjectUrl>
+    <Product>LinqBuilder.Specifications</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

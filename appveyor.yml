@@ -1,0 +1,29 @@
+﻿version: '{build}'
+
+branches:
+  only:
+    - master
+    - /pull\/.+\/merge/
+
+image: Visual Studio 2017
+
+environment:
+  MYGET_API_KEY:
+    secure: 78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe
+
+assembly_info:
+  patch: false
+
+configuration:
+  - Release
+
+before_build:
+  - cmd: nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
+  - cmd: git remote set-url origin https://github.com/baunegaard/linqbuilder.git
+
+build_script:
+  - ps: .\build.ps1
+
+test: off
+
+deploy: off
