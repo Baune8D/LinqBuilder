@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace LinqBuilder.Ordering
+namespace LinqBuilder.OrderSpecifications
 {
-    public interface IQueryOrderSpecification<T>
+    public interface IOrderSpecification<T>
     {
         IOrderedQueryable<T> Invoke(IQueryable<T> query);
     }
