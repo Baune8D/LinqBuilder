@@ -1,4 +1,4 @@
-﻿namespace LinqBuilder.Ordering
+﻿namespace LinqBuilder.OrderSpecifications
 {
     public enum Order
     {

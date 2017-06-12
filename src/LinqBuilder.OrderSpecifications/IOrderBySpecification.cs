@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Ordering
+namespace LinqBuilder.OrderSpecifications
 {
     public interface IOrderBySpecification<T>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Ordering.Tests.TestHelpers
+namespace LinqBuilder.OrderSpecifications.Tests.TestHelpers
 {
     public class Value1OrderSpecification : OrderBySpecification<TestEntity>
     {

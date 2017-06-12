@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Ordering
+namespace LinqBuilder.OrderSpecifications
 {
-    public abstract class OrderBySpecification<T> : IOrderBySpecification<T>, IQueryOrderSpecification<T>
+    public abstract class OrderBySpecification<T> : IOrderBySpecification<T>, IOrderSpecification<T>
     {
         public Order Order { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace LinqBuilder.Filtering.Tests.TestHelpers
+﻿namespace LinqBuilder.Specifications.Tests.TestHelpers
 {
     public class TestEntity
     {

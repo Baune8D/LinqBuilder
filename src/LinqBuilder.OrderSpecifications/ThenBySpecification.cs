@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqBuilder.Ordering
+namespace LinqBuilder.OrderSpecifications
 {
     public class ThenBySpecification<T> : IQueryOrderSpecification<T>
     {

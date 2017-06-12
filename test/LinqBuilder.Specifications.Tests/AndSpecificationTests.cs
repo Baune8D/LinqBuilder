@@ -1,8 +1,8 @@
-﻿using LinqBuilder.Filtering.Tests.TestHelpers;
+﻿using LinqBuilder.Specifications.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.Filtering.Tests
+namespace LinqBuilder.Specifications.Tests
 {
     public class AndSpecificationTests
     {

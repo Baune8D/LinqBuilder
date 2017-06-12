@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LinqBuilder.Ordering.Tests.TestHelpers;
+using LinqBuilder.OrderSpecifications.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.Ordering.Tests
+namespace LinqBuilder.OrderSpecifications.Tests
 {
     public class ThenBySpecificationTests
     {

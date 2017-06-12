@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Filtering
+namespace LinqBuilder.Specifications
 {
     public class OrSpecification<T> : CompositeSpecification<T> 
         where T : class

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Filtering
+namespace LinqBuilder.Specifications
 {
     public abstract class CompositeSpecification<T> : ICompositeSpecification<T> 
         where T : class

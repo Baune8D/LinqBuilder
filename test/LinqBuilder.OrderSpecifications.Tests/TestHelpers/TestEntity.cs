@@ -1,4 +1,4 @@
-﻿namespace LinqBuilder.Ordering.Tests.TestHelpers
+﻿namespace LinqBuilder.OrderSpecifications.Tests.TestHelpers
 {
     public class TestEntity
     {

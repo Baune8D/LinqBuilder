@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.Filtering.Tests.TestHelpers
+namespace LinqBuilder.Specifications.Tests.TestHelpers
 {
     public class Value1Specification : CompositeSpecification<TestEntity>
     {
