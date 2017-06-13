@@ -26,14 +26,29 @@ public class SampleService
         _sampleRepository = sampleRepository;
     }
 
-    public async Task<List<Entity>> GetFiveOrSixAsync(int take = int.MaxValue)
+    public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync()
     {
         var filter = new IsFiveSpecification()
-            .Or(new IsSixSpecification())
-            .Take(take);
+            .Or(new IsSixSpecification());
 
         return await _sampleRepository.GetAsync(filter);
     }
+}
+```
+
+### Interface
+```csharp
+public interface ICompositeSpecification<T>
+{
+    ICompositeSpecification<T> And(ICompositeSpecification<T> other);
+    ICompositeSpecification<T> Or(ICompositeSpecification<T> other);
+    ICompositeSpecification<T> Not();
+    ICompositeSpecification<T> Skip(int count);
+    ICompositeSpecification<T> Take(int count);
+    IQueryable<T> Invoke(IQueryable<T> query);
+    IEnumerable<T> Invoke(IEnumerable<T> collection);
+    bool IsSatisfiedBy(T entity);
+    Expression<Func<T, bool>> AsExpression();
 }
 ```
 
@@ -43,8 +58,8 @@ public class SampleService
 ```csharp
 public class OrderByNumberSpecification : OrderBySpecification<Entity>
 {
-    public OrderByNumberSpecification(Order direction = Order.Ascending)
-        : base(direction) { }
+    public OrderByNumberSpecification(Order order = Order.Ascending)
+        : base(order) { }
 
     public override Expression<Func<Entity, IComparable>> OrderExpression()
     {
@@ -64,13 +79,31 @@ public class SampleService
         _sampleRepository = sampleRepository;
     }
 
-    public async Task<List<Entity>> GetFiveOrSixAsync(int take = int.MaxValue)
+    public async Task<List<Entity>> GetAsync()
     {
         var order = new OrderByNumberSpecification(Order.Descending)
             .ThenBy(new OrderByOtherNumberSpecification(Order.Descending));
 
         return await _sampleRepository.GetAsync(order);
     }
+}
+```
+
+### Interfaces
+```csharp
+public interface IOrderBySpecification<T>
+{
+    Order Order { get; set; }
+    ThenBySpecification<T> ThenBy(IOrderBySpecification<T> other);
+    Expression<Func<T, IComparable>> AsExpression();
+}
+```
+
+```csharp
+public interface IOrderSpecification<T>
+{
+    IOrderedQueryable<T> Invoke(IQueryable<T> query);
+    IOrderedEnumerable<T> Invoke(IEnumerable<T> collection);
 }
 ```
 
@@ -102,14 +135,14 @@ public class SampleService
 
 public class SampleRepository
 {
-    private readonly DbContext _context;
+    private readonly SampleDbContext _context;
 
-    public SampleRepository(DbContext context)
+    public SampleRepository(SampleDbContext context)
     {
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ICompositeSpecification<Advert> filter, IOrderSpecification<Advert> order)
+    public async Task<List<Entity>> GetAsync(ICompositeSpecification<Entity> filter, IOrderSpecification<Entity> order)
     {
         return await order.Invoke(filter.Invoke(_context.Entities)).ToListAsync();
     }
