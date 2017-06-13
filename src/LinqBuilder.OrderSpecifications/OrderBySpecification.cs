@@ -14,8 +14,6 @@ namespace LinqBuilder.OrderSpecifications
             Order = direction;
         }
 
-        public abstract Expression<Func<T, IComparable>> AsExpression();
-
         public virtual ThenBySpecification<T> ThenBy(IOrderBySpecification<T> other)
         {
             var orderList = new List<OrderExpression<T>>
@@ -43,5 +41,7 @@ namespace LinqBuilder.OrderSpecifications
                 ? collection.OrderByDescending(AsExpression().Compile())
                 : collection.OrderBy(AsExpression().Compile());
         }
+
+        public abstract Expression<Func<T, IComparable>> AsExpression();
     }
 }

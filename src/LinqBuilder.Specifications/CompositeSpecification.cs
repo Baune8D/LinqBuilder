@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -25,12 +26,6 @@ namespace LinqBuilder.Specifications
             return new NotSpecification<T>(this);
         }
 
-        public bool IsSatisfiedBy(T entity)
-        {
-            var predicate = AsExpression().Compile();
-            return predicate(entity);
-        }
-
         public ICompositeSpecification<T> Skip(int count)
         {
             _skip = count;
@@ -43,8 +38,6 @@ namespace LinqBuilder.Specifications
             return this;
         }
 
-        public abstract Expression<Func<T, bool>> AsExpression();
-
         public IQueryable<T> Invoke(IQueryable<T> query)
         {
             var result = query.Where(AsExpression());
@@ -54,5 +47,23 @@ namespace LinqBuilder.Specifications
 
             return result;
         }
+
+        public IEnumerable<T> Invoke(IEnumerable<T> collection)
+        {
+            var result = collection.Where(AsExpression().Compile());
+
+            if (_skip.HasValue) result = result.Skip(_skip.Value);
+            if (_take.HasValue) result = result.Take(_take.Value);
+
+            return result;
+        }
+
+        public bool IsSatisfiedBy(T entity)
+        {
+            var predicate = AsExpression().Compile();
+            return predicate(entity);
+        }
+
+        public abstract Expression<Func<T, bool>> AsExpression();
     }
 }
