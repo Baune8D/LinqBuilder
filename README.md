@@ -86,10 +86,11 @@ public class SampleService
         _sampleRepository = sampleRepository;
     }
 
-    public async Task<List<Entity>> GetEntityWithNumberFiveOrSixAsync(int take = int.MaxValue)
+    public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync(int skip = 0, int take = int.MaxValue)
     {
         var filter = new IsFiveSpecification()
             .Or(new IsSixSpecification())
+            .Skip(skip)
             .Take(take);
 
         var order = new OrderByNumberSpecification(Order.Descending)
@@ -108,7 +109,7 @@ public class SampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ICompositeSpecification<Advert> filter, IQueryOrderSpecification<Advert> order)
+    public async Task<List<Entity>> GetAsync(ICompositeSpecification<Advert> filter, IOrderSpecification<Advert> order)
     {
         return await order.Invoke(filter.Invoke(_context.Entities)).ToListAsync();
     }
