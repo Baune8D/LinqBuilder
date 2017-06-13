@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public class ThenBySpecification<T> : IQueryOrderSpecification<T>
+    public class ThenBySpecification<T> : IOrderSpecification<T>
     {
         public List<OrderExpression<T>> OrderList;
 
