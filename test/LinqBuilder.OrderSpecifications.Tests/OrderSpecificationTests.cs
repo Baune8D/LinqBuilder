@@ -6,10 +6,10 @@ using Xunit;
 
 namespace LinqBuilder.OrderSpecifications.Tests
 {
-    public class OrderBySpecificationTests
+    public class OrderSpecificationTests
     {
         [Fact]
-        public void Invoke_QueryableAscending_ShouldReturnOrderedList()
+        public void Invoke_IQueryableAscending_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification();
 
@@ -20,7 +20,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_EnumerableAscending_ShouldReturnOrderedList()
+        public void Invoke_IEnumerableAscending_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification();
 
@@ -31,7 +31,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_QueryableDescending_ShouldReturnOrderedList()
+        public void Invoke_IQueryableDescending_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification(Order.Descending);
 
@@ -42,7 +42,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_EnumerableDescending_ShouldReturnOrderedList()
+        public void Invoke_IEnumerableDescending_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification(Order.Descending);
 

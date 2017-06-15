@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications.Tests.TestHelpers
 {
-    public class Value2Specification : CompositeSpecification<TestEntity>
+    public class Value2Specification : Specification<TestEntity>
     {
         private readonly int _shouldBe;
 

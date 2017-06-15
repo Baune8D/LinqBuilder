@@ -5,34 +5,34 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public abstract class CompositeSpecification<T> : ICompositeSpecification<T> 
+    public abstract class Specification<T> : ISpecification<T> 
         where T : class
     {
         private int? _skip;
         private int? _take;
 
-        public ICompositeSpecification<T> And(ICompositeSpecification<T> other)
+        public ISpecification<T> And(ISpecification<T> other)
         {
             return new AndSpecification<T>(this, other);
         }
 
-        public ICompositeSpecification<T> Or(ICompositeSpecification<T> other)
+        public ISpecification<T> Or(ISpecification<T> other)
         {
             return new OrSpecification<T>(this, other);
         }
 
-        public ICompositeSpecification<T> Not()
+        public ISpecification<T> Not()
         {
             return new NotSpecification<T>(this);
         }
 
-        public ICompositeSpecification<T> Skip(int count)
+        public ISpecification<T> Skip(int count)
         {
             _skip = count;
             return this;
         }
 
-        public ICompositeSpecification<T> Take(int count)
+        public ISpecification<T> Take(int count)
         {
             _take = count;
             return this;

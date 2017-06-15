@@ -6,7 +6,7 @@ NuGet feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.m
 
 ### Example
 ```csharp
-public class IsFiveSpecification : CompositeSpecification<Entity>
+public class IsFiveSpecification : Specification<Entity>
 {
     public override Expression<Func<Entity, bool>> AsExpression()
     {
@@ -17,7 +17,7 @@ public class IsFiveSpecification : CompositeSpecification<Entity>
 
 ### Usage
 ```csharp
-public class SampleService
+public class SampleService : ISampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
@@ -38,13 +38,13 @@ public class SampleService
 
 ### Interface
 ```csharp
-public interface ICompositeSpecification<T>
+public interface ISpecification<T>
 {
-    ICompositeSpecification<T> And(ICompositeSpecification<T> other);
-    ICompositeSpecification<T> Or(ICompositeSpecification<T> other);
-    ICompositeSpecification<T> Not();
-    ICompositeSpecification<T> Skip(int count);
-    ICompositeSpecification<T> Take(int count);
+    ISpecification<T> And(ISpecification<T> other);
+    ISpecification<T> Or(ISpecification<T> other);
+    ISpecification<T> Not();
+    ISpecification<T> Skip(int count);
+    ISpecification<T> Take(int count);
     IQueryable<T> Invoke(IQueryable<T> query);
     IEnumerable<T> Invoke(IEnumerable<T> collection);
     bool IsSatisfiedBy(T entity);
@@ -52,16 +52,22 @@ public interface ICompositeSpecification<T>
 }
 ```
 
+### Extensions
+LinqBuilder.Specifications extends the "Where" LINQ extension to support specifications.
+```csharp
+IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
+```
+
 ## LinqBuilder.OrderSpecifications
 
 ### Example
 ```csharp
-public class OrderByNumberSpecification : OrderBySpecification<Entity>
+public class NumberOrderSpecification : OrderSpecification<Entity>
 {
     public OrderByNumberSpecification(Order order = Order.Ascending)
         : base(order) { }
 
-    public override Expression<Func<Entity, IComparable>> OrderExpression()
+    public override Expression<Func<Entity, IComparable>> AsExpression()
     {
         return entity => entity.Number;
     }
@@ -70,7 +76,7 @@ public class OrderByNumberSpecification : OrderBySpecification<Entity>
 
 ### Usage
 ```csharp
-public class SampleService
+public class SampleService : ISampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
@@ -81,8 +87,8 @@ public class SampleService
 
     public async Task<List<Entity>> GetAsync()
     {
-        var order = new OrderByNumberSpecification(Order.Descending)
-            .ThenBy(new OrderByOtherNumberSpecification(Order.Descending));
+        var order = new NumberOrderSpecification(Order.Descending)
+            .ThenBy(new OtherNumberOrderSpecification(Order.Descending));
 
         return await _sampleRepository.GetAsync(order);
     }
@@ -91,26 +97,27 @@ public class SampleService
 
 ### Interfaces
 ```csharp
-public interface IOrderBySpecification<T>
+public interface IOrderSpecification<T>
 {
-    Order Order { get; set; }
-    ThenBySpecification<T> ThenBy(IOrderBySpecification<T> other);
-    Expression<Func<T, IComparable>> AsExpression();
+    ThenBySpecification<T> ThenBy(IOrderSpecification<T> order);
+    IOrderedQueryable<T> Invoke(IQueryable<T> query);
+    IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query);
+    IOrderedEnumerable<T> Invoke(IEnumerable<T> collection);
+    IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection);
 }
 ```
 
+### Extensions
+LinqBuilder.OrderSpecifications extends the "OrderBy" and "ThenBy" LINQ extensions to support specifications.
 ```csharp
-public interface IOrderSpecification<T>
-{
-    IOrderedQueryable<T> Invoke(IQueryable<T> query);
-    IOrderedEnumerable<T> Invoke(IEnumerable<T> collection);
-}
+IOrderedQueryable<Entity> query = _sampleContext.Entities.OrderBy(specification);
+IOrderedQueryable<Entity> otherQuery = query.ThenBy(otherSpecification);
 ```
 
 ## Full example
 
 ```csharp
-public class SampleService
+public class SampleService : ISampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
@@ -123,17 +130,16 @@ public class SampleService
     {
         var filter = new IsFiveSpecification()
             .Or(new IsSixSpecification())
-            .Skip(skip)
-            .Take(take);
+            .Skip(skip).Take(take);
 
-        var order = new OrderByNumberSpecification(Order.Descending)
-            .ThenBy(new OrderByOtherNumberSpecification(Order.Descending));
+        var order = new NumberOrderSpecification(Order.Descending)
+            .ThenBy(new OtherNumberOrderSpecification(Order.Descending));
 
         return await _sampleRepository.GetAsync(filter, order);
     }
 }
 
-public class SampleRepository
+public class SampleRepository : ISampleRepository
 {
     private readonly SampleDbContext _context;
 
@@ -142,9 +148,9 @@ public class SampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ICompositeSpecification<Entity> filter, IOrderSpecification<Entity> order)
+    public async Task<List<Entity>> GetAsync(ISpecification<Entity> filter, IOrderSpecification<Entity> order)
     {
-        return await order.Invoke(filter.Invoke(_context.Entities)).ToListAsync();
+        return await _context.Entities.Where(filter).OrderBy(order).ToListAsync();
     }
 }
 ```

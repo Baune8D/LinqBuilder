@@ -9,7 +9,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
     public class ThenBySpecificationTests
     {
         [Fact]
-        public void Invoke_QueryableAscending_ShouldReturnOrderedList()
+        public void Invoke_Queryable_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification()
                 .ThenBy(new Value2OrderSpecification());
@@ -25,7 +25,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_EnumerableAscending_ShouldReturnOrderedList()
+        public void Invoke_Enumerable_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification()
                 .ThenBy(new Value2OrderSpecification());
@@ -41,12 +41,14 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_QueryableDescending_ShouldReturnOrderedList()
+        public void Invoke_OrderedQueryable_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification(Order.Descending)
                 .ThenBy(new Value2OrderSpecification(Order.Descending));
 
-            var result = specification.Invoke(GetTestList().AsQueryable()).ToList();
+            var query = GetTestList().AsQueryable().OrderBy(e => e.Value3);
+
+            var result = specification.Invoke(query).ToList();
             result[0].Value1.ShouldBe(3);
             result[1].Value1.ShouldBe(2);
             result[1].Value2.ShouldBe(2);
@@ -57,12 +59,14 @@ namespace LinqBuilder.OrderSpecifications.Tests
         }
 
         [Fact]
-        public void Invoke_EnumerableDescending_ShouldReturnOrderedList()
+        public void Invoke_OrderedEnumerable_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification(Order.Descending)
                 .ThenBy(new Value2OrderSpecification(Order.Descending));
 
-            var result = specification.Invoke(GetTestList()).ToList();
+            var collection = GetTestList().OrderBy(e => e.Value3);
+
+            var result = specification.Invoke(collection).ToList();
             result[0].Value1.ShouldBe(3);
             result[1].Value1.ShouldBe(2);
             result[1].Value2.ShouldBe(2);

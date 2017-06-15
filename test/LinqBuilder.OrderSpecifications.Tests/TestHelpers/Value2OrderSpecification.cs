@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderSpecifications.Tests.TestHelpers
 {
-    public class Value2OrderSpecification : OrderBySpecification<TestEntity>
+    public class Value2OrderSpecification : OrderSpecification<TestEntity>
     {
         public Value2OrderSpecification(Order direction = Order.Ascending) : base(direction) { }
 
