@@ -3,12 +3,12 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public class NotSpecification<T> : CompositeSpecification<T> 
+    public class NotSpecification<T> : Specification<T> 
         where T : class
     {
-        private readonly ICompositeSpecification<T> _other;
+        private readonly ISpecification<T> _other;
 
-        public NotSpecification(ICompositeSpecification<T> other)
+        public NotSpecification(ISpecification<T> other)
         {
             _other = other;
         }

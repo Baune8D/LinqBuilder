@@ -3,13 +3,13 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public class AndSpecification<T> : CompositeSpecification<T> 
+    public class AndSpecification<T> : Specification<T> 
         where T : class
     {
-        private readonly ICompositeSpecification<T> _left;
-        private readonly ICompositeSpecification<T> _right;
+        private readonly ISpecification<T> _left;
+        private readonly ISpecification<T> _right;
 
-        public AndSpecification(ICompositeSpecification<T> left, ICompositeSpecification<T> right)
+        public AndSpecification(ISpecification<T> left, ISpecification<T> right)
         {
             _left = left;
             _right = right;

@@ -5,13 +5,13 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public interface ICompositeSpecification<T>
+    public interface ISpecification<T>
     {
-        ICompositeSpecification<T> And(ICompositeSpecification<T> other);
-        ICompositeSpecification<T> Or(ICompositeSpecification<T> other);
-        ICompositeSpecification<T> Not();
-        ICompositeSpecification<T> Skip(int count);
-        ICompositeSpecification<T> Take(int count);
+        ISpecification<T> And(ISpecification<T> other);
+        ISpecification<T> Or(ISpecification<T> other);
+        ISpecification<T> Not();
+        ISpecification<T> Skip(int count);
+        ISpecification<T> Take(int count);
         IQueryable<T> Invoke(IQueryable<T> query);
         IEnumerable<T> Invoke(IEnumerable<T> collection);
         bool IsSatisfiedBy(T entity);
