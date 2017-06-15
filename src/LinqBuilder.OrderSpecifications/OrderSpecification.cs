@@ -5,26 +5,18 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public abstract class OrderBySpecification<T> : IOrderBySpecification<T>, IOrderSpecification<T>
+    public abstract class OrderSpecification<T> : IOrderSpecification<T>
     {
         public Order Order { get; set; }
 
-        protected OrderBySpecification(Order direction)
+        protected OrderSpecification(Order direction)
         {
             Order = direction;
         }
 
-        public virtual ThenBySpecification<T> ThenBy(IOrderBySpecification<T> other)
+        public ThenBySpecification<T> ThenBy(IOrderSpecification<T> other)
         {
-            var orderList = new List<OrderExpression<T>>
-            {
-                new OrderExpression<T>
-                {
-                    Expression = AsExpression(),
-                    Order = Order
-                }
-            };
-
+            var orderList = new List<IOrderSpecification<T>> { this };
             return new ThenBySpecification<T>(orderList, other);
         }
 
@@ -35,11 +27,25 @@ namespace LinqBuilder.OrderSpecifications
                 : query.OrderBy(AsExpression());
         }
 
+        public IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query)
+        {
+            return Order == Order.Descending
+                ? query.ThenByDescending(AsExpression())
+                : query.ThenBy(AsExpression());
+        }
+
         public IOrderedEnumerable<T> Invoke(IEnumerable<T> collection)
         {
             return Order == Order.Descending
                 ? collection.OrderByDescending(AsExpression().Compile())
                 : collection.OrderBy(AsExpression().Compile());
+        }
+
+        public IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection)
+        {
+            return Order == Order.Descending
+                ? collection.ThenByDescending(AsExpression().Compile())
+                : collection.ThenBy(AsExpression().Compile());
         }
 
         public abstract Expression<Func<T, IComparable>> AsExpression();

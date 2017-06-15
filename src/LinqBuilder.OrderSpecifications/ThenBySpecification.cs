@@ -5,62 +5,47 @@ namespace LinqBuilder.OrderSpecifications
 {
     public class ThenBySpecification<T> : IOrderSpecification<T>
     {
-        public List<OrderExpression<T>> OrderList;
+        public List<IOrderSpecification<T>> OrderList;
 
-        public ThenBySpecification(List<OrderExpression<T>> orderList, IOrderBySpecification<T> right)
+        public ThenBySpecification(List<IOrderSpecification<T>> orderList, IOrderSpecification<T> right)
         {
             OrderList = orderList;
-
-            OrderList.Add(new OrderExpression<T>
-            {
-                Expression = right.AsExpression(),
-                Order = right.Order
-            });
+            OrderList.Add(right);
         }
 
-        public ThenBySpecification<T> ThenBy(IOrderBySpecification<T> other)
+        public ThenBySpecification<T> ThenBy(IOrderSpecification<T> other)
         {
             return new ThenBySpecification<T>(OrderList, other);
         }
 
         public IOrderedQueryable<T> Invoke(IQueryable<T> query)
         {
-            var orderBy = OrderList[0];
-
-            var orderedQuery = orderBy.Order == Order.Descending
-                ? query.OrderByDescending(orderBy.Expression)
-                : query.OrderBy(orderBy.Expression);
-
+            var orderedQuery = OrderList[0].Invoke(query);
             for (var i = 1; i < OrderList.Count; i++)
             {
-                orderBy = OrderList[i];
-
-                orderedQuery = orderBy.Order == Order.Descending
-                    ? orderedQuery.ThenByDescending(orderBy.Expression)
-                    : orderedQuery.ThenBy(orderBy.Expression);
+                orderedQuery = OrderList[i].Invoke(orderedQuery);
             }
-
             return orderedQuery;
+        }
+
+        public IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query)
+        {
+            return OrderList.Aggregate(query, (current, order) => order.Invoke(current));
         }
 
         public IOrderedEnumerable<T> Invoke(IEnumerable<T> collection)
         {
-            var orderBy = OrderList[0];
-
-            var orderedQuery = orderBy.Order == Order.Descending
-                ? collection.OrderByDescending(orderBy.Expression.Compile())
-                : collection.OrderBy(orderBy.Expression.Compile());
-
+            var orderedCollection = OrderList[0].Invoke(collection);
             for (var i = 1; i < OrderList.Count; i++)
             {
-                orderBy = OrderList[i];
-
-                orderedQuery = orderBy.Order == Order.Descending
-                    ? orderedQuery.ThenByDescending(orderBy.Expression.Compile())
-                    : orderedQuery.ThenBy(orderBy.Expression.Compile());
+                orderedCollection = OrderList[i].Invoke(orderedCollection);
             }
+            return orderedCollection;
+        }
 
-            return orderedQuery;
+        public IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection)
+        {
+            return OrderList.Aggregate(collection, (current, order) => order.Invoke(current));
         }
     }
 }
