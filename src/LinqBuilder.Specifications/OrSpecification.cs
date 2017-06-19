@@ -9,10 +9,12 @@ namespace LinqBuilder.Specifications
         private readonly ISpecification<T> _left;
         private readonly ISpecification<T> _right;
 
-        public OrSpecification(ISpecification<T> left, ISpecification<T> right)
+        public OrSpecification(ISpecification<T> left, ISpecification<T> right, int? skip, int? take)
         {
             _left = left;
             _right = right;
+            if (skip.HasValue) Skip(skip.Value);
+            if (take.HasValue) Take(take.Value);
         }
 
         public override Expression<Func<T, bool>> AsExpression()

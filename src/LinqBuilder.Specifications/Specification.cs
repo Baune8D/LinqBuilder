@@ -13,17 +13,17 @@ namespace LinqBuilder.Specifications
 
         public ISpecification<T> And(ISpecification<T> other)
         {
-            return new AndSpecification<T>(this, other);
+            return new AndSpecification<T>(this, other, _skip, _take);
         }
 
         public ISpecification<T> Or(ISpecification<T> other)
         {
-            return new OrSpecification<T>(this, other);
+            return new OrSpecification<T>(this, other, _skip, _take);
         }
 
         public ISpecification<T> Not()
         {
-            return new NotSpecification<T>(this);
+            return new NotSpecification<T>(this, _skip, _take);
         }
 
         public ISpecification<T> Skip(int count)

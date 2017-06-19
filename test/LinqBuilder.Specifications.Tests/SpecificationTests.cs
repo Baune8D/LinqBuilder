@@ -47,7 +47,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Skip_Queryable_ShouldReturn2Entities()
+        public void Skip_IQueryable_ShouldReturn2Entities()
         {
             var specification = new Value1Specification(3).Skip(2);
 
@@ -56,7 +56,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Skip_Enumerable_ShouldReturn2Entities()
+        public void Skip_IEnumerable_ShouldReturn2Entities()
         {
             var specification = new Value1Specification(3).Skip(2);
 
@@ -65,7 +65,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Take_Queryable_ShouldReturn3Entities()
+        public void Take_IQueryable_ShouldReturn3Entities()
         {
             var specification = new Value1Specification(3).Take(3);
 
@@ -74,7 +74,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Take_Enumerable_ShouldReturn3Entities()
+        public void Take_IEnumerable_ShouldReturn3Entities()
         {
             var specification = new Value1Specification(3).Take(3);
 

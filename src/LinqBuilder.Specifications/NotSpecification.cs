@@ -8,9 +8,11 @@ namespace LinqBuilder.Specifications
     {
         private readonly ISpecification<T> _other;
 
-        public NotSpecification(ISpecification<T> other)
+        public NotSpecification(ISpecification<T> other, int? skip, int? take)
         {
             _other = other;
+            if (skip.HasValue) Skip(skip.Value);
+            if (take.HasValue) Take(take.Value);
         }
 
         public override Expression<Func<T, bool>> AsExpression()
