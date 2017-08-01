@@ -17,12 +17,13 @@ assembly_info:
 configuration:
   - Release
 
-before_build:
-  - cmd: nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
-  - cmd: git remote set-url origin https://github.com/baunegaard/linqbuilder.git
-
 build_script:
   - ps: .\build.ps1
+
+after_build:
+  - "SET PATH=C:\\Python36;C:\\Python36\\Scripts;%PATH%"
+  - pip install codecov
+  - codecov -f "coverage.xml" -X gcov
 
 test: off
 
