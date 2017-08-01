@@ -1,4 +1,6 @@
 #tool "nuget:?package=GitVersion.CommandLine&prerelease"
+#tool "nuget:?package=OpenCover"
+#tool "nuget:?package=ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -12,6 +14,14 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 var solutionFile = "./LinqBuilder.sln";
+var coverageResult = "./coverage.xml";
+
+string[] coverageFilters = 
+{
+	"+[LinqBuilder.*]*",
+	"-[LinqBuilder.*.Tests]*"
+};
+
 string semVersion = null;
 
 //////////////////////////////////////////////////////////////////////
@@ -56,7 +66,6 @@ Task("NuGet-Restore")
 });
 
 Task("Build")
-    .IsDependentOn("NuGet-Restore")
     .Does(() =>
 {
 	DotNetCoreBuild(solutionFile, new DotNetCoreBuildSettings
@@ -69,14 +78,43 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
+	DeleteFileIfExists(coverageResult);
+
+	var settings = new OpenCoverSettings
+	{
+		Register = "user",
+		OldStyle = true,
+		MergeOutput = true,
+		SkipAutoProps = true,
+		ReturnTargetCodeOffset = 0
+	};
+
+	foreach (var filter in coverageFilters)
+	{
+		settings.WithFilter(filter);
+	}
+
 	foreach (var file in GetFiles("./test/*/*.csproj"))
 	{
-		DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
+		OpenCover(tool => 
 		{
-			Configuration = configuration,
-			NoBuild = true
-		});
+			tool.DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
+			{
+				Configuration = configuration,
+				NoBuild = true
+			});
+		},
+		coverageResult, settings);
 	}
+});
+
+Task("Coverage-Report")
+	.IsDependentOn("Test")
+    .Does(() =>
+{
+	DeleteDirectoryIfExists(coverageResult);
+
+	ReportGenerator(coverageResult, "./coverage");
 });
 
 Task("Package")
@@ -163,11 +201,21 @@ void DeleteDirectoryIfExists(string path)
 	}
 }
 
+void DeleteFileIfExists(string path)
+{
+	var file = File(path);
+	if (FileExists(file))
+	{
+		DeleteFile(file);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+	.IsDependentOn("NuGet-Restore")
     .IsDependentOn("Upload-Artifacts")
 	.IsDependentOn("NuGet-Push");
 
