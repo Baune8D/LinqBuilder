@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.Specifications", "src\LinqBuilder.Specifications\LinqBuilder.Specifications.csproj", "{8FE1E60D-7D6B-44F0-9CC4-5E41B70F03A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Specifications", "src\LinqBuilder.Specifications\LinqBuilder.Specifications.csproj", "{8FE1E60D-7D6B-44F0-9CC4-5E41B70F03A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.Specifications.Tests", "test\LinqBuilder.Specifications.Tests\LinqBuilder.Specifications.Tests.csproj", "{749A19C0-9689-4046-9EED-99651D9B413A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Specifications.Tests", "test\LinqBuilder.Specifications.Tests\LinqBuilder.Specifications.Tests.csproj", "{749A19C0-9689-4046-9EED-99651D9B413A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.OrderSpecifications", "src\LinqBuilder.OrderSpecifications\LinqBuilder.OrderSpecifications.csproj", "{33BE27F2-755E-438D-AB2E-9EB3ED3D8EDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.OrderSpecifications", "src\LinqBuilder.OrderSpecifications\LinqBuilder.OrderSpecifications.csproj", "{33BE27F2-755E-438D-AB2E-9EB3ED3D8EDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.OrderSpecifications.Tests", "test\LinqBuilder.OrderSpecifications.Tests\LinqBuilder.OrderSpecifications.Tests.csproj", "{755BCA0D-04F6-44D4-8473-FC9B38F5E470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.OrderSpecifications.Tests", "test\LinqBuilder.OrderSpecifications.Tests\LinqBuilder.OrderSpecifications.Tests.csproj", "{755BCA0D-04F6-44D4-8473-FC9B38F5E470}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9CE7133-E0CC-469B-81F9-529EE0AE003D}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,8 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
+		build.ps1 = build.ps1
 		GitVersion.yml = GitVersion.yml
 		LICENSE.txt = LICENSE.txt
+		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
 EndProject
