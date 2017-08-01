@@ -1,5 +1,7 @@
 # LinqBuilder
-[![Build status](https://ci.appveyor.com/api/projects/status/xergduelkce5icm4?svg=true)](https://ci.appveyor.com/project/baunegaard/linqbuilder)  
+[![Build status](https://ci.appveyor.com/api/projects/status/2hw2qd46rwere3ef?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
+[![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
+
 NuGet feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)
 
 ## LinqBuilder.Specifications
