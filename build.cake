@@ -1,6 +1,6 @@
-#tool "nuget:?package=GitVersion.CommandLine&prerelease"
-#tool "nuget:?package=OpenCover"
-#tool "nuget:?package=ReportGenerator"
+#tool "GitVersion.CommandLine"
+#tool "OpenCover"
+#tool "ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -55,14 +55,14 @@ Task("Version")
 	semVersion = result.NuGetVersionV2;
 });
 
-Task("NuGet-Restore")
+Task("Restore")
     .Does(() =>
 {
-	MSBuild(solutionFile, new MSBuildSettings()
-		.SetConfiguration(configuration)
-		.WithProperty("Version", semVersion)
-		.WithTarget("restore")
-	);
+	DotNetCoreRestore(solutionFile, new DotNetCoreRestoreSettings
+	{
+		MSBuildSettings = new DotNetCoreMSBuildSettings()
+			.SetVersion(semVersion)
+	});
 });
 
 Task("Build")
@@ -120,18 +120,20 @@ Task("Coverage-Report")
 Task("Package")
 	.IsDependentOn("Clean")
 	.IsDependentOn("Version")
+	.IsDependentOn("Restore")
 	.IsDependentOn("Test")
     .Does(() =>
 {
 	foreach (var file in GetFiles("./src/*/*.csproj"))
 	{
-		MSBuild(file, new MSBuildSettings()
-			.SetConfiguration(configuration)
-			.WithProperty("IncludeSymbols", "true")
-			.WithProperty("IncludeSource", "true")
-			.WithProperty("Version", semVersion)
-			.WithTarget("pack")
-		);
+		DotNetCorePack(file.FullPath, new DotNetCorePackSettings
+		{
+			Configuration = configuration,
+			IncludeSymbols = true,
+			IncludeSource = true,
+			MSBuildSettings = new DotNetCoreMSBuildSettings()
+				.SetVersion(semVersion)
+		});
 	}
 
 	CreateDirectoryIfNotExists("./artifacts");
@@ -215,7 +217,6 @@ void DeleteFileIfExists(string path)
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-	.IsDependentOn("NuGet-Restore")
     .IsDependentOn("Upload-Artifacts")
 	.IsDependentOn("NuGet-Push");
 
