@@ -20,6 +20,9 @@ assembly_info:
 configuration:
   - Release
 
+install:
+  - ps: cinst -y dotnetcore-sdk
+
 build_script:
   - ps: .\build.ps1
 
