@@ -53,9 +53,12 @@ Task("Version")
     });
 
 	semVersion = result.NuGetVersionV2;
+
+	Information("SemVersion is: " + semVersion);
 });
 
 Task("Restore")
+	.IsDependentOn("Version")
     .Does(() =>
 {
 	DotNetCoreRestore(solutionFile, new DotNetCoreRestoreSettings
@@ -66,6 +69,7 @@ Task("Restore")
 });
 
 Task("Build")
+	.IsDependentOn("Restore")
     .Does(() =>
 {
 	DotNetCoreBuild(solutionFile, new DotNetCoreBuildSettings
@@ -82,27 +86,27 @@ Task("Test")
 
 	var settings = new OpenCoverSettings
 	{
-		Register = "user",
 		OldStyle = true,
 		MergeOutput = true,
 		SkipAutoProps = true,
 		ReturnTargetCodeOffset = 0
-	};
+	}
+	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*");
 
 	foreach (var filter in coverageFilters)
 	{
 		settings.WithFilter(filter);
 	}
 
+	var parameters = "--fx-version 2.0.3 -nobuild -configuration " + configuration;
+
 	foreach (var file in GetFiles("./test/*/*.csproj"))
 	{
+		settings.WorkingDirectory = file.GetDirectory();
+
 		OpenCover(tool => 
 		{
-			tool.DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
-			{
-				Configuration = configuration,
-				NoBuild = true
-			});
+			tool.DotNetCoreTool(file, "xunit", parameters);
 		},
 		coverageResult, settings);
 	}
@@ -119,8 +123,6 @@ Task("Coverage-Report")
 
 Task("Package")
 	.IsDependentOn("Clean")
-	.IsDependentOn("Version")
-	.IsDependentOn("Restore")
 	.IsDependentOn("Test")
     .Does(() =>
 {
