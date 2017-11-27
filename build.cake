@@ -1,4 +1,4 @@
-#tool "GitVersion.CommandLine"
+#tool "GitVersion.CommandLine&version=4.0.0-beta0012"
 #tool "OpenCover"
 #tool "ReportGenerator"
 
