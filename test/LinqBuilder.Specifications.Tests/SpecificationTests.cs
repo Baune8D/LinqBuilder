@@ -9,11 +9,20 @@ namespace LinqBuilder.Specifications.Tests
     public class SpecificationTests
     {
         [Fact]
+        public void IsSatisfiedBy_DefaltValue_ShouldReturnTrue()
+        {
+            var specification = new Specification<TestEntity>();
+            var entity = new TestEntity();
+
+            specification.IsSatisfiedBy(entity).ShouldBeTrue();
+        }
+
+        [Fact]
         public void IsSatisfiedBy_WrongValue_ShouldReturnFalse()
         {
             var specification = new Value1Specification(5);
-
             var entity = new TestEntity { Value1 = 4 };
+
             specification.IsSatisfiedBy(entity).ShouldBeFalse();
         }
 
@@ -21,8 +30,8 @@ namespace LinqBuilder.Specifications.Tests
         public void IsSatisfiedBy_CorrectValue_ShouldReturnTrue()
         {
             var specification = new Value1Specification(5);
-
             var entity = new TestEntity { Value1 = 5 };
+
             specification.IsSatisfiedBy(entity).ShouldBeTrue();
         }
 
@@ -30,9 +39,11 @@ namespace LinqBuilder.Specifications.Tests
         public void Invoke_IQueryable_ShouldReturnFilteredList()
         {
             var specification = new Value1Specification(3);
+            var query = GetTestList().AsQueryable();
 
-            var result = specification.Invoke(GetTestList().AsQueryable()).ToList();
-            result.Count.ShouldBe(4);
+            var result = specification.Invoke(query).ToList();
+
+            result.Count.ShouldBe(2);
             result.ShouldAllBe(e => e.Value1 == 3);
         }
 
@@ -40,46 +51,12 @@ namespace LinqBuilder.Specifications.Tests
         public void Invoke_IEnumerable_ShouldReturnFilteredList()
         {
             var specification = new Value1Specification(3);
+            var collection = GetTestList();
 
-            var result = specification.Invoke(GetTestList()).ToList();
-            result.Count.ShouldBe(4);
+            var result = specification.Invoke(collection).ToList();
+
+            result.Count.ShouldBe(2);
             result.ShouldAllBe(e => e.Value1 == 3);
-        }
-
-        [Fact]
-        public void Skip_IQueryable_ShouldReturn2Entities()
-        {
-            var specification = new Value1Specification(3).Skip(2);
-
-            var result = specification.Invoke(GetTestList().AsQueryable());
-            result.Count().ShouldBe(2);
-        }
-
-        [Fact]
-        public void Skip_IEnumerable_ShouldReturn2Entities()
-        {
-            var specification = new Value1Specification(3).Skip(2);
-
-            var result = specification.Invoke(GetTestList());
-            result.Count().ShouldBe(2);
-        }
-
-        [Fact]
-        public void Take_IQueryable_ShouldReturn3Entities()
-        {
-            var specification = new Value1Specification(3).Take(3);
-
-            var result = specification.Invoke(GetTestList().AsQueryable());
-            result.Count().ShouldBe(3);
-        }
-
-        [Fact]
-        public void Take_IEnumerable_ShouldReturn3Entities()
-        {
-            var specification = new Value1Specification(3).Take(3);
-
-            var result = specification.Invoke(GetTestList());
-            result.Count().ShouldBe(3);
         }
 
         private static IEnumerable<TestEntity> GetTestList()
@@ -88,9 +65,7 @@ namespace LinqBuilder.Specifications.Tests
             {
                 new TestEntity { Value1 = 3 },
                 new TestEntity { Value1 = 3 },
-                new TestEntity { Value1 = 2 },
-                new TestEntity { Value1 = 3 },
-                new TestEntity { Value1 = 3 }
+                new TestEntity { Value1 = 2 }
             };
         }
     }

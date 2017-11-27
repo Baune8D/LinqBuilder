@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LinqBuilder.OrderSpecifications.Tests
 {
-    public class ThenBySpecificationTests
+    public class CompositeOrderSpecificationTests
     {
         [Fact]
         public void Invoke_Queryable_ShouldReturnOrderedList()
@@ -14,7 +14,9 @@ namespace LinqBuilder.OrderSpecifications.Tests
             var specification = new Value1OrderSpecification()
                 .ThenBy(new Value2OrderSpecification());
 
-            var result = specification.Invoke(GetTestList().AsQueryable()).ToList();
+            var query = GetTestList().AsQueryable();
+
+            var result = specification.Invoke(query).ToList();
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(1);
             result[2].Value1.ShouldBe(2);
@@ -30,7 +32,9 @@ namespace LinqBuilder.OrderSpecifications.Tests
             var specification = new Value1OrderSpecification()
                 .ThenBy(new Value2OrderSpecification());
 
-            var result = specification.Invoke(GetTestList()).ToList();
+            var collection = GetTestList();
+
+            var result = specification.Invoke(collection).ToList();
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(1);
             result[2].Value1.ShouldBe(2);
@@ -83,7 +87,9 @@ namespace LinqBuilder.OrderSpecifications.Tests
                 .ThenBy(new Value2OrderSpecification())
                 .ThenBy(new Value3OrderSpecification());
 
-            var result = specification.Invoke(GetTestList()).ToList();
+            var collection = GetTestList();
+
+            var result = specification.Invoke(collection).ToList();
             result[0].Value1.ShouldBe(1);
             result[0].Value3.ShouldBe(1);
             result[1].Value1.ShouldBe(1);
@@ -93,6 +99,72 @@ namespace LinqBuilder.OrderSpecifications.Tests
             result[3].Value1.ShouldBe(2);
             result[3].Value2.ShouldBe(2);
             result[4].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void Skip_IQueryable_ShouldReturn2Entities()
+        {
+            var specification = new Value1OrderSpecification()
+                .ThenBy(new Value2OrderSpecification())
+                .Skip(2);
+
+            var collection = GetTestList().AsQueryable();
+
+            var result = specification.Invoke(collection).ToList();
+
+            result.Count.ShouldBe(3);
+            result[0].Value1.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void Skip_IEnumerable_ShouldReturn2Entities()
+        {
+            var specification = new Value1OrderSpecification()
+                .ThenBy(new Value2OrderSpecification())
+                .Skip(2);
+
+            var collection = GetTestList();
+
+            var result = specification.Invoke(collection).ToList();
+
+            result.Count.ShouldBe(3);
+            result[0].Value1.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void Take_IQueryable_ShouldReturn2Entities()
+        {
+            var specification = new Value1OrderSpecification()
+                .ThenBy(new Value2OrderSpecification())
+                .Take(2);
+
+            var collection = GetTestList().AsQueryable();
+
+            var result = specification.Invoke(collection).ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(1);
+        }
+
+        [Fact]
+        public void Take_IEnumerable_ShouldReturn2Entities()
+        {
+            var specification = new Value1OrderSpecification()
+                .ThenBy(new Value2OrderSpecification())
+                .Take(2);
+
+            var collection = GetTestList();
+
+            var result = specification.Invoke(collection).ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(1);
         }
 
         private static IEnumerable<TestEntity> GetTestList()
