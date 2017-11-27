@@ -199,7 +199,11 @@ void DeleteDirectoryIfExists(string path)
 	var directory = Directory(path);
 	if (DirectoryExists(directory))
 	{
-		DeleteDirectory(directory, true);
+		DeleteDirectory(directory, new DeleteDirectorySettings
+		{
+			Recursive = true,
+			Force = true
+		});
 	}
 }
 
