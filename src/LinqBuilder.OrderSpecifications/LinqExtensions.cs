@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LinqBuilder.Specifications;
 
 namespace LinqBuilder.OrderSpecifications
 {
@@ -25,6 +26,18 @@ namespace LinqBuilder.OrderSpecifications
         }
 
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> query, OrderSpecification<T> specification)
+        {
+            if (specification == null) throw new ArgumentNullException(nameof(specification));
+            return specification.Invoke(query);
+        }
+
+        public static IQueryable<T> ExeSpec<T>(this IQueryable<T> query, ISpecification<T> specification)
+        {
+            if (specification == null) throw new ArgumentNullException(nameof(specification));
+            return specification.Invoke(query);
+        }
+
+        public static IEnumerable<T> ExeSpec<T>(this IEnumerable<T> query, ISpecification<T> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);

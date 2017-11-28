@@ -17,17 +17,5 @@ namespace LinqBuilder.Specifications
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);
         }
-
-        public static IQueryable<T> ExeSpec<T>(this IQueryable<T> query, ISpecification<T> specification)
-        {
-            if (specification == null) throw new ArgumentNullException(nameof(specification));
-            return specification.Invoke(query);
-        }
-
-        public static IEnumerable<T> ExeSpec<T>(this IEnumerable<T> query, ISpecification<T> specification)
-        {
-            if (specification == null) throw new ArgumentNullException(nameof(specification));
-            return specification.Invoke(query);
-        }
     }
 }
