@@ -102,16 +102,24 @@ public class SampleService : ISampleService
 
 ### Interfaces
 ```csharp
-public interface IOrderSpecification<T>
+public interface IBaseOrderSpecification<T> : ISpecification<T>
 {
-    ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other);
+    ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other);
     ICompositeOrderSpecification<T> Skip(int count);
     ICompositeOrderSpecification<T> Take(int count);
 }
 ```
 ```csharp
-public interface ICompositeOrderSpecification<T> 
-    : IOrderSpecification<T>, ISpecification<T> { }
+public interface IOrderSpecification<T> : IBaseOrderSpecification<T>
+{
+    IOrderedQueryable<T> InvokeOrdered(IOrderedQueryable<T> query);
+    IOrderedQueryable<T> InvokeOrdered(IQueryable<T> query);
+    IOrderedEnumerable<T> InvokeOrdered(IOrderedEnumerable<T> collection);
+    IOrderedEnumerable<T> InvokeOrdered(IEnumerable<T> collection);
+}
+```
+```csharp
+public interface ICompositeOrderSpecification<T> : IBaseOrderSpecification<T> { }
 ```
 
 ### Extensions
