@@ -2,8 +2,8 @@
 {
     public interface IOrderSpecification<T>
     {
-        ICompositeSpecification<T> ThenBy(OrderSpecification<T> other);
-        ICompositeSpecification<T> Skip(int count);
-        ICompositeSpecification<T> Take(int count);
+        ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other);
+        ICompositeOrderSpecification<T> Skip(int count);
+        ICompositeOrderSpecification<T> Take(int count);
     }
 }

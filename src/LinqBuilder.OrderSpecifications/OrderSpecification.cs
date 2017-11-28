@@ -14,18 +14,18 @@ namespace LinqBuilder.OrderSpecifications
             _order = order;
         }
 
-        public ICompositeSpecification<T> ThenBy(OrderSpecification<T> other)
+        public ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other)
         {
             var orderList = new List<OrderSpecification<T>> { this };
             return new CompositeOrderSpecification<T>(orderList, other);
         }
 
-        public ICompositeSpecification<T> Skip(int count)
+        public ICompositeOrderSpecification<T> Skip(int count)
         {
             return new CompositeOrderSpecification<T>(new List<OrderSpecification<T>>(), this, count);
         }
 
-        public ICompositeSpecification<T> Take(int count)
+        public ICompositeOrderSpecification<T> Take(int count)
         {
             return new CompositeOrderSpecification<T>(new List<OrderSpecification<T>>(), this, null, count);
         }

@@ -4,7 +4,7 @@ using LinqBuilder.Specifications;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public class CompositeOrderSpecification<T> : ICompositeSpecification<T>
+    public class CompositeOrderSpecification<T> : ICompositeOrderSpecification<T>
     {
         private readonly ISpecification<T> _specification;
         private readonly List<OrderSpecification<T>> _orderList;
@@ -27,18 +27,18 @@ namespace LinqBuilder.OrderSpecifications
             _specification = specificaiton;
         }
 
-        public ICompositeSpecification<T> ThenBy(OrderSpecification<T> other)
+        public ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other)
         {
             return new CompositeOrderSpecification<T>(_specification, _orderList, other, _skip, _take);
         }
 
-        public ICompositeSpecification<T> Skip(int count)
+        public ICompositeOrderSpecification<T> Skip(int count)
         {
             _skip = count;
             return this;
         }
 
-        public ICompositeSpecification<T> Take(int count)
+        public ICompositeOrderSpecification<T> Take(int count)
         {
             _take = count;
             return this;

@@ -2,6 +2,6 @@
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public interface ICompositeSpecification<T>
+    public interface ICompositeOrderSpecification<T>
         : IOrderSpecification<T>, ISpecification<T> { }
 }
