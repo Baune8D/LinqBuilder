@@ -6,15 +6,13 @@ namespace LinqBuilder.Specifications
     public class AndSpecification<T> : Specification<T> 
         where T : class
     {
-        private readonly ISpecification<T> _left;
-        private readonly ISpecification<T> _right;
+        private readonly IFilterSpecification<T> _left;
+        private readonly IFilterSpecification<T> _right;
 
-        public AndSpecification(ISpecification<T> left, ISpecification<T> right, int? skip, int? take)
+        public AndSpecification(IFilterSpecification<T> left, IFilterSpecification<T> right)
         {
             _left = left;
             _right = right;
-            if (skip.HasValue) Skip(skip.Value);
-            if (take.HasValue) Take(take.Value);
         }
 
         public override Expression<Func<T, bool>> AsExpression()

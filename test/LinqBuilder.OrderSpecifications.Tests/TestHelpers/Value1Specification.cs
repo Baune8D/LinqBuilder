@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using LinqBuilder.Specifications;
 
-namespace LinqBuilder.Specifications.Tests.TestHelpers
+namespace LinqBuilder.OrderSpecifications.Tests.TestHelpers
 {
     public class Value1Specification : Specification<TestEntity>
     {

@@ -7,45 +7,65 @@ namespace LinqBuilder.OrderSpecifications
 {
     public abstract class OrderSpecification<T> : IOrderSpecification<T>
     {
-        public Order Order { get; set; }
+        private readonly Order _order;
 
-        protected OrderSpecification(Order direction)
+        protected OrderSpecification(Order order)
         {
-            Order = direction;
+            _order = order;
         }
 
-        public ThenBySpecification<T> ThenBy(IOrderSpecification<T> other)
+        public ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other)
         {
             var orderList = new List<IOrderSpecification<T>> { this };
-            return new ThenBySpecification<T>(orderList, other);
+            return new CompositeOrderSpecification<T>(orderList, other);
         }
 
-        public IOrderedQueryable<T> Invoke(IQueryable<T> query)
+        public ICompositeOrderSpecification<T> Skip(int count)
         {
-            return Order == Order.Descending
-                ? query.OrderByDescending(AsExpression())
-                : query.OrderBy(AsExpression());
+            return new CompositeOrderSpecification<T>(new List<IOrderSpecification<T>>(), this, count);
         }
 
-        public IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query)
+        public ICompositeOrderSpecification<T> Take(int count)
         {
-            return Order == Order.Descending
+            return new CompositeOrderSpecification<T>(new List<IOrderSpecification<T>>(), this, null, count);
+        }
+
+        public IOrderedQueryable<T> InvokeOrdered(IOrderedQueryable<T> query)
+        {
+            return _order == Order.Descending
                 ? query.ThenByDescending(AsExpression())
                 : query.ThenBy(AsExpression());
         }
 
-        public IOrderedEnumerable<T> Invoke(IEnumerable<T> collection)
+        public IOrderedQueryable<T> InvokeOrdered(IQueryable<T> query)
         {
-            return Order == Order.Descending
+            return _order == Order.Descending
+                ? query.OrderByDescending(AsExpression())
+                : query.OrderBy(AsExpression());
+        }
+
+        public IQueryable<T> Invoke(IQueryable<T> query)
+        {
+            return InvokeOrdered(query).AsQueryable();
+        }
+
+        public IOrderedEnumerable<T> InvokeOrdered(IOrderedEnumerable<T> collection)
+        {
+            return _order == Order.Descending
+                ? collection.ThenByDescending(AsExpression().Compile())
+                : collection.ThenBy(AsExpression().Compile());
+        }
+
+        public IOrderedEnumerable<T> InvokeOrdered(IEnumerable<T> collection)
+        {
+            return _order == Order.Descending
                 ? collection.OrderByDescending(AsExpression().Compile())
                 : collection.OrderBy(AsExpression().Compile());
         }
 
-        public IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection)
+        public IEnumerable<T> Invoke(IEnumerable<T> collection)
         {
-            return Order == Order.Descending
-                ? collection.ThenByDescending(AsExpression().Compile())
-                : collection.ThenBy(AsExpression().Compile());
+            return InvokeOrdered(collection).AsEnumerable();
         }
 
         public abstract Expression<Func<T, IComparable>> AsExpression();

@@ -5,16 +5,16 @@ namespace LinqBuilder.Specifications.Tests.TestHelpers
 {
     public class Value2Specification : Specification<TestEntity>
     {
-        private readonly int _shouldBe;
+        private readonly int _value;
 
-        public Value2Specification(int shouldBe)
+        public Value2Specification(int value)
         {
-            _shouldBe = shouldBe;
+            _value = value;
         }
 
         public override Expression<Func<TestEntity, bool>> AsExpression()
         {
-            return entity => entity.Value2 == _shouldBe;
+            return entity => entity.Value2 == _value;
         }
     }
 }

@@ -5,57 +5,32 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public abstract class Specification<T> : ISpecification<T> 
+    public class Specification<T> : IFilterSpecification<T> 
         where T : class
     {
-        private int? _skip;
-        private int? _take;
-
-        public ISpecification<T> And(ISpecification<T> other)
+        public IFilterSpecification<T> And(IFilterSpecification<T> other)
         {
-            return new AndSpecification<T>(this, other, _skip, _take);
+            return new AndSpecification<T>(this, other);
         }
 
-        public ISpecification<T> Or(ISpecification<T> other)
+        public IFilterSpecification<T> Or(IFilterSpecification<T> other)
         {
-            return new OrSpecification<T>(this, other, _skip, _take);
+            return new OrSpecification<T>(this, other);
         }
 
-        public ISpecification<T> Not()
+        public IFilterSpecification<T> Not()
         {
-            return new NotSpecification<T>(this, _skip, _take);
-        }
-
-        public ISpecification<T> Skip(int count)
-        {
-            _skip = count;
-            return this;
-        }
-
-        public ISpecification<T> Take(int count)
-        {
-            _take = count;
-            return this;
+            return new NotSpecification<T>(this);
         }
 
         public IQueryable<T> Invoke(IQueryable<T> query)
         {
-            var result = query.Where(AsExpression());
-
-            if (_skip.HasValue) result = result.Skip(_skip.Value);
-            if (_take.HasValue) result = result.Take(_take.Value);
-
-            return result;
+            return query.Where(AsExpression());
         }
 
         public IEnumerable<T> Invoke(IEnumerable<T> collection)
         {
-            var result = collection.Where(AsExpression().Compile());
-
-            if (_skip.HasValue) result = result.Skip(_skip.Value);
-            if (_take.HasValue) result = result.Take(_take.Value);
-
-            return result;
+            return collection.Where(AsExpression().Compile());
         }
 
         public bool IsSatisfiedBy(T entity)
@@ -64,6 +39,9 @@ namespace LinqBuilder.Specifications
             return predicate(entity);
         }
 
-        public abstract Expression<Func<T, bool>> AsExpression();
+        public virtual Expression<Func<T, bool>> AsExpression()
+        {
+            return t => true;
+        }
     }
 }

@@ -6,13 +6,11 @@ namespace LinqBuilder.Specifications
     public class NotSpecification<T> : Specification<T> 
         where T : class
     {
-        private readonly ISpecification<T> _other;
+        private readonly IFilterSpecification<T> _other;
 
-        public NotSpecification(ISpecification<T> other, int? skip, int? take)
+        public NotSpecification(IFilterSpecification<T> other)
         {
             _other = other;
-            if (skip.HasValue) Skip(skip.Value);
-            if (take.HasValue) Take(take.Value);
         }
 
         public override Expression<Func<T, bool>> AsExpression()

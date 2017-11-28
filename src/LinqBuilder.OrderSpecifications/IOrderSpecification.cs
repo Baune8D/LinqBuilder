@@ -3,12 +3,11 @@ using System.Linq;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public interface IOrderSpecification<T>
+    public interface IOrderSpecification<T> : IBaseOrderSpecification<T>
     {
-        ThenBySpecification<T> ThenBy(IOrderSpecification<T> other);
-        IOrderedQueryable<T> Invoke(IQueryable<T> query);
-        IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query);
-        IOrderedEnumerable<T> Invoke(IEnumerable<T> collection);
-        IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection);
+        IOrderedQueryable<T> InvokeOrdered(IOrderedQueryable<T> query);
+        IOrderedQueryable<T> InvokeOrdered(IQueryable<T> query);
+        IOrderedEnumerable<T> InvokeOrdered(IOrderedEnumerable<T> collection);
+        IOrderedEnumerable<T> InvokeOrdered(IEnumerable<T> collection);
     }
 }
