@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 namespace LinqBuilder.OrderSpecifications
 {
     public abstract class OrderSpecification<T> : IOrderSpecification<T>
+        where T : class
     {
         private readonly Order _order;
 
