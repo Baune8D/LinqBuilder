@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
@@ -19,7 +20,7 @@ namespace LinqBuilder.Specifications
 
             var notExpression = Expression.Not(expression.Body);
 
-            return Expression.Lambda<Func<T, bool>>(notExpression, expression.Parameters);
+            return Expression.Lambda<Func<T, bool>>(notExpression, expression.Parameters.Single());
         }
     }
 }

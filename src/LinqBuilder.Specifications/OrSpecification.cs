@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
@@ -20,9 +21,12 @@ namespace LinqBuilder.Specifications
             var leftExpression = _left.AsExpression();
             var rightExpression = _right.AsExpression();
 
-            var orExpression = Expression.OrElse(leftExpression.Body, Expression.Invoke(rightExpression, leftExpression.Parameters));
+            var paramExpr = Expression.Parameter(typeof(T));
 
-            return Expression.Lambda<Func<T, bool>>(orExpression, leftExpression.Parameters);
+            var orExpression = Expression.Or(leftExpression.Body, rightExpression.Body);
+            orExpression = (BinaryExpression) new ParameterReplacer(paramExpr).Visit(orExpression);
+
+            return Expression.Lambda<Func<T, bool>>(orExpression, paramExpr);
         }
     }
 }
