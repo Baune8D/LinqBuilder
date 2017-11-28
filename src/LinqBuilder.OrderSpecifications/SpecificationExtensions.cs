@@ -5,7 +5,7 @@ namespace LinqBuilder.OrderSpecifications
 {
     public static class SpecificationExtensions
     {
-        public static ICompositeOrderSpecification<T> OrderBy<T, TKey>(this IFilterSpecification<T> specification, OrderSpecification<T, TKey> orderSpecification)
+        public static ICompositeOrderSpecification<T> OrderBy<T>(this IFilterSpecification<T> specification, IOrderSpecification<T> orderSpecification)
             where T : class
         {
             return new CompositeOrderSpecification<T>(specification, new List<IOrderSpecification<T>>(), orderSpecification);
