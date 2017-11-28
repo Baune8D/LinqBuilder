@@ -5,6 +5,7 @@ using LinqBuilder.Specifications;
 namespace LinqBuilder.OrderSpecifications
 {
     public class CompositeOrderSpecification<T> : ICompositeOrderSpecification<T>
+        where T : class
     {
         private readonly ISpecification<T> _specification;
         private readonly List<IOrderSpecification<T>> _orderList;
