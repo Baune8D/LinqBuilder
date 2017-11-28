@@ -7,12 +7,12 @@ namespace LinqBuilder.OrderSpecifications
     public class CompositeOrderSpecification<T> : ICompositeOrderSpecification<T>
     {
         private readonly ISpecification<T> _specification;
-        private readonly List<OrderSpecification<T>> _orderList;
+        private readonly List<IOrderSpecification<T>> _orderList;
 
         private int? _skip;
         private int? _take;
 
-        public CompositeOrderSpecification(List<OrderSpecification<T>> orderList, OrderSpecification<T> right, int? skip = null, int? take = null)
+        public CompositeOrderSpecification(List<IOrderSpecification<T>> orderList, IOrderSpecification<T> right, int? skip = null, int? take = null)
         {
             _orderList = orderList;
             _orderList.Add(right);
@@ -21,13 +21,13 @@ namespace LinqBuilder.OrderSpecifications
             if (take.HasValue) _take = take;
         }
 
-        public CompositeOrderSpecification(ISpecification<T> specificaiton, List<OrderSpecification<T>> orderList, OrderSpecification<T> right, int? skip = null, int? take = null)
+        public CompositeOrderSpecification(ISpecification<T> specificaiton, List<IOrderSpecification<T>> orderList, IOrderSpecification<T> right, int? skip = null, int? take = null)
             : this(orderList, right, skip, take)
         {
             _specification = specificaiton;
         }
 
-        public ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other)
+        public ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other)
         {
             return new CompositeOrderSpecification<T>(_specification, _orderList, other, _skip, _take);
         }
@@ -48,11 +48,11 @@ namespace LinqBuilder.OrderSpecifications
         { 
             if (_specification != null) query = _specification.Invoke(query);
 
-            var orderedQuery = _orderList[0].Invoke(query);
+            var orderedQuery = _orderList[0].InvokeOrdered(query);
 
             for (var i = 1; i < _orderList.Count; i++)
             {
-                orderedQuery = _orderList[i].Invoke(orderedQuery);
+                orderedQuery = _orderList[i].InvokeOrdered(orderedQuery);
             }
 
             return OrderHelper.SkipTake(orderedQuery.AsQueryable(), _skip, _take);
@@ -62,11 +62,11 @@ namespace LinqBuilder.OrderSpecifications
         {
             if (_specification != null) collection = _specification.Invoke(collection);
 
-            var orderedCollection = _orderList[0].Invoke(collection);
+            var orderedCollection = _orderList[0].InvokeOrdered(collection);
 
             for (var i = 1; i < _orderList.Count; i++)
             {
-                orderedCollection = _orderList[i].Invoke(orderedCollection);
+                orderedCollection = _orderList[i].InvokeOrdered(orderedCollection);
             }
 
             return OrderHelper.SkipTake(orderedCollection.AsEnumerable(), _skip, _take);

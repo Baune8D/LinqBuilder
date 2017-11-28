@@ -1,7 +1,4 @@
-﻿using LinqBuilder.Specifications;
-
-namespace LinqBuilder.OrderSpecifications
+﻿namespace LinqBuilder.OrderSpecifications
 {
-    public interface ICompositeOrderSpecification<T>
-        : IOrderSpecification<T>, ISpecification<T> { }
+    public interface ICompositeOrderSpecification<T> : IBaseOrderSpecification<T> { }
 }
