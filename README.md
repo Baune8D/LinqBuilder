@@ -38,24 +38,27 @@ public class SampleService : ISampleService
 }
 ```
 
-### Interface
+### Interfaces
 ```csharp
 public interface ISpecification<T>
 {
-    ISpecification<T> And(ISpecification<T> other);
-    ISpecification<T> Or(ISpecification<T> other);
-    ISpecification<T> Not();
-    ISpecification<T> Skip(int count);
-    ISpecification<T> Take(int count);
     IQueryable<T> Invoke(IQueryable<T> query);
     IEnumerable<T> Invoke(IEnumerable<T> collection);
+}
+```
+```csharp
+public interface IFilterSpecification<T> : ISpecification<T>
+{
+    IFilterSpecification<T> And(IFilterSpecification<T> other);
+    IFilterSpecification<T> Or(IFilterSpecification<T> other);
+    IFilterSpecification<T> Not();
     bool IsSatisfiedBy(T entity);
     Expression<Func<T, bool>> AsExpression();
 }
 ```
 
 ### Extensions
-LinqBuilder.Specifications extends the "Where" LINQ extension to support specifications.
+**LinqBuilder.Specifications** extends the "Where" LINQ extension to support IFilterSpecification.
 ```csharp
 IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
 ```
@@ -101,20 +104,32 @@ public class SampleService : ISampleService
 ```csharp
 public interface IOrderSpecification<T>
 {
-    ThenBySpecification<T> ThenBy(IOrderSpecification<T> order);
-    IOrderedQueryable<T> Invoke(IQueryable<T> query);
-    IOrderedQueryable<T> Invoke(IOrderedQueryable<T> query);
-    IOrderedEnumerable<T> Invoke(IEnumerable<T> collection);
-    IOrderedEnumerable<T> Invoke(IOrderedEnumerable<T> collection);
+    ICompositeOrderSpecification<T> ThenBy(OrderSpecification<T> other);
+    ICompositeOrderSpecification<T> Skip(int count);
+    ICompositeOrderSpecification<T> Take(int count);
 }
+```
+```csharp
+public interface ICompositeOrderSpecification<T> 
+    : IOrderSpecification<T>, ISpecification<T> { }
 ```
 
 ### Extensions
-LinqBuilder.OrderSpecifications extends the "OrderBy" and "ThenBy" LINQ extensions to support specifications.
+**LinqBuilder.OrderSpecifications** extends the "OrderBy" and "ThenBy" LINQ extensions to support OrderSpecification\<T\>.
 ```csharp
 IOrderedQueryable<Entity> query = _sampleContext.Entities.OrderBy(specification);
 IOrderedQueryable<Entity> otherQuery = query.ThenBy(otherSpecification);
 ```
+
+It also extends regular filter specifications to support chaining with order specifications.
+```csharp
+var specification = new Value1Specification(5) // From LinqBuilder.Specifications
+    .OrderBy(new Value1OrderSpecification()); // From LinqBuilder.OrderSpecifications
+
+IQueryable<Entity> query = _sampleContext.Entities.ExeSpec(specification);
+```
+**Note** that chained specifications will not work with the regular LINQ extensions.  
+We have to use the "ExeSpec" extension instead.
 
 ## Full example
 
@@ -132,12 +147,10 @@ public class SampleService : ISampleService
     {
         var filter = new IsFiveSpecification()
             .Or(new IsSixSpecification())
+            .OrderBy(new NumberOrderSpecification(Order.Descending))
             .Skip(skip).Take(take);
 
-        var order = new NumberOrderSpecification(Order.Descending)
-            .ThenBy(new OtherNumberOrderSpecification(Order.Descending));
-
-        return await _sampleRepository.GetAsync(filter, order);
+        return await _sampleRepository.GetAsync(filter);
     }
 }
 
@@ -150,9 +163,9 @@ public class SampleRepository : ISampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ISpecification<Entity> filter, IOrderSpecification<Entity> order)
+    public async Task<List<Entity>> GetAsync(ISpecification<Entity> specification)
     {
-        return await _context.Entities.Where(filter).OrderBy(order).ToListAsync();
+        return await _context.Entities.ExeSpec(specification).ToListAsync();
     }
 }
 ```
