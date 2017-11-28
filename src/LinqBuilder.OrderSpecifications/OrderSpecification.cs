@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public abstract class OrderSpecification<T> : IOrderSpecification<T>
+    public abstract class OrderSpecification<T, TKey> : IOrderSpecification<T>
         where T : class
     {
         private readonly Order _order;
@@ -69,6 +69,6 @@ namespace LinqBuilder.OrderSpecifications
             return InvokeOrdered(collection).AsEnumerable();
         }
 
-        public abstract Expression<Func<T, IComparable>> AsExpression();
+        public abstract Expression<Func<T, TKey>> AsExpression();
     }
 }
