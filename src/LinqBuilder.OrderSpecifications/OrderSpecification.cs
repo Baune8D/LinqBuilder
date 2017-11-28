@@ -14,10 +14,10 @@ namespace LinqBuilder.OrderSpecifications
             _order = order;
         }
 
-        public ICompositeSpecification<T> ThenBy(OrderSpecification<T> specification)
+        public ICompositeSpecification<T> ThenBy(OrderSpecification<T> other)
         {
             var orderList = new List<OrderSpecification<T>> { this };
-            return new CompositeOrderSpecification<T>(orderList, specification);
+            return new CompositeOrderSpecification<T>(orderList, other);
         }
 
         public ICompositeSpecification<T> Skip(int count)
