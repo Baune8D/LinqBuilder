@@ -160,6 +160,10 @@ Task("Upload-Artifacts")
 			AppVeyor.UploadArtifact(file);
 		}
 	}
+	else
+	{
+		Information("Nothing to do");
+	}
 });
 
 Task("NuGet-Push")
@@ -189,6 +193,10 @@ Task("NuGet-Push")
 				});
 			}
 		}
+	}
+	else
+	{
+		Information("Nothing to do");
 	}
 });
 
