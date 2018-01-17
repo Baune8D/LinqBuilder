@@ -125,9 +125,12 @@ Task("Package")
 	.IsDependentOn("Test")
     .Does(() =>
 {
-	Information("Cleaning artifacts directory");
+	var nupkgGlob = "./src/*/bin/*/*.nupkg";
+
+	Information("Cleaning artifacts");
 
 	DeleteDirectoryIfExists(artifactsFolder);
+	DeleteFiles(nupkgGlob);
 
 	Information("Packaging libraries to artifacts directory");
 
@@ -144,7 +147,7 @@ Task("Package")
 	}
 
 	CreateDirectoryIfNotExists(artifactsFolder);
-	MoveFiles("./src/*/bin/*/*.nupkg", artifactsFolder);
+	MoveFiles(nupkgGlob, artifactsFolder);
 });
 
 Task("Upload-Artifacts")
