@@ -9,6 +9,7 @@
     ".vs": true,
     "artifacts": true,
     "coverage": true,
+    "coverage.xml": true,
     "**/obj": true,
     "**/bin": true,
     "tools/Cake*": true,
