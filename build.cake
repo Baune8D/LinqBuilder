@@ -98,7 +98,6 @@ Task("Test")
 	{
 		OldStyle = true,
 		MergeOutput = true,
-		SkipAutoProps = true,
 		ReturnTargetCodeOffset = 0
 	}
 	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*");
