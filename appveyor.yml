@@ -3,6 +3,7 @@
 branches:
   only:
     - master
+    - develop
     - /pull\/.+\/merge/
 
 image: Visual Studio 2017
