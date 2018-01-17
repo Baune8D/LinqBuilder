@@ -107,7 +107,7 @@ Task("Test")
 		settings.WithFilter(filter);
 	}
 
-	var parameters = $"--fx-version 2.0.5 -nobuild -configuration {configuration}";
+	var parameters = $"--fx-version 2.0.3 -nobuild -configuration {configuration}";
 
 	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
 	{
