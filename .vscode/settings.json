@@ -1,0 +1,20 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.encoding": "utf8",
+
+  "editor.tabSize": 4,
+  
+  "files.exclude": {
+    ".git": true,
+    ".vs": true,
+    "artifacts": true,
+    "coverage": true,
+    "**/obj": true,
+    "**/bin": true,
+    "tools/Cake*": true,
+    "tools/gitversion*": true,
+    "tools/opencover*": true,
+    "tools/reportgenerator*": true,
+    "tools/*.md5sum": true
+  }
+}
