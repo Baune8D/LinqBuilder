@@ -2,7 +2,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/2hw2qd46rwere3ef?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
 [![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
 
-NuGet feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)
+NuGet dev feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)
+
 
 ## LinqBuilder.Specifications
 
@@ -19,7 +20,7 @@ public class IsFiveSpecification : Specification<Entity>
 
 ### Usage
 ```csharp
-public class SampleService : ISampleService
+public class SampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
@@ -62,6 +63,7 @@ public interface IFilterSpecification<T> : ISpecification<T>
 ```csharp
 IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
 ```
+<br/>
 
 ## LinqBuilder.OrderSpecifications
 
@@ -81,7 +83,7 @@ public class NumberOrderSpecification : OrderSpecification<Entity>
 
 ### Usage
 ```csharp
-public class SampleService : ISampleService
+public class SampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
@@ -142,7 +144,7 @@ We have to use the "ExeSpec" extension instead.
 ## Full example
 
 ```csharp
-public class SampleService : ISampleService
+public class SampleService
 {
     private readonly ISampleRepository _sampleRepository;
 
