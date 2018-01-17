@@ -91,7 +91,7 @@ Task("Test")
 	string[] coverageFilters = 
 	{
 		"+[LinqBuilder.*]*",
-		"-[LinqBuilder.*.Tests]*"
+		"-[LinqBuilder.*Tests]*"
 	};
 
 	var settings = new OpenCoverSettings
