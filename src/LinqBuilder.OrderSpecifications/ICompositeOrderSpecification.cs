@@ -1,4 +1,4 @@
 ﻿namespace LinqBuilder.OrderSpecifications
 {
-    public interface ICompositeOrderSpecification<T> : IBaseOrderSpecification<T> { }
+    public interface ICompositeOrderSpecification<TEntity> : IBaseOrderSpecification<TEntity> { }
 }

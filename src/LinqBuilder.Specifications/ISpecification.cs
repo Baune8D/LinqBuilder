@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace LinqBuilder.Specifications
 {
-    public interface ISpecification<T>
+    public interface ISpecification<TEntity>
     {
-        IQueryable<T> Invoke(IQueryable<T> query);
-        IEnumerable<T> Invoke(IEnumerable<T> collection);
+        IQueryable<TEntity> Invoke(IQueryable<TEntity> query);
+        IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection);
     }
 }

@@ -6,13 +6,13 @@ namespace LinqBuilder.Specifications
 {
     public static class LinqExtensions
     {
-        public static IQueryable<T> Where<T>(this IQueryable<T> query, IFilterSpecification<T> specification)
+        public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> query, IFilterSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);
         }
 
-        public static IEnumerable<T> Where<T>(this IEnumerable<T> query, IFilterSpecification<T> specification)
+        public static IEnumerable<TEntity> Where<TEntity>(this IEnumerable<TEntity> query, IFilterSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);

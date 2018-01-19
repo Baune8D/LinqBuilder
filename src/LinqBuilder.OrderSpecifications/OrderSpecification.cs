@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public abstract class OrderSpecification<T, TKey> : IOrderSpecification<T>
-        where T : class
+    public abstract class OrderSpecification<TEntity, TKey> : IOrderSpecification<TEntity>
+        where TEntity : class
     {
         private readonly Order _order;
 
@@ -15,60 +15,60 @@ namespace LinqBuilder.OrderSpecifications
             _order = order;
         }
 
-        public ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other)
+        public ICompositeOrderSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
-            var orderList = new List<IOrderSpecification<T>> { this };
-            return new CompositeOrderSpecification<T>(orderList, other);
+            var orderList = new List<IOrderSpecification<TEntity>> { this };
+            return new CompositeOrderSpecification<TEntity>(orderList, other);
         }
 
-        public ICompositeOrderSpecification<T> Skip(int count)
+        public ICompositeOrderSpecification<TEntity> Skip(int count)
         {
-            return new CompositeOrderSpecification<T>(new List<IOrderSpecification<T>>(), this, count);
+            return new CompositeOrderSpecification<TEntity>(new List<IOrderSpecification<TEntity>>(), this, count);
         }
 
-        public ICompositeOrderSpecification<T> Take(int count)
+        public ICompositeOrderSpecification<TEntity> Take(int count)
         {
-            return new CompositeOrderSpecification<T>(new List<IOrderSpecification<T>>(), this, null, count);
+            return new CompositeOrderSpecification<TEntity>(new List<IOrderSpecification<TEntity>>(), this, null, count);
         }
 
-        public IOrderedQueryable<T> InvokeOrdered(IOrderedQueryable<T> query)
+        public IOrderedQueryable<TEntity> InvokeOrdered(IOrderedQueryable<TEntity> query)
         {
             return _order == Order.Descending
                 ? query.ThenByDescending(AsExpression())
                 : query.ThenBy(AsExpression());
         }
 
-        public IOrderedQueryable<T> InvokeOrdered(IQueryable<T> query)
+        public IOrderedQueryable<TEntity> InvokeOrdered(IQueryable<TEntity> query)
         {
             return _order == Order.Descending
                 ? query.OrderByDescending(AsExpression())
                 : query.OrderBy(AsExpression());
         }
 
-        public IQueryable<T> Invoke(IQueryable<T> query)
+        public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             return InvokeOrdered(query).AsQueryable();
         }
 
-        public IOrderedEnumerable<T> InvokeOrdered(IOrderedEnumerable<T> collection)
+        public IOrderedEnumerable<TEntity> InvokeOrdered(IOrderedEnumerable<TEntity> collection)
         {
             return _order == Order.Descending
                 ? collection.ThenByDescending(AsExpression().Compile())
                 : collection.ThenBy(AsExpression().Compile());
         }
 
-        public IOrderedEnumerable<T> InvokeOrdered(IEnumerable<T> collection)
+        public IOrderedEnumerable<TEntity> InvokeOrdered(IEnumerable<TEntity> collection)
         {
             return _order == Order.Descending
                 ? collection.OrderByDescending(AsExpression().Compile())
                 : collection.OrderBy(AsExpression().Compile());
         }
 
-        public IEnumerable<T> Invoke(IEnumerable<T> collection)
+        public IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             return InvokeOrdered(collection).AsEnumerable();
         }
 
-        public abstract Expression<Func<T, TKey>> AsExpression();
+        public abstract Expression<Func<TEntity, TKey>> AsExpression();
     }
 }

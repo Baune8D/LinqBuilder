@@ -5,10 +5,10 @@ namespace LinqBuilder.OrderSpecifications
 {
     public static class SpecificationExtensions
     {
-        public static ICompositeOrderSpecification<T> OrderBy<T>(this IFilterSpecification<T> specification, IOrderSpecification<T> orderSpecification)
-            where T : class
+        public static ICompositeOrderSpecification<TEntity> OrderBy<TEntity>(this IFilterSpecification<TEntity> specification, IOrderSpecification<TEntity> orderSpecification)
+            where TEntity : class
         {
-            return new CompositeOrderSpecification<T>(specification, new List<IOrderSpecification<T>>(), orderSpecification);
+            return new CompositeOrderSpecification<TEntity>(specification, new List<IOrderSpecification<TEntity>>(), orderSpecification);
         }
     }
 }

@@ -4,16 +4,16 @@ using LinqBuilder.Specifications;
 
 namespace LinqBuilder.OrderSpecifications
 {
-    public class CompositeOrderSpecification<T> : ICompositeOrderSpecification<T>
-        where T : class
+    public class CompositeOrderSpecification<TEntity> : ICompositeOrderSpecification<TEntity>
+        where TEntity : class
     {
-        private readonly ISpecification<T> _specification;
-        private readonly List<IOrderSpecification<T>> _orderList;
+        private readonly ISpecification<TEntity> _specification;
+        private readonly List<IOrderSpecification<TEntity>> _orderList;
 
         private int? _skip;
         private int? _take;
 
-        public CompositeOrderSpecification(List<IOrderSpecification<T>> orderList, IOrderSpecification<T> right, int? skip = null, int? take = null)
+        public CompositeOrderSpecification(List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, int? skip = null, int? take = null)
         {
             _orderList = orderList;
             _orderList.Add(right);
@@ -22,35 +22,35 @@ namespace LinqBuilder.OrderSpecifications
             if (take.HasValue) _take = take;
         }
 
-        public CompositeOrderSpecification(ISpecification<T> specificaiton, List<IOrderSpecification<T>> orderList, IOrderSpecification<T> right, int? skip = null, int? take = null)
+        public CompositeOrderSpecification(ISpecification<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, int? skip = null, int? take = null)
             : this(orderList, right, skip, take)
         {
             _specification = specificaiton;
         }
 
-        public ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other)
+        public ICompositeOrderSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
-            return new CompositeOrderSpecification<T>(_specification, _orderList, other, _skip, _take);
+            return new CompositeOrderSpecification<TEntity>(_specification, _orderList, other, _skip, _take);
         }
 
-        public ICompositeOrderSpecification<T> Skip(int count)
+        public ICompositeOrderSpecification<TEntity> Skip(int count)
         {
             _skip = count;
             return this;
         }
 
-        public ICompositeOrderSpecification<T> Take(int count)
+        public ICompositeOrderSpecification<TEntity> Take(int count)
         {
             _take = count;
             return this;
         }
 
-        public IQueryable<T> Invoke(IQueryable<T> query)
+        public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             return Invoke(query.AsEnumerable()).AsQueryable();
         }
 
-        public IEnumerable<T> Invoke(IEnumerable<T> collection)
+        public IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             if (_specification != null) collection = _specification.Invoke(collection);
 
@@ -64,7 +64,7 @@ namespace LinqBuilder.OrderSpecifications
             return SkipTake(orderedCollection.AsEnumerable(), _skip, _take);
         }
 
-        private static IEnumerable<T> SkipTake(IEnumerable<T> collection, int? skip, int? take)
+        private static IEnumerable<TEntity> SkipTake(IEnumerable<TEntity> collection, int? skip, int? take)
         {
             if (skip.HasValue) collection = collection.Skip(skip.Value);
             if (take.HasValue) collection = collection.Take(take.Value);

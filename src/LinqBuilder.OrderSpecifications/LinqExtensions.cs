@@ -7,37 +7,37 @@ namespace LinqBuilder.OrderSpecifications
 {
     public static class LinqExtensions
     {
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, IOrderSpecification<T> specification)
+        public static IOrderedQueryable<TEntity> OrderBy<TEntity>(this IQueryable<TEntity> query, IOrderSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.InvokeOrdered(query);
         }
 
-        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> query, IOrderSpecification<T> specification)
+        public static IOrderedQueryable<TEntity> ThenBy<TEntity>(this IOrderedQueryable<TEntity> query, IOrderSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.InvokeOrdered(query);
         }
 
-        public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> query, IOrderSpecification<T> specification)
+        public static IOrderedEnumerable<TEntity> OrderBy<TEntity>(this IEnumerable<TEntity> query, IOrderSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.InvokeOrdered(query);
         }
 
-        public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> query, IOrderSpecification<T> specification)
+        public static IOrderedEnumerable<TEntity> ThenBy<TEntity>(this IOrderedEnumerable<TEntity> query, IOrderSpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.InvokeOrdered(query);
         }
 
-        public static IQueryable<T> ExeSpec<T>(this IQueryable<T> query, ISpecification<T> specification)
+        public static IQueryable<TEntity> ExeSpec<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);
         }
 
-        public static IEnumerable<T> ExeSpec<T>(this IEnumerable<T> query, ISpecification<T> specification)
+        public static IEnumerable<TEntity> ExeSpec<TEntity>(this IEnumerable<TEntity> query, ISpecification<TEntity> specification)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             return specification.Invoke(query);

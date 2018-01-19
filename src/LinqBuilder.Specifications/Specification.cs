@@ -5,41 +5,41 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public class Specification<T> : IFilterSpecification<T> 
-        where T : class
+    public class Specification<TEntity> : IFilterSpecification<TEntity> 
+        where TEntity : class
     {
-        public IFilterSpecification<T> And(IFilterSpecification<T> other)
+        public IFilterSpecification<TEntity> And(IFilterSpecification<TEntity> other)
         {
-            return new AndSpecification<T>(this, other);
+            return new AndSpecification<TEntity>(this, other);
         }
 
-        public IFilterSpecification<T> Or(IFilterSpecification<T> other)
+        public IFilterSpecification<TEntity> Or(IFilterSpecification<TEntity> other)
         {
-            return new OrSpecification<T>(this, other);
+            return new OrSpecification<TEntity>(this, other);
         }
 
-        public IFilterSpecification<T> Not()
+        public IFilterSpecification<TEntity> Not()
         {
-            return new NotSpecification<T>(this);
+            return new NotSpecification<TEntity>(this);
         }
 
-        public IQueryable<T> Invoke(IQueryable<T> query)
+        public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             return query.Where(AsExpression());
         }
 
-        public IEnumerable<T> Invoke(IEnumerable<T> collection)
+        public IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             return collection.Where(AsExpression().Compile());
         }
 
-        public bool IsSatisfiedBy(T entity)
+        public bool IsSatisfiedBy(TEntity entity)
         {
             var predicate = AsExpression().Compile();
             return predicate(entity);
         }
 
-        public virtual Expression<Func<T, bool>> AsExpression()
+        public virtual Expression<Func<TEntity, bool>> AsExpression()
         {
             return t => true;
         }

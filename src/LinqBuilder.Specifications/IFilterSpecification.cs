@@ -3,12 +3,12 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications
 {
-    public interface IFilterSpecification<T> : ISpecification<T>
+    public interface IFilterSpecification<TEntity> : ISpecification<TEntity>
     {
-        IFilterSpecification<T> And(IFilterSpecification<T> other);
-        IFilterSpecification<T> Or(IFilterSpecification<T> other);
-        IFilterSpecification<T> Not();
-        bool IsSatisfiedBy(T entity);
-        Expression<Func<T, bool>> AsExpression();
+        IFilterSpecification<TEntity> And(IFilterSpecification<TEntity> other);
+        IFilterSpecification<TEntity> Or(IFilterSpecification<TEntity> other);
+        IFilterSpecification<TEntity> Not();
+        bool IsSatisfiedBy(TEntity entity);
+        Expression<Func<TEntity, bool>> AsExpression();
     }
 }
