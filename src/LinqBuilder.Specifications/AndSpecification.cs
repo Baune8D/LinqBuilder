@@ -25,6 +25,7 @@ namespace LinqBuilder.Specifications
 
             var andExpression = Expression.AndAlso(leftExpression.Body, rightExpression.Body);
             andExpression = (BinaryExpression) new ParameterReplacer(paramExpr).Visit(andExpression);
+            if (andExpression == null) throw new InvalidOperationException(nameof(andExpression));
 
             return Expression.Lambda<Func<T, bool>>(andExpression, paramExpr);
         }

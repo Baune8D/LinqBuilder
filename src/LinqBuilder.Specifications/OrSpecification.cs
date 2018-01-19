@@ -25,6 +25,7 @@ namespace LinqBuilder.Specifications
 
             var orExpression = Expression.Or(leftExpression.Body, rightExpression.Body);
             orExpression = (BinaryExpression) new ParameterReplacer(paramExpr).Visit(orExpression);
+            if (orExpression == null) throw new InvalidOperationException();
 
             return Expression.Lambda<Func<T, bool>>(orExpression, paramExpr);
         }
