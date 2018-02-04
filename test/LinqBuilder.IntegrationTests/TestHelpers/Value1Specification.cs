@@ -15,7 +15,7 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
 
         public override Expression<Func<TestData, bool>> AsExpression()
         {
-            return entity => entity.Value == _value;
+            return entity => entity.Value1 == _value;
         }
     }
 }

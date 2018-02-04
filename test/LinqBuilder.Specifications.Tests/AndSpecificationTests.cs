@@ -6,34 +6,25 @@ namespace LinqBuilder.Specifications.Tests
 {
     public class AndSpecificationTests
     {
-        [Fact]
-        public void IsSatisfiedBy_OneWrongValue_ShouldReturnFalse()
+        [Theory]
+        [ClassData(typeof(TestData))]
+        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
         {
             var specification = new Value1Specification(3)
                 .And(new Value2Specification(5));
 
-            var entity = new TestEntity
-            {
-                Value1 = 3,
-                Value2 = 4
-            };
-
-            specification.IsSatisfiedBy(entity).ShouldBeFalse();
+            specification
+                .IsSatisfiedBy(entity)
+                .ShouldBe(expected);
         }
 
-        [Fact]
-        public void IsSatisfiedBy_TwoCorrectValues_ShouldReturnTrue()
+        private class TestData : TheoryData<TestEntity, bool>
         {
-            var specification = new Value1Specification(3)
-                .And(new Value2Specification(5));
-
-            var entity = new TestEntity
+            public TestData()
             {
-                Value1 = 3,
-                Value2 = 5
-            };
-
-            specification.IsSatisfiedBy(entity).ShouldBeTrue();
+                Add(new TestEntity { Value1 = 3, Value2 = 5 }, true);
+                Add(new TestEntity { Value1 = 3, Value2 = 4 }, false);
+            }
         }
     }
 }

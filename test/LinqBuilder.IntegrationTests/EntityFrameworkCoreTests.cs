@@ -24,30 +24,31 @@ namespace LinqBuilder.IntegrationTests
             {
                 context.Add(new TestData
                 {
-                    Date = DateTimeOffset.Now.AddMinutes(20),
-                    Value = 1
+                    Value1 = 1
                 });
                 context.Add(new TestData
                 {
-                    Date = DateTimeOffset.Now.AddMinutes(15),
-                    Value = 2
+                    Value1 = 2
                 });
                 context.Add(new TestData
                 {
-                    Date = DateTimeOffset.Now,
-                    Value = 1
+                    Value1 = 1,
+                    Value2 = 2
                 });
                 context.Add(new TestData
                 {
-                    Date = DateTimeOffset.Now.AddMinutes(10),
-                    Value = 3
+                    Value1 = 3
                 });
                 context.Add(new TestData
                 {
-                    Date = DateTimeOffset.Now.AddMinutes(5),
-                    Value = 1
+                    Value1 = 1,
+                    Value2 = 1
                 });
-
+                context.Add(new TestData
+                {
+                    Value1 = 4
+                });
+                
                 context.SaveChanges();
             }
         }
@@ -58,22 +59,26 @@ namespace LinqBuilder.IntegrationTests
             var specifiction = new Specification<TestData>()
                 .And(new Value1Specification(1))
                 .Or(new Value1Specification(3))
-                .OrderBy(new Value1OrderSpecification(Order.Descending))
+                .OrderBy(new Value1OrderSpecification())
+                .ThenBy(new Value2OrderSpecification(Order.Descending))
                 .Skip(1)
-                .Take(2);
+                .Take(3);
 
             List<TestData> result;
-
             using (var context = new TestDbContext(_options))
             {
                 result = context.TestData.ExeSpec(specifiction).ToList();
             }
 
-            result.Count.ShouldBe(2);
+            result.Count.ShouldBe(3);
             result[0].Id.ShouldBe(4);
-            result[0].Value.ShouldBe(3);
+            result[0].Value1.ShouldBe(3);
             result[1].Id.ShouldBe(5);
-            result[1].Value.ShouldBe(1);
+            result[1].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(1);
+            result[2].Id.ShouldBe(5);
+            result[2].Value1.ShouldBe(1);
+            result[2].Value1.ShouldBe(1);
         }
 
         public void Dispose()

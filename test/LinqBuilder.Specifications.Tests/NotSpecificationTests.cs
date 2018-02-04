@@ -6,22 +6,24 @@ namespace LinqBuilder.Specifications.Tests
 {
     public class NotSpecificationTests
     {
-        [Fact]
-        public void IsSatisfiedBy_WrongValue_ShouldReturnFalse()
+        [Theory]
+        [ClassData(typeof(TestData))]
+        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
         {
             var specification = new Value1Specification(5).Not();
-            var entity = new TestEntity { Value1 = 5 };
 
-            specification.IsSatisfiedBy(entity).ShouldBeFalse();
+            specification
+                .IsSatisfiedBy(entity)
+                .ShouldBe(expected);
         }
 
-        [Fact]
-        public void IsSatisfiedBy_CorrectValue_ShouldReturnTrue()
+        private class TestData : TheoryData<TestEntity, bool>
         {
-            var specification = new Value1Specification(5).Not();
-            var entity = new TestEntity { Value1 = 4 };
-
-            specification.IsSatisfiedBy(entity).ShouldBeTrue();
+            public TestData()
+            {
+                Add(new TestEntity { Value1 = 3 }, true);
+                Add(new TestEntity { Value1 = 5 }, false);
+            }
         }
     }
 }

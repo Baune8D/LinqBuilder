@@ -1,4 +1,5 @@
-﻿using LinqBuilder.Specifications.Tests.TestHelpers;
+﻿using System;
+using LinqBuilder.Specifications.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
@@ -6,28 +7,35 @@ namespace LinqBuilder.Specifications.Tests
 {
     public class OrSpecificationTests
     {
-        [Fact]
-        public void IsSatisfiedBy_NoValueMatching_ShouldReturnFalse()
+        [Theory]
+        [ClassData(typeof(TestData))]
+        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
         {
             var specification = new Value1Specification(3)
                 .Or(new Value1Specification(5));
 
-            var entity = new TestEntity { Value1 = 4 };
-
-            specification.IsSatisfiedBy(entity).ShouldBeFalse();
+            specification
+                .IsSatisfiedBy(entity)
+                .ShouldBe(expected);
         }
 
         [Fact]
-        public void IsSatisfiedBy_BothValuesMathcing_ShouldReturnTrue()
+        public void Where_IQueryable_ShouldThrowArgumentNullException()
         {
             var specification = new Value1Specification(3)
                 .Or(new Value1Specification(5));
 
-            var entity1 = new TestEntity { Value1 = 3 };
-            var entity2 = new TestEntity { Value1 = 5 };
+            Should.Throw<ArgumentNullException>(() => _fixture.TestQuery.Where(null));
+        }
 
-            specification.IsSatisfiedBy(entity1).ShouldBeTrue();
-            specification.IsSatisfiedBy(entity2).ShouldBeTrue();
+        private class TestData : TheoryData<TestEntity, bool>
+        {
+            public TestData()
+            {
+                Add(new TestEntity { Value1 = 3 }, true);
+                Add(new TestEntity { Value1 = 5 }, true);
+                Add(new TestEntity { Value1 = 4 }, false);
+            }
         }
     }
 }

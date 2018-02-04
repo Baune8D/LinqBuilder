@@ -1,72 +1,61 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LinqBuilder.Specifications.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Specifications.Tests
 {
-    public class SpecificationTests
+    public class SpecificationTests : IClassFixture<TestFixture>
     {
-        [Fact]
-        public void IsSatisfiedBy_DefaltValue_ShouldReturnTrue()
-        {
-            var specification = new Specification<TestEntity>();
-            var entity = new TestEntity();
+        private readonly TestFixture _fixture;
 
-            specification.IsSatisfiedBy(entity).ShouldBeTrue();
+        public SpecificationTests(TestFixture fixture)
+        {
+            _fixture = fixture;
         }
 
         [Fact]
-        public void IsSatisfiedBy_WrongValue_ShouldReturnFalse()
+        public void IsSatisfiedBy_DefaltValue()
         {
-            var specification = new Value1Specification(5);
-            var entity = new TestEntity { Value1 = 4 };
+            new Specification<TestEntity>()
+                .IsSatisfiedBy(new TestEntity())
+                .ShouldBeTrue();
+        }
 
-            specification.IsSatisfiedBy(entity).ShouldBeFalse();
+        [Theory]
+        [ClassData(typeof(TestData))]
+        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
+        {
+            _fixture.Specification
+                .IsSatisfiedBy(entity)
+                .ShouldBe(expected);
         }
 
         [Fact]
-        public void IsSatisfiedBy_CorrectValue_ShouldReturnTrue()
+        public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
-            var specification = new Value1Specification(5);
-            var entity = new TestEntity { Value1 = 5 };
+            var result = _fixture.Specification.Invoke(_fixture.TestQuery);
 
-            specification.IsSatisfiedBy(entity).ShouldBeTrue();
+            result.ShouldBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
-        public void Invoke_IQueryable_ShouldReturnFilteredList()
+        public void Invoke_IEnumerable_ShouldReturnFilteredEnumerable()
         {
-            var specification = new Value1Specification(3);
-            var query = GetTestList().AsQueryable();
+            var result = _fixture.Specification.Invoke(_fixture.TestCollection);
 
-            var result = specification.Invoke(query).ToList();
-
-            result.Count.ShouldBe(2);
-            result.ShouldAllBe(e => e.Value1 == 3);
+            result.ShouldNotBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
-        [Fact]
-        public void Invoke_IEnumerable_ShouldReturnFilteredList()
+        private class TestData : TheoryData<TestEntity, bool>
         {
-            var specification = new Value1Specification(3);
-            var collection = GetTestList();
-
-            var result = specification.Invoke(collection).ToList();
-
-            result.Count.ShouldBe(2);
-            result.ShouldAllBe(e => e.Value1 == 3);
-        }
-
-        private static IEnumerable<TestEntity> GetTestList()
-        {
-            return new List<TestEntity>
+            public TestData()
             {
-                new TestEntity { Value1 = 3 },
-                new TestEntity { Value1 = 3 },
-                new TestEntity { Value1 = 2 }
-            };
+                Add(new TestEntity { Value1 = 3 }, true);
+                Add(new TestEntity { Value1 = 4 }, false);
+            }
         }
     }
 }

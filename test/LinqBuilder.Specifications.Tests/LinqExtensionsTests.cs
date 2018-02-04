@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LinqBuilder.Specifications.Tests.TestHelpers;
 using Shouldly;
@@ -7,54 +6,43 @@ using Xunit;
 
 namespace LinqBuilder.Specifications.Tests
 {
-    public class LinqExtensionsTests
+    public class LinqExtensionsTests : IClassFixture<TestFixture>
     {
-        [Fact]
-        public void Where_IQueryable_ShouldReturn1Result()
+        private readonly TestFixture _fixture;
+
+        public LinqExtensionsTests(TestFixture fixture)
         {
-            var query = GetTestList().AsQueryable();
+            _fixture = fixture;
+        }
 
-            var result = query.Where(new Value1Specification(5)).ToList();
+        [Fact]
+        public void Where_IQueryable_ShouldReturnFilteredQueryable()
+        {
+            var result = _fixture.TestQuery.Where(_fixture.Specification);
 
-            result.Count.ShouldBe(1);
-            result[0].Value1.ShouldBe(5);
+            result.ShouldBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
         public void Where_IQueryable_ShouldThrowArgumentNullException()
         {
-            var query = GetTestList().AsQueryable();
-
-            Should.Throw<ArgumentNullException>(() => query.Where(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.TestQuery.Where(null));
         }
 
         [Fact]
-        public void Where_IEnumerable_ShouldReturn1Result()
+        public void Where_IEnumerable_ShouldReturnFilteredEnumerable()
         {
-            var query = GetTestList();
+            var result = _fixture.TestCollection.Where(_fixture.Specification);
 
-            var result = query.Where(new Value1Specification(5)).ToList();
-
-            result.Count.ShouldBe(1);
-            result[0].Value1.ShouldBe(5);
+            result.ShouldNotBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
         public void Where_IEnumerable_ShouldThrowArgumentNullException()
         {
-            var collection = GetTestList();
-
-            Should.Throw<ArgumentNullException>(() => collection.Where(null));
-        }
-
-        private static IEnumerable<TestEntity> GetTestList()
-        {
-            return new List<TestEntity>
-            {
-                new TestEntity { Value1 = 4 },
-                new TestEntity { Value1 = 5 },
-                new TestEntity { Value1 = 4 }
-            };
+            Should.Throw<ArgumentNullException>(() => _fixture.TestCollection.Where(null));
         }
     }
 }
