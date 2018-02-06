@@ -8,7 +8,7 @@ namespace LinqBuilder.Specifications.Tests
     {
         [Theory]
         [ClassData(typeof(TestData))]
-        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
+        public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
             var specification = new Value1Specification(5).Not();
 
@@ -17,12 +17,12 @@ namespace LinqBuilder.Specifications.Tests
                 .ShouldBe(expected);
         }
 
-        private class TestData : TheoryData<TestEntity, bool>
+        private class TestData : TheoryData<Entity, bool>
         {
             public TestData()
             {
-                Add(new TestEntity { Value1 = 3 }, true);
-                Add(new TestEntity { Value1 = 5 }, false);
+                Add(new Entity { Value1 = 3 }, true);
+                Add(new Entity { Value1 = 5 }, false);
             }
         }
     }

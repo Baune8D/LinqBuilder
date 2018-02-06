@@ -1,6 +1,6 @@
 ﻿namespace LinqBuilder.IntegrationTests.TestHelpers
 {
-    public class TestData
+    public class Entity
     {
         public int Id { get; set; }
 

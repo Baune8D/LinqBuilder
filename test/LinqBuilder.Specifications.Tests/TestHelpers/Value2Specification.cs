@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Specifications.Tests.TestHelpers
 {
-    public class Value2Specification : Specification<TestEntity>
+    public class Value2Specification : Specification<Entity>
     {
         private readonly int _value;
 
@@ -12,7 +12,7 @@ namespace LinqBuilder.Specifications.Tests.TestHelpers
             _value = value;
         }
 
-        public override Expression<Func<TestEntity, bool>> AsExpression()
+        public override Expression<Func<Entity, bool>> AsExpression()
         {
             return entity => entity.Value2 == _value;
         }

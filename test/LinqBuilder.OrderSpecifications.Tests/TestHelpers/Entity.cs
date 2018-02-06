@@ -1,6 +1,6 @@
 ﻿namespace LinqBuilder.OrderSpecifications.Tests.TestHelpers
 {
-    public class TestEntity
+    public class Entity
     {
         public int Value1 { get; set; }
         public int Value2 { get; set; }

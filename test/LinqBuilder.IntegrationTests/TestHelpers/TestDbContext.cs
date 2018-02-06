@@ -7,6 +7,6 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
         public TestDbContext(DbContextOptions options) 
             : base(options) { }
 
-        public virtual DbSet<TestData> TestData { get; set; }
+        public virtual DbSet<Entity> TestData { get; set; }
     }
 }

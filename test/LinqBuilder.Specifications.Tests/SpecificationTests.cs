@@ -5,11 +5,11 @@ using Xunit;
 
 namespace LinqBuilder.Specifications.Tests
 {
-    public class SpecificationTests : IClassFixture<TestFixture>
+    public class SpecificationTests : IClassFixture<Fixture>
     {
-        private readonly TestFixture _fixture;
+        private readonly Fixture _fixture;
 
-        public SpecificationTests(TestFixture fixture)
+        public SpecificationTests(Fixture fixture)
         {
             _fixture = fixture;
         }
@@ -17,14 +17,14 @@ namespace LinqBuilder.Specifications.Tests
         [Fact]
         public void IsSatisfiedBy_DefaltValue()
         {
-            new Specification<TestEntity>()
-                .IsSatisfiedBy(new TestEntity())
+            new Specification<Entity>()
+                .IsSatisfiedBy(new Entity())
                 .ShouldBeTrue();
         }
 
         [Theory]
         [ClassData(typeof(TestData))]
-        public void IsSatisfiedBy_Theory(TestEntity entity, bool expected)
+        public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
             _fixture.Specification
                 .IsSatisfiedBy(entity)
@@ -34,27 +34,27 @@ namespace LinqBuilder.Specifications.Tests
         [Fact]
         public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
-            var result = _fixture.Specification.Invoke(_fixture.TestQuery);
+            var result = _fixture.Specification.Invoke(_fixture.Query);
 
-            result.ShouldBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
         public void Invoke_IEnumerable_ShouldReturnFilteredEnumerable()
         {
-            var result = _fixture.Specification.Invoke(_fixture.TestCollection);
+            var result = _fixture.Specification.Invoke(_fixture.Collection);
 
-            result.ShouldNotBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
-        private class TestData : TheoryData<TestEntity, bool>
+        private class TestData : TheoryData<Entity, bool>
         {
             public TestData()
             {
-                Add(new TestEntity { Value1 = 3 }, true);
-                Add(new TestEntity { Value1 = 4 }, false);
+                Add(new Entity { Value1 = 3 }, true);
+                Add(new Entity { Value1 = 4 }, false);
             }
         }
     }

@@ -6,11 +6,11 @@ using Xunit;
 
 namespace LinqBuilder.Specifications.Tests
 {
-    public class LinqExtensionsTests : IClassFixture<TestFixture>
+    public class LinqExtensionsTests : IClassFixture<Fixture>
     {
-        private readonly TestFixture _fixture;
+        private readonly Fixture _fixture;
 
-        public LinqExtensionsTests(TestFixture fixture)
+        public LinqExtensionsTests(Fixture fixture)
         {
             _fixture = fixture;
         }
@@ -18,31 +18,31 @@ namespace LinqBuilder.Specifications.Tests
         [Fact]
         public void Where_IQueryable_ShouldReturnFilteredQueryable()
         {
-            var result = _fixture.TestQuery.Where(_fixture.Specification);
+            var result = _fixture.Query.Where(_fixture.Specification);
 
-            result.ShouldBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
         public void Where_IQueryable_ShouldThrowArgumentNullException()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.TestQuery.Where(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.Query.Where(null));
         }
 
         [Fact]
         public void Where_IEnumerable_ShouldReturnFilteredEnumerable()
         {
-            var result = _fixture.TestCollection.Where(_fixture.Specification);
+            var result = _fixture.Collection.Where(_fixture.Specification);
 
-            result.ShouldNotBeAssignableTo<IQueryable<TestEntity>>();
+            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == _fixture.Value);
         }
 
         [Fact]
         public void Where_IEnumerable_ShouldThrowArgumentNullException()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.TestCollection.Where(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.Collection.Where(null));
         }
     }
 }

@@ -4,86 +4,49 @@ using System.Linq;
 using LinqBuilder.IntegrationTests.TestHelpers;
 using LinqBuilder.OrderSpecifications;
 using LinqBuilder.Specifications;
-using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.IntegrationTests
 {
-    public class EntityFrameworkCoreTests : IDisposable
+    public class EntityFrameworkCoreTests : IClassFixture<Fixture>, IDisposable
     {
-        private readonly DbContextOptions<TestDbContext> _options;
+        private readonly Fixture _fixture;
 
-        public EntityFrameworkCoreTests()
+        public EntityFrameworkCoreTests(Fixture fixture)
         {
-            _options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseInMemoryDatabase("TestDatabase")
-                .Options;
-
-            using (var context = new TestDbContext(_options))
-            {
-                context.Add(new TestData
-                {
-                    Value1 = 1
-                });
-                context.Add(new TestData
-                {
-                    Value1 = 2
-                });
-                context.Add(new TestData
-                {
-                    Value1 = 1,
-                    Value2 = 2
-                });
-                context.Add(new TestData
-                {
-                    Value1 = 3
-                });
-                context.Add(new TestData
-                {
-                    Value1 = 1,
-                    Value2 = 1
-                });
-                context.Add(new TestData
-                {
-                    Value1 = 4
-                });
-                
-                context.SaveChanges();
-            }
+            _fixture = fixture;
         }
 
         [Fact]
         public void ExeSpec_ComplexSpecification_ShouldReturnCorrectList()
         {
-            var specifiction = new Specification<TestData>()
+            var specifiction = new Specification<Entity>()
                 .And(new Value1Specification(1))
                 .Or(new Value1Specification(3))
                 .OrderBy(new Value1OrderSpecification())
                 .ThenBy(new Value2OrderSpecification(Order.Descending))
                 .Skip(1)
-                .Take(3);
+                .Take(2);
 
-            List<TestData> result;
-            using (var context = new TestDbContext(_options))
+            List<Entity> result;
+            using (var context = new TestDbContext(_fixture.Options))
             {
                 result = context.TestData.ExeSpec(specifiction).ToList();
             }
 
-            result.Count.ShouldBe(3);
-            result[0].Id.ShouldBe(4);
-            result[0].Value1.ShouldBe(3);
+            result.Count.ShouldBe(2);
+            result[0].Id.ShouldBe(2);
+            result[0].Value1.ShouldBe(1);
+            result[0].Value2.ShouldBe(1);
             result[1].Id.ShouldBe(5);
-            result[1].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(1);
-            result[2].Id.ShouldBe(5);
-            result[2].Value1.ShouldBe(1);
-            result[2].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(2);
         }
 
         public void Dispose()
         {
-            using (var context = new TestDbContext(_options))
+            using (var context = new TestDbContext(_fixture.Options))
             {
                 context.Database.EnsureDeleted();
             }

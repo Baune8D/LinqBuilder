@@ -1,22 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LinqBuilder.OrderSpecifications.Tests.TestHelpers;
+using LinqBuilder.Specifications;
 using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.OrderSpecifications.Tests
 {
-    public class LinqExtensionsTests
+    public class LinqExtensionsTests : IClassFixture<Fixture>
     {
+        private readonly Fixture _fixture;
+
+        public LinqExtensionsTests(Fixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public void OrderBy_IQueryable_ShouldReturnOrderedList()
         {
-            var query = GetTestList().AsQueryable();
+            var result = _fixture.Query.OrderBy(new Value1OrderSpecification()).ToList();
 
-            var result = query.OrderBy(new Value1OrderSpecification()).ToList();
-
-            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
@@ -25,19 +29,14 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void OrderBy_IQueryable_ShouldThrowArgumentNullException()
         {
-            var query = GetTestList().AsQueryable();
-
-            Should.Throw<ArgumentNullException>(() => query.OrderBy(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.Query.OrderBy(null));
         }
 
         [Fact]
         public void OrderBy_IEnumerable_ShouldReturnOrderedList()
         {
-            var query = GetTestList();
+            var result = _fixture.Collection.OrderBy(new Value1OrderSpecification()).ToList();
 
-            var result = query.OrderBy(new Value1OrderSpecification()).ToList();
-
-            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
@@ -46,20 +45,16 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void OrderBy_IEnumerable_ShouldThrowArgumentNullException()
         {
-            var collection = GetTestList();
-
-            Should.Throw<ArgumentNullException>(() => collection.OrderBy(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.Collection.OrderBy(null));
         }
 
         [Fact]
         public void ThenBy_IQueryable_ShouldReturnOrderedList()
         {
-            var query = GetTestList().AsQueryable();
-            var orderedQuery = query.OrderBy(e => e.Value2);
+            var orderedQuery = _fixture.Query.OrderBy(e => e.Value2);
 
             var result = orderedQuery.ThenBy(new Value1OrderSpecification()).ToList();
 
-            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
@@ -68,7 +63,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void ThenBy_IQueryable_ShouldThrowArgumentNullException()
         {
-            var query = GetTestList().AsQueryable().OrderBy(e => e.Value2);
+            var query = _fixture.Query.OrderBy(e => e.Value2);
 
             Should.Throw<ArgumentNullException>(() => query.ThenBy(null));
         }
@@ -76,12 +71,10 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void ThenBy_IEnumerable_ShouldReturnOrderedList()
         {
-            var query = GetTestList();
-            var orderedQuery = query.OrderBy(e => e.Value2);
+            var orderedQuery = _fixture.Collection.OrderBy(e => e.Value2);
 
             var result = orderedQuery.ThenBy(new Value1OrderSpecification()).ToList();
 
-            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
@@ -90,7 +83,7 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void ThenBy_IEnumerable_ShouldThrowArgumentNullException()
         {
-            var collection = GetTestList().OrderBy(e => e.Value2);
+            var collection = _fixture.Collection.OrderBy(e => e.Value2);
 
             Should.Throw<ArgumentNullException>(() => collection.ThenBy(null));
         }
@@ -98,59 +91,39 @@ namespace LinqBuilder.OrderSpecifications.Tests
         [Fact]
         public void ExeSpec_IQueryable_ShouldReturnFilteredAndOrderedList()
         {
-            var specification = new Value1Specification(2)
-                .Or(new Value1Specification(3))
+            var specification = new Specification<Entity>()
                 .OrderBy(new Value1OrderSpecification());
 
-            var query = GetTestList().AsQueryable();
+            var result = _fixture.Query.ExeSpec(specification).ToList();
 
-            var result = query.ExeSpec(specification).ToList();
-
-            result.Count.ShouldBe(2);
-            result[0].Value1.ShouldBe(2);
-            result[1].Value1.ShouldBe(3);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
         }
 
         [Fact]
         public void ExeSpec_IQueryable_ShouldThrowArgumentNullException()
         {
-            var query = GetTestList().AsQueryable();
-
-            Should.Throw<ArgumentNullException>(() => query.ExeSpec(null));
+            Should.Throw<ArgumentNullException>(() => _fixture.Query.ExeSpec(null));
         }
 
         [Fact]
         public void ExeSpec_IEnumerable_ShouldReturnFilteredAndOrderedList()
         {
-            var specification = new Value1Specification(2)
-                .Or(new Value1Specification(3))
+            var specification = new Specification<Entity>()
                 .OrderBy(new Value1OrderSpecification());
 
-            var query = GetTestList();
+            var result = _fixture.Collection.ExeSpec(specification).ToList();
 
-            var result = query.ExeSpec(specification).ToList();
-
-            result.Count.ShouldBe(2);
-            result[0].Value1.ShouldBe(2);
-            result[1].Value1.ShouldBe(3);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
         }
 
         [Fact]
         public void ExeSpec_IEnumerable_ShouldThrowArgumentNullException()
         {
-            var collection = GetTestList();
-
-            Should.Throw<ArgumentNullException>(() => collection.ExeSpec(null));
-        }
-
-        private static IEnumerable<TestEntity> GetTestList()
-        {
-            return new List<TestEntity>
-            {
-                new TestEntity { Value1 = 3 },
-                new TestEntity { Value1 = 1 },
-                new TestEntity { Value1 = 2 }
-            };
+            Should.Throw<ArgumentNullException>(() => _fixture.Collection.ExeSpec(null));
         }
     }
 }

@@ -4,7 +4,7 @@ using LinqBuilder.Specifications;
 
 namespace LinqBuilder.IntegrationTests.TestHelpers
 {
-    public class Value1Specification : Specification<TestData>
+    public class Value1Specification : Specification<Entity>
     {
         private readonly int _value;
 
@@ -13,7 +13,7 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
             _value = value;
         }
 
-        public override Expression<Func<TestData, bool>> AsExpression()
+        public override Expression<Func<Entity, bool>> AsExpression()
         {
             return entity => entity.Value1 == _value;
         }
