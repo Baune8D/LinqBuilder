@@ -53,21 +53,7 @@ Task("Version")
 	Information($"SemVersion is: {semVersion}");
 });
 
-Task("Restore")
-	.IsDependentOn("Version")
-    .Does(() =>
-{
-	Information("Restoring NuGet packages");
-
-	DotNetCoreRestore(solutionFile, new DotNetCoreRestoreSettings
-	{
-		MSBuildSettings = new DotNetCoreMSBuildSettings()
-			.SetVersion(semVersion)
-	});
-});
-
 Task("Build")
-	.IsDependentOn("Restore")
     .Does(() =>
 {
 	Information("Building solution");
