@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using LinqKit;
 
 namespace LinqBuilder.Specifications
 {
@@ -20,13 +21,10 @@ namespace LinqBuilder.Specifications
             var leftExpression = _left.AsExpression();
             var rightExpression = _right.AsExpression();
 
-            var paramExpr = Expression.Parameter(typeof(TEntity));
+            var predicate = PredicateBuilder.New(leftExpression);
+            predicate = predicate.Or(rightExpression);
 
-            var orExpression = Expression.Or(leftExpression.Body, rightExpression.Body);
-            orExpression = (BinaryExpression) new ParameterReplacer(paramExpr).Visit(orExpression);
-            if (orExpression == null) throw new InvalidOperationException();
-
-            return Expression.Lambda<Func<TEntity, bool>>(orExpression, paramExpr);
+            return predicate;
         }
     }
 }
