@@ -108,6 +108,7 @@ Task("Test")
 });
 
 Task("Package")
+	.IsDependentOn("Version")
 	.IsDependentOn("Test")
     .Does(() =>
 {
