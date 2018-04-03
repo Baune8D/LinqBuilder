@@ -22,9 +22,10 @@ build_script:
   - ps: .\build.ps1
 
 after_build:
-  - "SET PATH=C:\\Python36;C:\\Python36\\Scripts;%PATH%"
-  - pip install codecov
-  - codecov -f "coverage.xml" -X gcov
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.xml"
 
 test: off
 
