@@ -20,7 +20,7 @@ namespace LinqBuilder.Specifications
 
             var notExpression = Expression.Not(expression.Body);
 
-            return Expression.Lambda<Func<TEntity, bool>>(notExpression, expression.Parameters.Single());
+            return Expression.Lambda<Func<TEntity, bool>>(notExpression, expression.Parameters);
         }
     }
 }
