@@ -1,6 +1,6 @@
 #tool "GitVersion.CommandLine&version=4.0.0-beta0012"
 #tool "OpenCover&version=4.6.519"
-#tool "ReportGenerator&version=3.1.1"
+#tool "ReportGenerator&version=3.1.2"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -107,7 +107,7 @@ Task("Test")
 		settings.WithFilter(filter);
 	}
 
-	var parameters = $"--fx-version 2.0.3 -nobuild -configuration {configuration}";
+	var parameters = $"--fx-version 2.0.6 -nobuild -configuration {configuration}";
 
 	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
 	{
