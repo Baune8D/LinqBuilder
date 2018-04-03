@@ -4,6 +4,7 @@ using System.Linq;
 using LinqBuilder.IntegrationTests.TestHelpers;
 using LinqBuilder.OrderSpecifications;
 using LinqBuilder.Specifications;
+using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
 
@@ -42,6 +43,22 @@ namespace LinqBuilder.IntegrationTests
             result[1].Id.ShouldBe(5);
             result[1].Value1.ShouldBe(3);
             result[1].Value2.ShouldBe(2);
+        }
+
+        [Fact]
+        public void ExeSpec_ComplexSpecification_ShouldReturnCorrectList2()
+        {
+            var specifiction = new Specification<Entity>()
+                .And(new ChildValue1Specification(5));
+
+            List<Entity> result;
+            using (var context = new TestDbContext(_fixture.Options))
+            {
+                result = context.TestData.Include(x => x.ChildEntities).ExeSpec(specifiction).ToList();
+            }
+
+            result.Count.ShouldBe(1);
+            result[0].Id.ShouldBe(2);
         }
 
         public void Dispose()

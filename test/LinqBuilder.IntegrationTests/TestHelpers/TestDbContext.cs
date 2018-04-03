@@ -8,5 +8,6 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
             : base(options) { }
 
         public virtual DbSet<Entity> TestData { get; set; }
+        public virtual DbSet<ChildEntity> ChildTestData { get; set; }
     }
 }
