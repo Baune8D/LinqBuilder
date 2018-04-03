@@ -5,7 +5,10 @@
         {
             "label": "Build Solution",
             "type": "shell",
-            "command": "./build.ps1 -Target Build",
+            "command": "./build.sh --target Build",
+            "windows": {
+                "command": "./build.ps1 -Target Build"
+            },
             "group": "build",
             "presentation": {
                 "panel": "shared"
@@ -14,7 +17,10 @@
         {
             "label": "Test Solution",
             "type": "shell",
-            "command": "./build.ps1 -Target Test",
+            "command": "./build.sh --target Test",
+            "windows": {
+                "command": "./build.ps1 -Target Test"
+            },
             "group": "test",
             "presentation": {
                 "panel": "shared"
@@ -23,7 +29,10 @@
         {
             "label": "Generate Coverage Report",
             "type": "shell",
-            "command": "./build.ps1 -Target Coverage-Report",
+            "command": "./build.sh --target Coverage-Report",
+            "windows": {
+                "command": "./build.ps1 -Target Coverage-Report"
+            },
             "presentation": {
                 "panel": "shared"
             }
