@@ -3,25 +3,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinqBuilder.IntegrationTests.TestHelpers
 {
-    public class Fixture
+    public class DbFixture
     {
-        public readonly DbContextOptions<TestDbContext> Options;
+        private readonly DbContextOptions<TestDbContext> _options;
 
-        public Fixture()
+        public DbFixture()
         {
-            Options = new DbContextOptionsBuilder<TestDbContext>()
+            _options = new DbContextOptionsBuilder<TestDbContext>()
                 .UseInMemoryDatabase("TestDatabase")
                 .Options;
-
-            Seed();
         }
 
-        private void Seed()
+        public TestDbContext Create()
         {
-            using (var context = new TestDbContext(Options))
+            return new TestDbContext(_options);
+        }
+
+        public void Delete()
+        {
+            using (var context = Create())
+            {
+                context.Database.EnsureDeleted();
+            }
+        }
+
+        public void Seed()
+        {
+            using (var context = Create())
             {
                 context.Add(new Entity
                 {
+                    Id = 1,
                     Value1 = 1,
                     Value2 = 1,
                     ChildEntities = new List<ChildEntity>
@@ -35,6 +47,7 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
 
                 context.Add(new Entity
                 {
+                    Id = 2,
                     Value1 = 1,
                     Value2 = 1,
                     ChildEntities = new List<ChildEntity>
@@ -48,18 +61,21 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
 
                 context.Add(new Entity
                 {
+                    Id = 3,
                     Value1 = 2,
                     Value2 = 1
                 });
 
                 context.Add(new Entity
                 {
+                    Id = 4,
                     Value1 = 3,
                     Value2 = 1
                 });
 
                 context.Add(new Entity
                 {
+                    Id = 5,
                     Value1 = 3,
                     Value2 = 2
                 });

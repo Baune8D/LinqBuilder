@@ -10,28 +10,29 @@ using Xunit;
 
 namespace LinqBuilder.IntegrationTests
 {
-    public class EntityFrameworkCoreTests : IClassFixture<Fixture>, IDisposable
+    public class EntityFrameworkCoreTests : IClassFixture<DbFixture>, IDisposable
     {
-        private readonly Fixture _fixture;
+        private readonly DbFixture _dbFixture;
 
-        public EntityFrameworkCoreTests(Fixture fixture)
+        public EntityFrameworkCoreTests(DbFixture dbFixture)
         {
-            _fixture = fixture;
+            _dbFixture = dbFixture;
+            _dbFixture.Seed();
         }
 
         [Fact]
         public void ExeSpec_ComplexSpecification_ShouldReturnCorrectList()
         {
             var specifiction = new Specification<Entity>()
-                .And(new Value1Specification(1))
-                .Or(new Value1Specification(3))
+                .And(new Value1Specification(1)
+                    .Or(new Value1Specification(3)))
                 .OrderBy(new Value1OrderSpecification())
                 .ThenBy(new Value2OrderSpecification(Order.Descending))
                 .Skip(1)
                 .Take(2);
 
             List<Entity> result;
-            using (var context = new TestDbContext(_fixture.Options))
+            using (var context = _dbFixture.Create())
             {
                 result = context.TestData.ExeSpec(specifiction).ToList();
             }
@@ -52,7 +53,7 @@ namespace LinqBuilder.IntegrationTests
                 .And(new ChildValue1Specification(5));
 
             List<Entity> result;
-            using (var context = new TestDbContext(_fixture.Options))
+            using (var context = _dbFixture.Create())
             {
                 result = context.TestData.Include(x => x.ChildEntities).ExeSpec(specifiction).ToList();
             }
@@ -63,10 +64,7 @@ namespace LinqBuilder.IntegrationTests
 
         public void Dispose()
         {
-            using (var context = new TestDbContext(_fixture.Options))
-            {
-                context.Database.EnsureDeleted();
-            }
+            _dbFixture.Delete();
         }
     }
 }
