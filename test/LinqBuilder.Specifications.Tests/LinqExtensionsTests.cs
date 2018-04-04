@@ -46,7 +46,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Any_IQueryable_ShouldReturnFilteredQueryable()
+        public void Any_IQueryable_ShouldReturnBooleanTrue()
         {
             var result = _fixture.Query.Any(_fixture.Specification);
 
@@ -60,7 +60,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void Any_IEnumerable_ShouldReturnFilteredEnumerable()
+        public void Any_IEnumerable_ShouldReturnBooleanTrue()
         {
             var result = _fixture.Collection.Any(_fixture.Specification);
 
@@ -74,7 +74,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void All_IQueryable_ShouldReturnFilteredQueryable()
+        public void All_IQueryable_ShouldReturnBooleanFalse()
         {
             var result = _fixture.Query.All(_fixture.Specification);
 
@@ -88,7 +88,7 @@ namespace LinqBuilder.Specifications.Tests
         }
 
         [Fact]
-        public void All_IEnumerable_ShouldReturnFilteredEnumerable()
+        public void All_IEnumerable_ShouldReturnBooleanFalse()
         {
             var result = _fixture.Collection.All(_fixture.Specification);
 
