@@ -59,9 +59,11 @@ public interface IFilterSpecification<T> : ISpecification<T>
 ```
 
 ### Extensions
-**LinqBuilder.Specifications** extends the "Where" LINQ extension to support IFilterSpecification.
+**LinqBuilder.Specifications** extends the "Where", "Any" and "All" LINQ extensions to support IFilterSpecification.
 ```csharp
 IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
+bool query = _sampleContext.Entities.Any(specification);
+bool query = _sampleContext.Entities.All(specification);
 ```
 <br/>
 
