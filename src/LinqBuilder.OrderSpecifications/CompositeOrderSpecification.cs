@@ -47,7 +47,16 @@ namespace LinqBuilder.OrderSpecifications
 
         public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
-            return Invoke(query.AsEnumerable()).AsQueryable();
+            if (_specification != null) query = _specification.Invoke(query);
+
+            var orderedQuery = _orderList[0].InvokeOrdered(query);
+
+            for (var i = 1; i < _orderList.Count; i++)
+            {
+                orderedQuery = _orderList[i].InvokeOrdered(orderedQuery);
+            }
+
+            return SkipTake(orderedQuery, _skip, _take);
         }
 
         public IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
@@ -61,7 +70,7 @@ namespace LinqBuilder.OrderSpecifications
                 orderedCollection = _orderList[i].InvokeOrdered(orderedCollection);
             }
 
-            return SkipTake(orderedCollection.AsEnumerable(), _skip, _take);
+            return SkipTake(orderedCollection, _skip, _take);
         }
 
         private static IEnumerable<TEntity> SkipTake(IEnumerable<TEntity> collection, int? skip, int? take)
@@ -69,6 +78,13 @@ namespace LinqBuilder.OrderSpecifications
             if (skip.HasValue) collection = collection.Skip(skip.Value);
             if (take.HasValue) collection = collection.Take(take.Value);
             return collection;
+        }
+
+        private static IQueryable<TEntity> SkipTake(IQueryable<TEntity> query, int? skip, int? take)
+        {
+            if (skip.HasValue) query = query.Skip(skip.Value);
+            if (take.HasValue) query = query.Take(take.Value);
+            return query;
         }
     }
 }
