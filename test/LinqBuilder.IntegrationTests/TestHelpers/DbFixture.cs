@@ -35,7 +35,7 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
                 {
                     Id = 1,
                     Value1 = 1,
-                    Value2 = 1,
+                    Value2 = 2,
                     ChildEntities = new List<ChildEntity>
                     {
                         new ChildEntity
@@ -70,7 +70,14 @@ namespace LinqBuilder.IntegrationTests.TestHelpers
                 {
                     Id = 4,
                     Value1 = 3,
-                    Value2 = 1
+                    Value2 = 1,
+                    ChildEntities = new List<ChildEntity>
+                    {
+                        new ChildEntity
+                        {
+                            Value1 = 5
+                        }
+                    }
                 });
 
                 context.Add(new Entity

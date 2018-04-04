@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LinqBuilder.IntegrationTests.TestHelpers;
 using LinqBuilder.OrderSpecifications;
 using LinqBuilder.Specifications;
@@ -34,20 +35,18 @@ namespace LinqBuilder.IntegrationTests
             List<Entity> result;
             using (var context = _dbFixture.Create())
             {
-                result = context.TestData.ExeSpec(specifiction).ToList();
+                result = context.TestData
+                    .ExeSpec(specifiction)
+                    .ToList();
             }
 
             result.Count.ShouldBe(2);
             result[0].Id.ShouldBe(2);
-            result[0].Value1.ShouldBe(1);
-            result[0].Value2.ShouldBe(1);
             result[1].Id.ShouldBe(5);
-            result[1].Value1.ShouldBe(3);
-            result[1].Value2.ShouldBe(2);
         }
 
         [Fact]
-        public void ExeSpec_ComplexSpecification_ShouldReturnCorrectList2()
+        public void ExeSpec_ChildValueSpecification_ShouldReturnCorrectList()
         {
             var specifiction = new Specification<Entity>()
                 .And(new ChildValue1Specification(5));
@@ -55,11 +54,35 @@ namespace LinqBuilder.IntegrationTests
             List<Entity> result;
             using (var context = _dbFixture.Create())
             {
-                result = context.TestData.Include(x => x.ChildEntities).ExeSpec(specifiction).ToList();
+                result = context.TestData
+                    .Include(x => x.ChildEntities)
+                    .ExeSpec(specifiction)
+                    .ToList();
             }
 
-            result.Count.ShouldBe(1);
+            result.Count.ShouldBe(2);
             result[0].Id.ShouldBe(2);
+            result[1].Id.ShouldBe(4);
+        }
+
+        [Fact]
+        public async Task AsyncExeSpec_OrderedSpecification_ShouldReturnCorrectList()
+        {
+            var specifiction = new Specification<Entity>()
+                .And(new Value1Specification(1))
+                .OrderBy(new Value2OrderSpecification());
+
+            List<Entity> result;
+            using (var context = _dbFixture.Create())
+            {
+                result = await context.TestData
+                    .ExeSpec(specifiction)
+                    .ToListAsync();
+            }
+
+            result.Count.ShouldBe(2);
+            result[0].Id.ShouldBe(2);
+            result[1].Id.ShouldBe(1);
         }
 
         public void Dispose()
