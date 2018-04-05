@@ -172,6 +172,24 @@ IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
 We have to use the "ExeQuery" extension instead.
 <br/>
 
+## LinqBuilder.EF6
+
+### Extensions
+**LinqBuilder.EF6** extends the following LINQ extensions to support specifications.
+```csharp
+bool result = await _sampleContext.Entities.AnyAsync(specification);
+bool result = await _sampleContext.Entities.AllAsync(specification);
+```
+<br/>
+
+## LinqBuilder.EFCore
+**LinqBuilder.EFCore** extends the following LINQ extensions to support specifications.
+```csharp
+bool result = await _sampleContext.Entities.AnyAsync(specification);
+bool result = await _sampleContext.Entities.AllAsync(specification);
+```
+<br/>
+
 ## Full example
 
 ```csharp
