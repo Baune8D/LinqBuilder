@@ -1,4 +1,4 @@
-next-version: 0.2,
+next-version: 0.2.0
 branches:
   master:
     tag: beta
