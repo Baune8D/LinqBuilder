@@ -12,7 +12,8 @@ namespace LinqBuilder.OrderBy
         private int? _skip;
         private int? _take;
 
-        public OrderedSpecification(List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, int? skip = null, int? take = null)
+        public OrderedSpecification(List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, 
+            int? skip = null, int? take = null)
         {
             _orderList = orderList;
             _orderList.Add(right);
@@ -20,8 +21,8 @@ namespace LinqBuilder.OrderBy
             _take = take;
         }
 
-        public OrderedSpecification(ILinqQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, int? skip = null, int? take = null)
-            : this(orderList, right, skip, take)
+        public OrderedSpecification(ILinqBuilderQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, 
+            IOrderSpecification<TEntity> right, int? skip = null, int? take = null) : this(orderList, right, skip, take)
         {
             _specification = specificaiton;
         }
