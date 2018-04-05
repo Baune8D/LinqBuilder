@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LinqBuilder.EntityFramework
+namespace LinqBuilder.EF6
 {
     public static class EntityFrameworkExtensions
     {

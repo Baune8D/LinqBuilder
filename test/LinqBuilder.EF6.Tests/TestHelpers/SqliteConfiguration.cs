@@ -3,7 +3,7 @@ using System.Data.Entity.Core.Common;
 using System.Data.SQLite;
 using System.Data.SQLite.EF6;
 
-namespace LinqBuilder.EntityFramework.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.TestHelpers
 {
     public class SqliteConfiguration : DbConfiguration
     {

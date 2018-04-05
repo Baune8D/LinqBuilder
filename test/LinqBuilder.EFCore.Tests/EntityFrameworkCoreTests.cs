@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using LinqBuilder.EntityFrameworkCore.Tests.TestHelpers;
+using LinqBuilder.EFCore.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.EntityFrameworkCore.Tests
+namespace LinqBuilder.EFCore.Tests
 {
     public class EntityFrameworkCoreTests : IDisposable
     {

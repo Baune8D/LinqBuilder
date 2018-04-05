@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LinqBuilder.EntityFrameworkCore.Tests.TestHelpers
+namespace LinqBuilder.EFCore.Tests.TestHelpers
 {
     public class Entity
     {

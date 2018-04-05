@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace LinqBuilder.EntityFrameworkCore
+namespace LinqBuilder.EFCore
 {
     public static class EntityFrameworkCoreExtensions
     {

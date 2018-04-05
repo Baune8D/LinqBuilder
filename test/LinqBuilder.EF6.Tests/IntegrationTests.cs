@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using LinqBuilder.EntityFramework.Tests.TestHelpers;
+using LinqBuilder.EF6.Tests.TestHelpers;
 using LinqBuilder.OrderBy;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.EntityFramework.Tests
+namespace LinqBuilder.EF6.Tests
 {
     public class IntegrationTests : IDisposable
     {

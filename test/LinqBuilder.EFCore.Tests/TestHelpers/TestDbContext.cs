@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace LinqBuilder.EntityFrameworkCore.Tests.TestHelpers
+namespace LinqBuilder.EFCore.Tests.TestHelpers
 {
     public class TestDbContext : DbContext
     {

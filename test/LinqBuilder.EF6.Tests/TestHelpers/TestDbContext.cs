@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using SQLite.CodeFirst;
 
-namespace LinqBuilder.EntityFramework.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.TestHelpers
 {
     public class TestDbContext : DbContext
     {

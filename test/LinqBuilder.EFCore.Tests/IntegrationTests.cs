@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinqBuilder.EntityFrameworkCore.Tests.TestHelpers;
+using LinqBuilder.EFCore.Tests.TestHelpers;
 using LinqBuilder.OrderBy;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.EntityFrameworkCore.Tests
+namespace LinqBuilder.EFCore.Tests
 {
     public class IntegrationTests : IDisposable
     {

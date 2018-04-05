@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 
-namespace LinqBuilder.EntityFramework.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.TestHelpers
 {
     public class DbFixture : IDisposable
     {

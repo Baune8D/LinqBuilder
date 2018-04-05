@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace LinqBuilder.EntityFramework.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.TestHelpers
 {
     public class Value2Specification : Specification<Entity>
     {
