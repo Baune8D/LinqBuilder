@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LinqBuilder.EntityFramework\LinqBuilder.EF6.csproj" />
+    <ProjectReference Include="..\..\src\LinqBuilder.EF6\LinqBuilder.EF6.csproj" />
     <ProjectReference Include="..\..\src\LinqBuilder.OrderBy\LinqBuilder.OrderBy.csproj" />
   </ItemGroup>
 
