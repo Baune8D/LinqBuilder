@@ -1,9 +1,9 @@
 # LinqBuilder
-[![Build status](https://ci.appveyor.com/api/projects/status/2hw2qd46rwere3ef?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
+[![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
 [![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
 
-NuGet dev feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)
-
+**Dev feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
+**Build feed:** [https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227](https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227)
 
 ## LinqBuilder
 
