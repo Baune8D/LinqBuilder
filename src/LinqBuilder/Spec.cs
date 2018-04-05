@@ -9,7 +9,6 @@ namespace LinqBuilder
     {
         public Spec() { }
 
-        public Spec(Expression<Func<TEntity, bool>> expression)
-            : base(expression) { }
+        public Spec(Expression<Func<TEntity, bool>> expression) : base(expression) { }
     }
 }

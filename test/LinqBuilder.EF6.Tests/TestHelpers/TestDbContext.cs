@@ -8,8 +8,7 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
     {
         private static DbModelBuilder _modelBuilder; 
 
-        public TestDbContext(DbConnection connection)
-            : base(connection, true)
+        public TestDbContext(DbConnection connection) : base(connection, true)
         {
             if (_modelBuilder == null) return;
             var model = _modelBuilder.Build(Database.Connection);

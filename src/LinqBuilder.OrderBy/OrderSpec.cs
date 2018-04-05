@@ -7,10 +7,8 @@ namespace LinqBuilder.OrderBy
     public class OrderSpec<TEntity, TKey> : OrderSpecification<TEntity, TKey>
         where TEntity : class
     {
-        public OrderSpec(Sort sort = Sort.Ascending) 
-            : base(sort) { }
+        public OrderSpec(Sort sort = Sort.Ascending) : base(sort) { }
 
-        public OrderSpec(Expression<Func<TEntity, TKey>> expression, Sort sort = Sort.Ascending) 
-            : base(expression, sort) { }
+        public OrderSpec(Expression<Func<TEntity, TKey>> expression, Sort sort = Sort.Ascending) : base(expression, sort) { }
     }
 }
