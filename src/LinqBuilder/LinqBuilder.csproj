@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <Version>1.0.0</Version>
+    <Authors>Morten Larsen</Authors>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <Description>LinqBuilder takes advantage of the specification pattern for use in LINQ queries</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Baune8D/linqbuilder.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Baune8D/linqbuilder</PackageProjectUrl>
+    <Product>LinqBuilder</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LinqKit.Core" Version="1.1.15" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

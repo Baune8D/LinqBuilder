@@ -5,9 +5,12 @@
 NuGet dev feed: [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)
 
 
-## LinqBuilder.Specifications
+## LinqBuilder
 
-### Example
+### Usage
+Specifications can be constructed in two different ways.
+
+**By extending Specification:**
 ```csharp
 public class IsFiveSpecification : Specification<Entity>
 {
@@ -16,9 +19,19 @@ public class IsFiveSpecification : Specification<Entity>
         return entity => entity.Number == 5;
     }
 }
+
+var isFiveSpecification = new IsFiveSpecification();
 ```
 
-### Usage
+**By default constructor:**
+```csharp
+var isFiveSpecification = new Specification<Entity>(entity => entity.Number == 5);
+// Or by alias
+var isFiveSpecification = new Spec<Entity>(entity => entity.Number == 5);
+```
+<br/>
+
+### Example
 ```csharp
 public class SampleService
 {
@@ -31,59 +44,74 @@ public class SampleService
 
     public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync()
     {
-        var filter = new IsFiveSpecification()
+        var specification = new IsFiveSpecification()
             .Or(new IsSixSpecification());
 
-        return await _sampleRepository.GetAsync(filter);
+        return await _sampleRepository.GetAsync(specification);
     }
 }
 ```
+<br/>
 
 ### Interfaces
 ```csharp
-public interface ISpecification<T>
+public interface ILinqQuery<TEntity>
 {
-    IQueryable<T> Invoke(IQueryable<T> query);
-    IEnumerable<T> Invoke(IEnumerable<T> collection);
+    IQueryable<TEntity> Invoke(IQueryable<TEntity> query);
+    IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection);
 }
 ```
 ```csharp
-public interface IFilterSpecification<T> : ISpecification<T>
+public interface ISpecification<TEntity> : ILinqQuery<TEntity>
 {
-    IFilterSpecification<T> And(IFilterSpecification<T> other);
-    IFilterSpecification<T> Or(IFilterSpecification<T> other);
-    IFilterSpecification<T> Not();
-    bool IsSatisfiedBy(T entity);
-    Expression<Func<T, bool>> AsExpression();
+    IFilterSpecification<TEntity> And(IFilterSpecification<TEntity> specification);
+    IFilterSpecification<TEntity> Or(IFilterSpecification<TEntity> specification);
+    IFilterSpecification<TEntity> Not();
+    bool IsSatisfiedBy(TEntity entity);
+    Expression<Func<TEntity, bool>> AsExpression();
+    Func<TEntity, bool> AsFunc();
 }
-```
-
-### Extensions
-**LinqBuilder.Specifications** extends the "Where", "Any" and "All" LINQ extensions to support IFilterSpecification.
-```csharp
-IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
-bool query = _sampleContext.Entities.Any(specification);
-bool query = _sampleContext.Entities.All(specification);
 ```
 <br/>
 
-## LinqBuilder.OrderSpecifications
-
-### Example
+### Extensions
+**LinqBuilder** extends the following LINQ extensions to support specifications.
 ```csharp
-public class NumberOrderSpecification : OrderSpecification<Entity>
-{
-    public OrderByNumberSpecification(Order order = Order.Ascending)
-        : base(order) { }
+IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
+bool result = _sampleContext.Entities.Any(specification);
+bool result = _sampleContext.Entities.All(specification);
+```
+<br/>
 
-    public override Expression<Func<Entity, IComparable>> AsExpression()
+## LinqBuilder.OrderBy
+
+### Usage
+Order specifications can be constructed in almost the same way as regular specifications.
+
+**By extending OrderSpecification:**
+```csharp
+public class DescNumberOrderSpecification : OrderSpecification<Entity, int>
+{
+    public DescNumberOrderSpecification() : base(Sort.Descending) { }
+
+    public override Expression<Func<Entity, int>> AsExpression()
     {
         return entity => entity.Number;
     }
 }
+
+var descNumberOrderSpecification = new DescNumberOrderSpecification();
 ```
 
-### Usage
+**By default constructor:**
+```csharp
+var descNumberOrderSpecification = new OrderSpecification<Entity, int>(entity => entity.Number, Sort.Descending);
+// Or by alias
+var descNumberOrderSpecification = new OrderSpec<Entity, int>(entity => entity.Number, Sort.Descending);
+```
+<br/>
+
+## Example
 ```csharp
 public class SampleService
 {
@@ -96,52 +124,53 @@ public class SampleService
 
     public async Task<List<Entity>> GetAsync()
     {
-        var order = new NumberOrderSpecification(Order.Descending)
-            .ThenBy(new OtherNumberOrderSpecification(Order.Descending));
+        var specification = new DescNumberOrderSpecification()
+            .ThenBy(new OtherNumberOrderSpecification());
 
-        return await _sampleRepository.GetAsync(order);
+        return await _sampleRepository.GetAsync(specification);
     }
 }
 ```
+<br/>
 
 ### Interfaces
 ```csharp
-public interface IBaseOrderSpecification<T> : ISpecification<T>
+public interface IOrderedSpecification<TEntity> : ILinqQuery<TEntity>
 {
-    ICompositeOrderSpecification<T> ThenBy(IOrderSpecification<T> other);
-    ICompositeOrderSpecification<T> Skip(int count);
-    ICompositeOrderSpecification<T> Take(int count);
+    IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
+    IOrderedSpecification<TEntity> Skip(int count);
+    IOrderedSpecification<TEntity> Take(int count);
 }
 ```
 ```csharp
-public interface IOrderSpecification<T> : IBaseOrderSpecification<T>
+public interface IOrderSpecification<TEntity> : IOrderedSpecification<TEntity>
 {
-    IOrderedQueryable<T> InvokeOrdered(IOrderedQueryable<T> query);
-    IOrderedQueryable<T> InvokeOrdered(IQueryable<T> query);
-    IOrderedEnumerable<T> InvokeOrdered(IOrderedEnumerable<T> collection);
-    IOrderedEnumerable<T> InvokeOrdered(IEnumerable<T> collection);
+    IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
+    IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);
+    IOrderedQueryable<TEntity> InvokeSort(IOrderedQueryable<TEntity> query);
+    IOrderedEnumerable<TEntity> InvokeSort(IOrderedEnumerable<TEntity> collection);
 }
 ```
-```csharp
-public interface ICompositeOrderSpecification<T> : IBaseOrderSpecification<T> { }
-```
+<br/>
 
 ### Extensions
-**LinqBuilder.OrderSpecifications** extends the "OrderBy" and "ThenBy" LINQ extensions to support OrderSpecification\<T\>.
+**LinqBuilder.OrderBy** extends the following LINQ extensions to support order specifications.
 ```csharp
-IOrderedQueryable<Entity> query = _sampleContext.Entities.OrderBy(specification);
-IOrderedQueryable<Entity> otherQuery = query.ThenBy(otherSpecification);
+IOrderedQueryable<Entity> query = _sampleContext.Entities
+    .OrderBy(specification);
+    .ThenBy(otherSpecification);
 ```
 
-It also extends regular filter specifications to support chaining with order specifications.
+It also extends regular specifications to support chaining with order specifications.
 ```csharp
-var specification = new Value1Specification(5) // From LinqBuilder.Specifications
-    .OrderBy(new Value1OrderSpecification()); // From LinqBuilder.OrderSpecifications
+IOrderedSpecification<Entity> specification = new IsFiveSpecification()
+    .OrderBy(new DescNumberOrderSpecification());
 
-IQueryable<Entity> query = _sampleContext.Entities.ExeSpec(specification);
+IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
 ```
 **Note** that chained specifications will not work with the regular LINQ extensions.  
-We have to use the "ExeSpec" extension instead.
+We have to use the "ExeQuery" extension instead.
+<br/>
 
 ## Full example
 
@@ -159,8 +188,9 @@ public class SampleService
     {
         var filter = new IsFiveSpecification()
             .Or(new IsSixSpecification())
-            .OrderBy(new NumberOrderSpecification(Order.Descending))
-            .Skip(skip).Take(take);
+            .OrderBy(new NumberOrderSpecification())
+            .Skip(skip)
+            .Take(take);
 
         return await _sampleRepository.GetAsync(filter);
     }
@@ -175,9 +205,9 @@ public class SampleRepository : ISampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ISpecification<Entity> specification)
+    public async Task<List<Entity>> GetAsync(ILinqQuery<Entity> query)
     {
-        return await _context.Entities.ExeSpec(specification).ToListAsync();
+        return await _context.Entities.ExeQuery(query).ToListAsync();
     }
 }
 ```
