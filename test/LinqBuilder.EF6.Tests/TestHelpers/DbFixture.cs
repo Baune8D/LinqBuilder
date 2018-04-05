@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 
 namespace LinqBuilder.EF6.Tests.TestHelpers
@@ -17,6 +18,28 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
         {
             Context?.Dispose();
             Context = null;
+        }
+
+        public void AddEntity(int value1, int value2, int? childValue = null)
+        {
+            var entity = new Entity
+            {
+                Value1 = value1,
+                Value2 = value2
+            };
+
+            if (childValue.HasValue)
+            {
+                entity.ChildEntities = new List<ChildEntity>
+                {
+                    new ChildEntity
+                    {
+                        Value = childValue.Value
+                    }
+                };
+            }
+
+            Context.Entities.Add(entity);
         }
 
         private static TestDbContext CreateContext()

@@ -13,7 +13,10 @@ namespace LinqBuilder.EFCore.Tests
         public EntityFrameworkCoreTests()
         {
             _dbFixture = new DbFixture();
-            Seed();
+            _dbFixture.AddEntity(2, 1); // Id 1
+            _dbFixture.AddEntity(1, 1); // Id 2
+            _dbFixture.AddEntity(1, 2); // Id 3
+            _dbFixture.Context.SaveChanges();
         }
 
         [Fact]
@@ -74,23 +77,6 @@ namespace LinqBuilder.EFCore.Tests
         public async Task AllAsync_Null_ShouldThrowArgumentNullException()
         {
             await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.AllAsync(null));
-        }
-
-        private void Seed()
-        {
-            AddEntity(2, 1); // 1
-            AddEntity(1, 1); // 2
-            AddEntity(1, 2); // 3
-            _dbFixture.Context.SaveChanges();
-        }
-
-        private void AddEntity(int value1, int value2)
-        {
-            _dbFixture.Context.Entities.Add(new Entity
-            {
-                Value1 = value1,
-                Value2 = value2
-            });
         }
 
         public void Dispose()

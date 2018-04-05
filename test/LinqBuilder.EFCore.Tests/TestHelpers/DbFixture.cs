@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,28 @@ namespace LinqBuilder.EFCore.Tests.TestHelpers
 
             _connection?.Dispose();
             _connection = null;
+        }
+
+        public void AddEntity(int value1, int value2, int? childValue = null)
+        {
+            var entity = new Entity
+            {
+                Value1 = value1,
+                Value2 = value2
+            };
+
+            if (childValue.HasValue)
+            {
+                entity.ChildEntities = new List<ChildEntity>
+                {
+                    new ChildEntity
+                    {
+                        Value = childValue.Value
+                    }
+                };
+            }
+
+            Context.Entities.Add(entity);
         }
 
         private TestDbContext CreateContext()
