@@ -55,14 +55,14 @@ public class SampleService
 
 ### Interfaces
 ```csharp
-public interface ILinqQuery<TEntity>
+public interface ILinqBuilderQuery<TEntity>
 {
     IQueryable<TEntity> Invoke(IQueryable<TEntity> query);
     IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection);
 }
 ```
 ```csharp
-public interface ISpecification<TEntity> : ILinqQuery<TEntity>
+public interface ISpecification<TEntity> : ILinqBuilderQuery<TEntity>
 {
     IFilterSpecification<TEntity> And(IFilterSpecification<TEntity> specification);
     IFilterSpecification<TEntity> Or(IFilterSpecification<TEntity> specification);
@@ -135,7 +135,7 @@ public class SampleService
 
 ### Interfaces
 ```csharp
-public interface IOrderedSpecification<TEntity> : ILinqQuery<TEntity>
+public interface IOrderedSpecification<TEntity> : ILinqBuilderQuery<TEntity>
 {
     IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
     IOrderedSpecification<TEntity> Skip(int count);
@@ -223,7 +223,7 @@ public class SampleRepository : ISampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ILinqQuery<Entity> query)
+    public async Task<List<Entity>> GetAsync(ILinqBuilderQuery<Entity> query)
     {
         return await _context.Entities.ExeQuery(query).ToListAsync();
     }

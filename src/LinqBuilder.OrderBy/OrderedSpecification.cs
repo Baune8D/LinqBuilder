@@ -6,7 +6,7 @@ namespace LinqBuilder.OrderBy
     public class OrderedSpecification<TEntity> : IOrderedSpecification<TEntity>
         where TEntity : class
     {
-        private readonly ILinqQuery<TEntity> _specification;
+        private readonly ILinqBuilderQuery<TEntity> _specification;
         private readonly List<IOrderSpecification<TEntity>> _orderList;
 
         private int? _skip;

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder
 {
-    public interface ISpecification<TEntity> : ILinqQuery<TEntity>
+    public interface ISpecification<TEntity> : ILinqBuilderQuery<TEntity>
     {
         ISpecification<TEntity> And(ISpecification<TEntity> specification);
         ISpecification<TEntity> Or(ISpecification<TEntity> specification);

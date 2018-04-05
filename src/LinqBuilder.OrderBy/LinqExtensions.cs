@@ -29,16 +29,16 @@ namespace LinqBuilder.OrderBy
             return orderSpecification.InvokeSort(collection);
         }
 
-        public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ILinqQuery<TEntity> linqQuery)
+        public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ILinqBuilderQuery<TEntity> linqBuilderQuery)
         {
-            if (linqQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqQuery));
-            return linqQuery.Invoke(query);
+            if (linqBuilderQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqBuilderQuery));
+            return linqBuilderQuery.Invoke(query);
         }
 
-        public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ILinqQuery<TEntity> linqQuery)
+        public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ILinqBuilderQuery<TEntity> linqBuilderQuery)
         {
-            if (linqQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqQuery));
-            return linqQuery.Invoke(collection);
+            if (linqBuilderQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqBuilderQuery));
+            return linqBuilderQuery.Invoke(collection);
         }
     }
 }

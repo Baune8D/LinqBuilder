@@ -1,6 +1,6 @@
 ﻿namespace LinqBuilder.OrderBy
 {
-    public interface IOrderedSpecification<TEntity> : ILinqQuery<TEntity>
+    public interface IOrderedSpecification<TEntity> : ILinqBuilderQuery<TEntity>
     {
         IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
         IOrderedSpecification<TEntity> Skip(int count);
