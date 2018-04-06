@@ -80,6 +80,11 @@ public interface ISpecification<TEntity> : ILinqBuilderQuery<TEntity>
 IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
 bool result = _sampleContext.Entities.Any(specification);
 bool result = _sampleContext.Entities.All(specification);
+int result = _sampleContext.Entities.Count(specification);
+Entity result = _sampleContext.Entities.First(specification);
+Entity result = _sampleContext.Entities.FirstOrDefault(specification);
+Entity result = _sampleContext.Entities.Single(specification);
+Entity result = _sampleContext.Entities.SingleOrDefault(specification);
 ```
 <br/>
 
@@ -179,6 +184,11 @@ We have to use the "ExeQuery" extension instead.
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification);
 bool result = await _sampleContext.Entities.AllAsync(specification);
+int result = await _sampleContext.Entities.CountAsync(specification);
+Entity result = await _sampleContext.Entities.FirstAsync(specification);
+Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification);
+Entity result = await _sampleContext.Entities.SingleAsync(specification);
+Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
 <br/>
 
@@ -187,6 +197,11 @@ bool result = await _sampleContext.Entities.AllAsync(specification);
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification);
 bool result = await _sampleContext.Entities.AllAsync(specification);
+int result = await _sampleContext.Entities.CountAsync(specification);
+Entity result = await _sampleContext.Entities.FirstAsync(specification);
+Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification);
+Entity result = await _sampleContext.Entities.SingleAsync(specification);
+Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
 <br/>
 
