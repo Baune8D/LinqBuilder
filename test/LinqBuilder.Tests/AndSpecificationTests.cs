@@ -16,7 +16,7 @@ namespace LinqBuilder.Tests
                 .ShouldBe(expected);
         }
 
-        private class TestData : TheoryDataHelper
+        private class TestData : EntityTheoryData
         {
             public TestData()
             {

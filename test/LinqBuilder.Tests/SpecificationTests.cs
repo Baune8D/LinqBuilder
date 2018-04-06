@@ -17,15 +17,6 @@ namespace LinqBuilder.Tests
             _fixture.AddToCollection(1, 1);
         }
 
-        [Theory]
-        [ClassData(typeof(TestData))]
-        public void IsSatisfiedBy_Theory(Entity entity, bool expected)
-        {
-            new Value1Specification(3)
-                .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
-        }
-
         [Fact]
         public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
@@ -48,7 +39,16 @@ namespace LinqBuilder.Tests
             result.ShouldAllBe(e => e.Value1 == value);
         }
 
-        private class TestData : TheoryDataHelper
+        [Theory]
+        [ClassData(typeof(TestData))]
+        public void IsSatisfiedBy_Theory(Entity entity, bool expected)
+        {
+            new Value1Specification(3)
+                .IsSatisfiedBy(entity)
+                .ShouldBe(expected);
+        }
+
+        private class TestData : EntityTheoryData
         {
             public TestData()
             {

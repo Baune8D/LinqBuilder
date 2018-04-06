@@ -2,7 +2,7 @@
 
 namespace LinqBuilder.Tests.TestHelpers
 {
-    public abstract class TheoryDataHelper : TheoryData<Entity, bool>
+    public abstract class EntityTheoryData : TheoryData<Entity, bool>
     {
         public void AddEntity(int value1, int value2, bool expected)
         {
