@@ -29,13 +29,13 @@ namespace LinqBuilder.OrderBy
             return orderSpecification.InvokeSort(collection);
         }
 
-        public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ILinqBuilderQuery<TEntity> linqBuilderQuery)
+        public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ISpecificationQuery<TEntity> linqBuilderQuery)
         {
             if (linqBuilderQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqBuilderQuery));
             return linqBuilderQuery.Invoke(query);
         }
 
-        public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ILinqBuilderQuery<TEntity> linqBuilderQuery)
+        public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ISpecificationQuery<TEntity> linqBuilderQuery)
         {
             if (linqBuilderQuery == null) throw Exceptions.SpecificationCannotBeNull(nameof(linqBuilderQuery));
             return linqBuilderQuery.Invoke(collection);

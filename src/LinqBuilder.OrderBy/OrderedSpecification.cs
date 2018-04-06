@@ -6,7 +6,7 @@ namespace LinqBuilder.OrderBy
     public class OrderedSpecification<TEntity> : IOrderedSpecification<TEntity>
         where TEntity : class
     {
-        private readonly ILinqBuilderQuery<TEntity> _specification;
+        private readonly ISpecificationQuery<TEntity> _specification;
         private readonly List<IOrderSpecification<TEntity>> _orderList;
 
         private int? _skip;
@@ -21,7 +21,7 @@ namespace LinqBuilder.OrderBy
             _take = take;
         }
 
-        public OrderedSpecification(ILinqBuilderQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, 
+        public OrderedSpecification(ISpecificationQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, 
             IOrderSpecification<TEntity> right, int? skip = null, int? take = null) : this(orderList, right, skip, take)
         {
             _specification = specificaiton;

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LinqBuilder
 {
-    public interface ILinqBuilderQuery<TEntity>
+    public interface ISpecificationQuery<TEntity>
     {
         IQueryable<TEntity> Invoke(IQueryable<TEntity> query);
         IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection);

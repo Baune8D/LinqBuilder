@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderBy
 {
-    public class OrderSpecification<TEntity, TKey> : LinqBuilderQuery<TEntity, TKey>, IOrderSpecification<TEntity>
+    public class OrderSpecification<TEntity, TKey> : SpecificationQuery<TEntity, TKey>, IOrderSpecification<TEntity>
         where TEntity : class
     {
         private readonly Sort _sort;

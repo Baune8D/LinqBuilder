@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder
 {
-    public abstract class LinqBuilderQuery<TEntity, TKey> : ILinqBuilderQuery<TEntity>
+    public abstract class SpecificationQuery<TEntity, TKey> : ISpecificationQuery<TEntity>
     {
         private readonly Expression<Func<TEntity, TKey>> _expression;
         private Func<TEntity, TKey> _func;
 
-        protected LinqBuilderQuery(Expression<Func<TEntity, TKey>> expression)
+        protected SpecificationQuery(Expression<Func<TEntity, TKey>> expression)
         {
             _expression = expression;
         }
