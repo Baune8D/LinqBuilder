@@ -27,6 +27,12 @@ namespace LinqBuilder
             return new NotSpecification<TEntity>(this);
         }
 
+        public bool IsSatisfiedBy(TEntity entity)
+        {
+            var predicate = AsFunc();
+            return predicate(entity);
+        }
+
         public override IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             return query.Where(AsExpression());
@@ -35,12 +41,6 @@ namespace LinqBuilder
         public override IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             return collection.Where(AsFunc());
-        }
-
-        public bool IsSatisfiedBy(TEntity entity)
-        {
-            var predicate = AsFunc();
-            return predicate(entity);
         }
     }
 }
