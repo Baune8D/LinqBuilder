@@ -19,18 +19,17 @@ namespace LinqBuilder.OrderBy
 
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
-            var orderList = new List<IOrderSpecification<TEntity>> { this };
-            return new OrderedSpecification<TEntity>(orderList, other);
+            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this, other });
         }
 
         public IOrderedSpecification<TEntity> Skip(int count)
         {
-            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>>(), this, count);
+            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this }, count);
         }
 
         public IOrderedSpecification<TEntity> Take(int count)
         {
-            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>>(), this, null, count);
+            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this }, null, count);
         }
 
         public IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query)

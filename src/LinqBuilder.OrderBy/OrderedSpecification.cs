@@ -12,24 +12,23 @@ namespace LinqBuilder.OrderBy
         private int? _skip;
         private int? _take;
 
-        public OrderedSpecification(List<IOrderSpecification<TEntity>> orderList, IOrderSpecification<TEntity> right, 
-            int? skip = null, int? take = null)
+        public OrderedSpecification(List<IOrderSpecification<TEntity>> orderList, int? skip = null, int? take = null)
         {
             _orderList = orderList;
-            _orderList.Add(right);
             _skip = skip;
             _take = take;
         }
 
         public OrderedSpecification(ISpecificationQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, 
-            IOrderSpecification<TEntity> right, int? skip = null, int? take = null) : this(orderList, right, skip, take)
+            int? skip = null, int? take = null) : this(orderList, skip, take)
         {
             _specification = specificaiton;
         }
 
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification)
         {
-            return new OrderedSpecification<TEntity>(_specification, _orderList, orderSpecification, _skip, _take);
+            _orderList.Add(orderSpecification);
+            return new OrderedSpecification<TEntity>(_specification, _orderList, _skip, _take);
         }
 
         public IOrderedSpecification<TEntity> Skip(int count)
