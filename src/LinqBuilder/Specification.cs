@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder
 {
-    public class Specification<TEntity> : LinqBuilderQuery<TEntity, bool>, ISpecification<TEntity> 
+    public class Specification<TEntity> : SpecificationQuery<TEntity, bool>, ISpecification<TEntity> 
         where TEntity : class
     {
         public Specification() : this(entity => true) { }
