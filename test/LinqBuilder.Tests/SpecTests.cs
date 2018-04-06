@@ -6,16 +6,6 @@ namespace LinqBuilder.Tests
 {
     public class SpecTests
     {
-        private readonly Fixture _fixture;
-
-        public SpecTests()
-        {
-            _fixture = new Fixture();
-            _fixture.AddToCollection(3, 1);
-            _fixture.AddToCollection(3, 1);
-            _fixture.AddToCollection(1, 1);
-        }
-
         [Fact]
         public void IsSatisfiedBy_DefaltValue()
         {
@@ -27,8 +17,10 @@ namespace LinqBuilder.Tests
         [Fact]
         public void IsSatisfiedBy_Expression_ShouldBeTrue()
         {
-            new Spec<Entity>(entity => entity.Value1 == _fixture.Value)
-                .IsSatisfiedBy(new Entity { Value1 = _fixture.Value })
+            const int value = 3;
+
+            new Spec<Entity>(entity => entity.Value1 == value)
+                .IsSatisfiedBy(new Entity { Value1 = value })
                 .ShouldBeTrue();
         }
 

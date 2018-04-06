@@ -10,20 +10,18 @@ namespace LinqBuilder.Tests
         [ClassData(typeof(TestData))]
         public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
-            var specification = new Value1Specification(3)
-                .And(new Value2Specification(5));
-
-            specification
+            new Value1Specification(3)
+                .And(new Value2Specification(5))
                 .IsSatisfiedBy(entity)
                 .ShouldBe(expected);
         }
 
-        private class TestData : TheoryData<Entity, bool>
+        private class TestData : TheoryDataHelper
         {
             public TestData()
             {
-                Add(new Entity { Value1 = 3, Value2 = 5 }, true);
-                Add(new Entity { Value1 = 3, Value2 = 4 }, false);
+                AddEntity(3, 5, true);
+                AddEntity(3, 4, false);
             }
         }
     }

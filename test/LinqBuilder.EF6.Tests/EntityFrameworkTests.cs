@@ -1,16 +1,16 @@
 using System;
 using System.Threading.Tasks;
-using LinqBuilder.EFCore.Tests.TestHelpers;
+using LinqBuilder.EF6.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.EFCore.Tests
+namespace LinqBuilder.EF6.Tests
 {
-    public class EntityFrameworkCoreTests : IDisposable
+    public class EntityFrameworkTests : IDisposable
     {
         private readonly DbFixture _dbFixture;
 
-        public EntityFrameworkCoreTests()
+        public EntityFrameworkTests()
         {
             _dbFixture = new DbFixture();
             _dbFixture.AddEntity(2, 3);

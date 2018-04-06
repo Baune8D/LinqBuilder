@@ -21,7 +21,7 @@ namespace LinqBuilder.Tests
         [ClassData(typeof(TestData))]
         public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
-            _fixture.Specification
+            new Value1Specification(3)
                 .IsSatisfiedBy(entity)
                 .ShouldBe(expected);
         }
@@ -29,27 +29,31 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
-            var result = _fixture.Specification.Invoke(_fixture.Query);
+            const int value = 3;
+
+            var result = new Value1Specification(value).Invoke(_fixture.Query);
 
             result.ShouldBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
+            result.ShouldAllBe(e => e.Value1 == value);
         }
 
         [Fact]
         public void Invoke_IEnumerable_ShouldReturnFilteredEnumerable()
         {
-            var result = _fixture.Specification.Invoke(_fixture.Collection);
+            const int value = 3;
+
+            var result = new Value1Specification(value).Invoke(_fixture.Collection);
 
             result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == _fixture.Value);
+            result.ShouldAllBe(e => e.Value1 == value);
         }
 
-        private class TestData : TheoryData<Entity, bool>
+        private class TestData : TheoryDataHelper
         {
             public TestData()
             {
-                Add(new Entity { Value1 = 3 }, true);
-                Add(new Entity { Value1 = 4 }, false);
+                AddEntity(3, 1, true);
+                AddEntity(4, 1, false);
             }
         }
     }

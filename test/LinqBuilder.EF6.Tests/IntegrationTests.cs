@@ -15,9 +15,9 @@ namespace LinqBuilder.EF6.Tests
         public IntegrationTests()
         {
             _dbFixture = new DbFixture();
-            _dbFixture.AddEntity(2, 1, 2); // Id 1
-            _dbFixture.AddEntity(1, 2, 3); // Id 2
-            _dbFixture.AddEntity(3, 1, 1); // Id 3
+            _dbFixture.AddEntity(2, 1, 2);
+            _dbFixture.AddEntity(1, 2, 3);
+            _dbFixture.AddEntity(3, 1, 1);
             _dbFixture.Context.SaveChanges();
         }
 
