@@ -17,6 +17,16 @@ namespace LinqBuilder.OrderBy
             _sort = sort;
         }
 
+        public static IOrderSpecification<TEntity> New(Sort sort = Sort.Ascending)
+        {
+            return new OrderSpecification<TEntity, TResult>(sort);
+        }
+
+        public static IOrderSpecification<TEntity> New(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
+        {
+            return new OrderSpecification<TEntity, TResult>(expression, sort);
+        }
+
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
             return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this, other });

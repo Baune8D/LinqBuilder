@@ -19,6 +19,18 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
+        public void Create_EmptyConstructor_ShouldBeInterface()
+        {
+            OrderSpecification<Entity, int>.New().ShouldBeAssignableTo<IOrderSpecification<Entity>>();
+        }
+
+        [Fact]
+        public void Create_ExpressionSortConstructor_ShouldBeInterface()
+        {
+            OrderSpecification<Entity, int>.New(entity => 1).ShouldBeAssignableTo<IOrderSpecification<Entity>>();
+        }
+
+        [Fact]
         public void OrderBy_IQueryable_ShouldReturnFilteredAndOrderedList()
         {
             var specification = new Specification<Entity>()

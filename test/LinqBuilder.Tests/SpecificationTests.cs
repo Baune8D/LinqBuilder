@@ -18,6 +18,18 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void Create_EmptyConstructor_ShouldBeInterface()
+        {
+            Specification<Entity>.New().ShouldBeAssignableTo<ISpecification<Entity>>();
+        }
+
+        [Fact]
+        public void Create_ExpressionConstructor_ShouldBeInterface()
+        {
+            Specification<Entity>.New(entity => true).ShouldBeAssignableTo<ISpecification<Entity>>();
+        }
+
+        [Fact]
         public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
             const int value = 3;

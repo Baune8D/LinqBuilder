@@ -25,9 +25,9 @@ var isFiveSpecification = new IsFiveSpecification();
 
 **By default constructor:**
 ```csharp
-var isFiveSpecification = new Specification<Entity>(entity => entity.Number == 5);
+var isFiveSpecification = Specification<Entity>.New(entity => entity.Number == 5);
 // Or by alias
-var isFiveSpecification = new Spec<Entity>(entity => entity.Number == 5);
+var isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 ```
 <br/>
 
@@ -110,9 +110,9 @@ var descNumberOrderSpecification = new DescNumberOrderSpecification();
 
 **By default constructor:**
 ```csharp
-var descNumberOrderSpecification = new OrderSpecification<Entity, int>(entity => entity.Number, Sort.Descending);
+var descNumberOrderSpecification = OrderSpecification<Entity, int>.New(entity => entity.Number, Sort.Descending);
 // Or by alias
-var descNumberOrderSpecification = new OrderSpec<Entity, int>(entity => entity.Number, Sort.Descending);
+var descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.Number, Sort.Descending);
 ```
 <br/>
 
