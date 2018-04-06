@@ -41,6 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.EFCore.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.EF6.Tests", "test\LinqBuilder.EF6.Tests\LinqBuilder.EF6.Tests.csproj", "{318A1093-3885-4E30-BF3D-F7D331F4A626}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{9D486D51-00D2-47A0-87EA-3128DC8A12AF}"
+	ProjectSection(SolutionItems) = preProject
+		.vscode\extensions.json = .vscode\extensions.json
+		.vscode\settings.json = .vscode\settings.json
+		.vscode\tasks.json = .vscode\tasks.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +100,7 @@ Global
 		{C496F944-92FD-410D-ABB1-019F640D6C79} = {DAB01770-8D12-4638-9BBA-ABC31C2A2D6E}
 		{3E0B788B-2B01-4F27-B2FD-12FAEDD8C88A} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
 		{318A1093-3885-4E30-BF3D-F7D331F4A626} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
+		{9D486D51-00D2-47A0-87EA-3128DC8A12AF} = {E9CE7133-E0CC-469B-81F9-529EE0AE003D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4029E7C4-F013-4A5C-A3A7-9BD01FA6ED4A}
