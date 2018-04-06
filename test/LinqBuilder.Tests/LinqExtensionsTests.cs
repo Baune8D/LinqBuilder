@@ -149,30 +149,6 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
-        public void LongCount_IQueryable_ShouldBeFilteredCount()
-        {
-            _fixture.Query.LongCount(new Value1Specification(3)).ShouldBe(2);
-        }
-
-        [Fact]
-        public void LongCount_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.LongCount(null));
-        }
-
-        [Fact]
-        public void LongCount_IEnumerable_ShouldBeFilteredCount()
-        {
-            _fixture.Collection.LongCount(new Value1Specification(3)).ShouldBe(2);
-        }
-
-        [Fact]
-        public void LongCount_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.LongCount(null));
-        }
-
-        [Fact]
         public void First_IQueryable_ShouldBeStoreEntity()
         {
             _fixture.Query.First(new Value1Specification(3)).ShouldBe(_fixture.Store[0]);

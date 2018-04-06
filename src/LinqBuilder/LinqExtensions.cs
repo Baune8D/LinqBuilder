@@ -53,18 +53,6 @@ namespace LinqBuilder
             return collection.Count(specification.AsFunc());
         }
 
-        public static long LongCount<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
-        {
-            if (specification == null) throw Exceptions.SpecificationCannotBeNull(nameof(specification));
-            return query.LongCount(specification.AsExpression());
-        }
-
-        public static long LongCount<TEntity>(this IEnumerable<TEntity> collection, ISpecification<TEntity> specification)
-        {
-            if (specification == null) throw Exceptions.SpecificationCannotBeNull(nameof(specification));
-            return collection.LongCount(specification.AsFunc());
-        }
-
         public static TEntity First<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
         {
             if (specification == null) throw Exceptions.SpecificationCannotBeNull(nameof(specification));
