@@ -5,19 +5,19 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder
 {
-    public abstract class SpecificationQuery<TEntity, TKey> : ISpecificationQuery<TEntity>
+    public abstract class SpecificationQuery<TEntity, TResult> : ISpecificationQuery<TEntity>
     {
-        private readonly Expression<Func<TEntity, TKey>> _expression;
-        private Func<TEntity, TKey> _func;
+        private readonly Expression<Func<TEntity, TResult>> _expression;
+        private Func<TEntity, TResult> _func;
 
-        protected SpecificationQuery(Expression<Func<TEntity, TKey>> expression)
+        protected SpecificationQuery(Expression<Func<TEntity, TResult>> expression)
         {
             _expression = expression;
         }
 
-        public virtual Expression<Func<TEntity, TKey>> AsExpression() => _expression;
+        public virtual Expression<Func<TEntity, TResult>> AsExpression() => _expression;
 
-        public virtual Func<TEntity, TKey> AsFunc()
+        public virtual Func<TEntity, TResult> AsFunc()
         {
             return _func ?? (_func = AsExpression().Compile());
         }

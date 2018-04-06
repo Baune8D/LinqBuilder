@@ -5,14 +5,14 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.OrderBy
 {
-    public class OrderSpecification<TEntity, TKey> : SpecificationQuery<TEntity, TKey>, IOrderSpecification<TEntity>
+    public class OrderSpecification<TEntity, TResult> : SpecificationQuery<TEntity, TResult>, IOrderSpecification<TEntity>
         where TEntity : class
     {
         private readonly Sort _sort;
 
         public OrderSpecification(Sort sort = Sort.Ascending) : this(entity => default, sort) { }
 
-        public OrderSpecification(Expression<Func<TEntity, TKey>> expression, Sort sort = Sort.Ascending) : base(expression)
+        public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending) : base(expression)
         {
             _sort = sort;
         }
