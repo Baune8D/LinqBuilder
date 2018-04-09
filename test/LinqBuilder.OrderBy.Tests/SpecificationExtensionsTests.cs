@@ -38,6 +38,7 @@ namespace LinqBuilder.OrderBy.Tests
 
             var result = specification.Invoke(_fixture.Query).ToList();
 
+            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
@@ -51,6 +52,7 @@ namespace LinqBuilder.OrderBy.Tests
 
             var result = specification.Invoke(_fixture.Collection).ToList();
 
+            result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
