@@ -18,6 +18,13 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
+        public void Use_OrderSpecification_ShouldBeSameClass()
+        {
+            var specification = new Value1OrderSpecification();
+            specification.AsInterface().ShouldBe(specification);
+        }
+
+        [Fact]
         public void Invoke_IQueryableAscending_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification();

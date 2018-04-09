@@ -27,6 +27,11 @@ namespace LinqBuilder.OrderBy
             return new OrderSpecification<TEntity, TResult>(expression, sort);
         }
 
+        public IOrderSpecification<TEntity> AsInterface()
+        {
+            return this;
+        }
+
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
             return new OrderedSpecification<TEntity>(new Ordering<TEntity>
