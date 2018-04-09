@@ -29,17 +29,17 @@ namespace LinqBuilder.OrderBy
 
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
-            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this, other });
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this, other)));
         }
 
         public IOrderedSpecification<TEntity> Skip(int count)
         {
-            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this }, count);
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this), count));
         }
 
         public IOrderedSpecification<TEntity> Take(int count)
         {
-            return new OrderedSpecification<TEntity>(new List<IOrderSpecification<TEntity>> { this }, null, count);
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this), null, count));
         }
 
         public IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query)
@@ -78,6 +78,11 @@ namespace LinqBuilder.OrderBy
         public override IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             return InvokeSort(collection);
+        }
+
+        private static List<IOrderSpecification<TEntity>> GetOrderList(params IOrderSpecification<TEntity>[] orderSpecifications)
+        {
+            return orderSpecifications.ToList();
         }
     }
 }

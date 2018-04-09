@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LinqBuilder.OrderBy
 {
-    public interface IOrderSpecification<TEntity> : IOrderedSpecification<TEntity>
+    public interface IOrderSpecification<TEntity> : IBaseOrderSpecification<TEntity>
     {
         IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
         IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);

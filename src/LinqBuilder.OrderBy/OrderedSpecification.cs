@@ -7,79 +7,78 @@ namespace LinqBuilder.OrderBy
         where TEntity : class
     {
         private readonly ISpecificationQuery<TEntity> _specification;
-        private readonly List<IOrderSpecification<TEntity>> _orderList;
+        private readonly Ordering<TEntity> _ordering;
 
-        private int? _skip;
-        private int? _take;
-
-        public OrderedSpecification(List<IOrderSpecification<TEntity>> orderList, int? skip = null, int? take = null)
+        public OrderedSpecification(Ordering<TEntity> ordering)
         {
-            _orderList = orderList;
-            _skip = skip;
-            _take = take;
+            _ordering = ordering;
         }
 
-        public OrderedSpecification(ISpecificationQuery<TEntity> specificaiton, List<IOrderSpecification<TEntity>> orderList, 
-            int? skip = null, int? take = null) : this(orderList, skip, take)
+        public OrderedSpecification(ISpecificationQuery<TEntity> specificaiton, Ordering<TEntity> ordering) : this(ordering)
         {
             _specification = specificaiton;
         }
 
+        public Ordering<TEntity> GetOrdering()
+        {
+            return _ordering;
+        }
+
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification)
         {
-            _orderList.Add(orderSpecification);
-            return new OrderedSpecification<TEntity>(_specification, _orderList, _skip, _take);
+            _ordering.OrderList.Add(orderSpecification);
+            return new OrderedSpecification<TEntity>(_specification, _ordering);
         }
 
         public IOrderedSpecification<TEntity> Skip(int count)
         {
-            _skip = count;
+            _ordering.Skip = count;
             return this;
         }
 
         public IOrderedSpecification<TEntity> Take(int count)
         {
-            _take = count;
+            _ordering.Take = count;
             return this;
         }
 
         public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             if (_specification != null) query = _specification.Invoke(query);
-            var orderedQuery = _orderList[0].InvokeSort(query);
+            var orderedQuery = _ordering.OrderList[0].InvokeSort(query);
 
-            for (var i = 1; i < _orderList.Count; i++)
+            for (var i = 1; i < _ordering.OrderList.Count; i++)
             {
-                orderedQuery = _orderList[i].InvokeSort(orderedQuery);
+                orderedQuery = _ordering.OrderList[i].InvokeSort(orderedQuery);
             }
 
-            return SkipTake(orderedQuery, _skip, _take);
+            return SkipTake(orderedQuery);
         }
 
         public IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection)
         {
             if (_specification != null) collection = _specification.Invoke(collection);
-            var orderedCollection = _orderList[0].InvokeSort(collection);
+            var orderedCollection = _ordering.OrderList[0].InvokeSort(collection);
 
-            for (var i = 1; i < _orderList.Count; i++)
+            for (var i = 1; i < _ordering.OrderList.Count; i++)
             {
-                orderedCollection = _orderList[i].InvokeSort(orderedCollection);
+                orderedCollection = _ordering.OrderList[i].InvokeSort(orderedCollection);
             }
 
-            return SkipTake(orderedCollection, _skip, _take);
+            return SkipTake(orderedCollection);
         }
 
-        private static IEnumerable<TEntity> SkipTake(IEnumerable<TEntity> collection, int? skip, int? take)
+        private IEnumerable<TEntity> SkipTake(IEnumerable<TEntity> collection)
         {
-            if (skip.HasValue) collection = collection.Skip(skip.Value);
-            if (take.HasValue) collection = collection.Take(take.Value);
+            if (_ordering.Skip.HasValue) collection = collection.Skip(_ordering.Skip.Value);
+            if (_ordering.Take.HasValue) collection = collection.Take(_ordering.Take.Value);
             return collection;
         }
 
-        private static IQueryable<TEntity> SkipTake(IQueryable<TEntity> query, int? skip, int? take)
+        private IQueryable<TEntity> SkipTake(IQueryable<TEntity> query)
         {
-            if (skip.HasValue) query = query.Skip(skip.Value);
-            if (take.HasValue) query = query.Take(take.Value);
+            if (_ordering.Skip.HasValue) query = query.Skip(_ordering.Skip.Value);
+            if (_ordering.Take.HasValue) query = query.Take(_ordering.Take.Value);
             return query;
         }
     }
