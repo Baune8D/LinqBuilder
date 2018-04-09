@@ -140,15 +140,21 @@ public class SampleService
 
 ### Interfaces
 ```csharp
-public interface IOrderedSpecification<TEntity> : ISpecificationQuery<TEntity>
+public interface IBaseOrderSpecification<TEntity> : ISpecificationQuery<TEntity>
 {
     IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
     IOrderedSpecification<TEntity> Skip(int count);
     IOrderedSpecification<TEntity> Take(int count);
+    IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize);
+}
+```csharp
+public interface IOrderedSpecification<TEntity> : IBaseOrderSpecification<TEntity>
+{
+    Ordering<TEntity> GetOrdering();
 }
 ```
 ```csharp
-public interface IOrderSpecification<TEntity> : IOrderedSpecification<TEntity>
+public interface IOrderSpecification<TEntity> : IBaseOrderSpecification<TEntity>
 {
     IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
     IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);
@@ -170,6 +176,15 @@ It also extends regular specifications to support chaining with order specificat
 ```csharp
 IOrderedSpecification<Entity> specification = new IsFiveSpecification()
     .OrderBy(new DescNumberOrderSpecification());
+
+IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
+```
+```csharp
+IOrderedSpecification<Entity> ordering = new DescNumberOrderSpecification();
+    .Paginate(1, 10);
+
+IOrderedSpecification<Entity> specification = new IsFiveSpecification()
+    .UseOrdering(ordering);
 
 IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
 ```
