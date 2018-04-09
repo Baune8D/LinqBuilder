@@ -50,6 +50,17 @@ namespace LinqBuilder.OrderBy
             {
                 OrderList = GetOrderList(this),
                 Take = count
+            });
+        }
+
+        public IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize)
+        {
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>
+            {
+                OrderList = GetOrderList(this),
+                Skip = (pageNo - 1) * pageSize,
+                Take = pageSize
+            });
         }
 
         public IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query)

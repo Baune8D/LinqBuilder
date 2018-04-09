@@ -42,6 +42,13 @@ namespace LinqBuilder.OrderBy
             return this;
         }
 
+        public IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize)
+        {
+            Skip((pageNo - 1) * pageSize);
+            Take(pageSize);
+            return this;
+        }
+
         public IQueryable<TEntity> Invoke(IQueryable<TEntity> query)
         {
             if (_specification != null) query = _specification.Invoke(query);

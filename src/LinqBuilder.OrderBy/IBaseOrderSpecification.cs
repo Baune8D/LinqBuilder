@@ -5,5 +5,6 @@
         IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
         IOrderedSpecification<TEntity> Skip(int count);
         IOrderedSpecification<TEntity> Take(int count);
+        IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize);
     }
 }

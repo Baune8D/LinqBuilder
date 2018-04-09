@@ -112,5 +112,17 @@ namespace LinqBuilder.OrderBy.Tests
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
         }
+
+        [Fact]
+        public void Paginate_PageNoAndSize_ShouldReturnCorrectOrdering()
+        {
+            var specification = new Value1OrderSpecification().Paginate(2, 5);
+
+            var ordering = specification.GetOrdering();
+
+            ordering.OrderList.Count.ShouldBe(1);
+            ordering.Skip.ShouldBe(5);
+            ordering.Take.ShouldBe(5);
+        }
     }
 }
