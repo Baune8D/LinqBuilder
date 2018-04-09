@@ -22,6 +22,11 @@ namespace LinqBuilder
             return new Specification<TEntity>(expression);
         }
 
+        public ISpecification<TEntity> AsInterface()
+        {
+            return this;
+        }
+
         public ISpecification<TEntity> And(ISpecification<TEntity> specification)
         {
             return new AndSpecification<TEntity>(this, specification);

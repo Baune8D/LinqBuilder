@@ -18,6 +18,13 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void Use_Specification_ShouldBeSameClass()
+        {
+            var specification = new Value1Specification(1);
+            specification.AsInterface().ShouldBe(specification);
+        }
+
+        [Fact]
         public void Create_EmptyConstructor_ShouldBeInterface()
         {
             Specification<Entity>.New().ShouldBeAssignableTo<ISpecification<Entity>>();
