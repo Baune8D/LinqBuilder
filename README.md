@@ -147,6 +147,7 @@ public interface IBaseOrderSpecification<TEntity> : ISpecificationQuery<TEntity>
     IOrderedSpecification<TEntity> Take(int count);
     IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize);
 }
+```
 ```csharp
 public interface IOrderedSpecification<TEntity> : IBaseOrderSpecification<TEntity>
 {
