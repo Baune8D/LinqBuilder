@@ -29,17 +29,27 @@ namespace LinqBuilder.OrderBy
 
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> other)
         {
-            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this, other)));
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>
+            {
+                OrderList = GetOrderList(this, other),
+            });
         }
 
         public IOrderedSpecification<TEntity> Skip(int count)
         {
-            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this), count));
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>
+            {
+                OrderList = GetOrderList(this),
+                Skip = count
+            });
         }
 
         public IOrderedSpecification<TEntity> Take(int count)
         {
-            return new OrderedSpecification<TEntity>(new Ordering<TEntity>(GetOrderList(this), null, count));
+            return new OrderedSpecification<TEntity>(new Ordering<TEntity>
+            {
+                OrderList = GetOrderList(this),
+                Take = count
         }
 
         public IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query)

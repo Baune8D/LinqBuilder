@@ -8,7 +8,10 @@ namespace LinqBuilder.OrderBy
             where TEntity : class
         {
             if (orderSpecification == null) throw Exceptions.SpecificationCannotBeNull(nameof(orderSpecification));
-            return new OrderedSpecification<TEntity>(specification, new Ordering<TEntity>(new List<IOrderSpecification<TEntity>> { orderSpecification }));
+            return new OrderedSpecification<TEntity>(specification, new Ordering<TEntity>
+            {
+                OrderList = new List<IOrderSpecification<TEntity>> { orderSpecification }
+            });
         }
 
         public static IOrderedSpecification<TEntity> UseOrdering<TEntity>(this ISpecification<TEntity> specification, IOrderedSpecification<TEntity> orderedSpecification)
