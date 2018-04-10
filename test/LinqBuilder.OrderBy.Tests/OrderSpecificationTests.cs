@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LinqBuilder.OrderBy.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -130,6 +131,18 @@ namespace LinqBuilder.OrderBy.Tests
             ordering.OrderList.Count.ShouldBe(1);
             ordering.Skip.ShouldBe(5);
             ordering.Take.ShouldBe(5);
+        }
+
+        [Fact]
+        public void Paginate_InvalidPageNo_ShouldThrowArgumentException()
+        {
+            Should.Throw<ArgumentException>(() => new Value1OrderSpecification().Paginate(0, 5));
+        }
+
+        [Fact]
+        public void Paginate_InvalidPageSize_ShouldThrowArgumentException()
+        {
+            Should.Throw<ArgumentException>(() => new Value1OrderSpecification().Paginate(1, 0));
         }
     }
 }
