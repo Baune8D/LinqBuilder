@@ -60,6 +60,7 @@ namespace LinqBuilder.OrderBy
 
         public IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize)
         {
+            Validate.Pagination(pageNo, pageSize);
             return new OrderedSpecification<TEntity>(new Ordering<TEntity>
             {
                 OrderList = GetOrderList(this),

@@ -44,6 +44,7 @@ namespace LinqBuilder.OrderBy
 
         public IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize)
         {
+            Validate.Pagination(pageNo, pageSize);
             Skip((pageNo - 1) * pageSize);
             Take(pageSize);
             return this;
