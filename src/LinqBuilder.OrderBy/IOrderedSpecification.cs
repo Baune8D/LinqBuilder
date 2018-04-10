@@ -3,5 +3,6 @@
     public interface IOrderedSpecification<TEntity> : IBaseOrderSpecification<TEntity>
     {
         Ordering<TEntity> GetOrdering();
+        ISpecification<TEntity> GetSpecification();
     }
 }

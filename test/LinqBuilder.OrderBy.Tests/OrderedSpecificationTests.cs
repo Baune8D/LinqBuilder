@@ -20,6 +20,14 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
+        public void GetSpecification_OrderedSpecification_ShouldReturnSpecification()
+        {
+            var specification = new Value1Specification(1);
+
+            specification.OrderBy(new Value1OrderSpecification()).GetSpecification().ShouldBe(specification);
+        }
+
+        [Fact]
         public void Invoke_Queryable_ShouldReturnOrderedList()
         {
             var specification = new Value1OrderSpecification()

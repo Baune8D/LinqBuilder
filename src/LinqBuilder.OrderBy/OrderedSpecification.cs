@@ -6,7 +6,7 @@ namespace LinqBuilder.OrderBy
     public class OrderedSpecification<TEntity> : IOrderedSpecification<TEntity>
         where TEntity : class
     {
-        private readonly ISpecificationQuery<TEntity> _specification;
+        private readonly ISpecification<TEntity> _specification;
         private readonly Ordering<TEntity> _ordering;
 
         public OrderedSpecification(Ordering<TEntity> ordering)
@@ -14,7 +14,7 @@ namespace LinqBuilder.OrderBy
             _ordering = ordering;
         }
 
-        public OrderedSpecification(ISpecificationQuery<TEntity> specificaiton, Ordering<TEntity> ordering) : this(ordering)
+        public OrderedSpecification(ISpecification<TEntity> specificaiton, Ordering<TEntity> ordering) : this(ordering)
         {
             _specification = specificaiton;
         }
@@ -22,6 +22,11 @@ namespace LinqBuilder.OrderBy
         public Ordering<TEntity> GetOrdering()
         {
             return _ordering;
+        }
+
+        public ISpecification<TEntity> GetSpecification()
+        {
+            return _specification;
         }
 
         public IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification)
