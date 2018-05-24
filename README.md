@@ -8,7 +8,7 @@
 ## LinqBuilder
 
 ### Usage
-Specifications can be constructed in two different ways.
+Specifications can be constructed in three different ways.
 
 **By extending Specification:**
 ```csharp
@@ -23,7 +23,20 @@ public class IsFiveSpecification : Specification<Entity>
 var isFiveSpecification = new IsFiveSpecification();
 ```
 
-**By default constructor:**
+**By extending DynamicSpecification:**
+```csharp
+public class IsValueSpecification : DynamicSpecification<Entity, int>
+{
+    public override Expression<Func<Entity, bool>> AsExpression()
+    {
+        return entity => entity.Number == Value;
+    }
+}
+
+var isFiveSpecification = new IsValueSpecification().Set(5);
+```
+
+**By static New method:**
 ```csharp
 var isFiveSpecification = Specification<Entity>.New(entity => entity.Number == 5);
 // Or by alias
@@ -33,22 +46,12 @@ var isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 
 ### Example
 ```csharp
-public class SampleService
+public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync()
 {
-    private readonly ISampleRepository _sampleRepository;
+    var specification = new IsValueSpecification().Set(5) // Dynamic
+        .Or(new IsSixSpecification()); // Static
 
-    public SampleService(ISampleRepository sampleRepository)
-    {
-        _sampleRepository = sampleRepository;
-    }
-
-    public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync()
-    {
-        var specification = new IsFiveSpecification()
-            .Or(new IsSixSpecification());
-
-        return await _sampleRepository.GetAsync(specification);
-    }
+    return await _sampleRepository.GetAsync(specification);
 }
 ```
 <br/>
@@ -108,7 +111,7 @@ public class DescNumberOrderSpecification : OrderSpecification<Entity, int>
 var descNumberOrderSpecification = new DescNumberOrderSpecification();
 ```
 
-**By default constructor:**
+**By static New method:**
 ```csharp
 var descNumberOrderSpecification = OrderSpecification<Entity, int>.New(entity => entity.Number, Sort.Descending);
 // Or by alias
@@ -118,22 +121,12 @@ var descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.N
 
 ## Example
 ```csharp
-public class SampleService
+public async Task<List<Entity>> GetAsync()
 {
-    private readonly ISampleRepository _sampleRepository;
+    var specification = new DescNumberOrderSpecification()
+        .ThenBy(new OtherNumberOrderSpecification());
 
-    public SampleService(ISampleRepository sampleRepository)
-    {
-        _sampleRepository = sampleRepository;
-    }
-
-    public async Task<List<Entity>> GetAsync()
-    {
-        var specification = new DescNumberOrderSpecification()
-            .ThenBy(new OtherNumberOrderSpecification());
-
-        return await _sampleRepository.GetAsync(specification);
-    }
+    return await _sampleRepository.GetAsync(specification);
 }
 ```
 <br/>
