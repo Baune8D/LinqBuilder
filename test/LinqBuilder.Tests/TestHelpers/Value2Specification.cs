@@ -3,18 +3,11 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Tests.TestHelpers
 {
-    public class Value2Specification : Specification<Entity>
+    public class Value2Specification : DynamicSpecification<Entity, int>
     {
-        private readonly int _value;
-
-        public Value2Specification(int value)
-        {
-            _value = value;
-        }
-
         public override Expression<Func<Entity, bool>> AsExpression()
         {
-            return entity => entity.Value2 == _value;
+            return entity => entity.Value2 == Value;
         }
     }
 }

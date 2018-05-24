@@ -20,8 +20,14 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Use_Specification_ShouldBeSameClass()
         {
-            var specification = new Value1Specification(1);
-            specification.AsInterface().ShouldBe(specification);
+            var specification = new Value1Specification().Set(1);
+            specification.ShouldBe(specification);
+        }
+
+        [Fact]
+        public void Specification_AsInterface_ShouldBeInterface()
+        {
+            new Specification<Entity>().AsInterface().ShouldBeAssignableTo<ISpecification<Entity>>();
         }
 
         [Fact]
@@ -41,7 +47,7 @@ namespace LinqBuilder.Tests
         {
             const int value = 3;
 
-            var result = new Value1Specification(value).Invoke(_fixture.Query);
+            var result = new Value1Specification().Set(value).Invoke(_fixture.Query);
 
             result.ShouldBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == value);
@@ -52,7 +58,7 @@ namespace LinqBuilder.Tests
         {
             const int value = 3;
 
-            var result = new Value1Specification(value).Invoke(_fixture.Collection);
+            var result = new Value1Specification().Set(value).Invoke(_fixture.Collection);
 
             result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == value);
@@ -62,7 +68,7 @@ namespace LinqBuilder.Tests
         [ClassData(typeof(TestData))]
         public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
-            new Value1Specification(3)
+            new Value1Specification().Set(3)
                 .IsSatisfiedBy(entity)
                 .ShouldBe(expected);
         }

@@ -10,8 +10,8 @@ namespace LinqBuilder.Tests
         [ClassData(typeof(TestData))]
         public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
-            new Value1Specification(3)
-                .Or(new Value1Specification(5))
+            new Value1Specification().Set(3)
+                .Or(new Value1Specification().Set(5))
                 .IsSatisfiedBy(entity)
                 .ShouldBe(expected);
         }

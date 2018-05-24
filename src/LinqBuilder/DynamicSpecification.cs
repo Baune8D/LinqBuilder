@@ -1,6 +1,9 @@
-﻿namespace LinqBuilder
+﻿using System;
+using System.Linq.Expressions;
+
+namespace LinqBuilder
 {
-    public class DynamicSpecification<TEntity, TValue> : BaseSpecification<TEntity>
+    public abstract class DynamicSpecification<TEntity, TValue> : BaseSpecification<TEntity>
         where TEntity : class
     {
         public TValue Value { get; private set; }
@@ -10,9 +13,11 @@
             Value = value;
             return this;
         }
+
+        public abstract override Expression<Func<TEntity, bool>> AsExpression();
     }
 
-    public class DynamicSpecification<TEntity, TValue1, TValue2> : BaseSpecification<TEntity>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2> : BaseSpecification<TEntity>
         where TEntity : class
     {
         public TValue1 Value1 { get; private set; }
@@ -24,9 +29,11 @@
             Value2 = value2;
             return this;
         }
+
+        public abstract override Expression<Func<TEntity, bool>> AsExpression();
     }
 
-    public class DynamicSpecification<TEntity, TValue1, TValue2, TValue3> : DynamicSpecification<TEntity, TValue1, TValue2>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3> : DynamicSpecification<TEntity, TValue1, TValue2>
         where TEntity : class
     {
         public TValue3 Value3 { get; private set; }
@@ -39,7 +46,7 @@
         }
     }
 
-    public class DynamicSpecification<TEntity, TValue1, TValue2, TValue3, TValue4> : DynamicSpecification<TEntity, TValue1, TValue2, TValue3>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3, TValue4> : DynamicSpecification<TEntity, TValue1, TValue2, TValue3>
         where TEntity : class
     {
         public TValue4 Value4 { get; private set; }

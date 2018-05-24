@@ -23,7 +23,7 @@ namespace LinqBuilder.Tests
         {
             const int value = 3;
 
-            var result = _fixture.Query.Where(new Value1Specification(value));
+            var result = _fixture.Query.Where(new Value1Specification().Set(value));
 
             result.ShouldBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == value);
@@ -40,7 +40,7 @@ namespace LinqBuilder.Tests
         {
             const int value = 3;
 
-            var result = _fixture.Collection.Where(new Value1Specification(value));
+            var result = _fixture.Collection.Where(new Value1Specification().Set(value));
 
             result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == value);
@@ -55,13 +55,13 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Any_IQueryable_ShouldBeTrue()
         {
-            _fixture.Query.Any(new Value1Specification(3)).ShouldBeTrue();
+            _fixture.Query.Any(new Value1Specification().Set(3)).ShouldBeTrue();
         }
 
         [Fact]
         public void Any_IQueryable_ShouldBeFalse()
         {
-            _fixture.Query.Any(new Value1Specification(4)).ShouldBeFalse();
+            _fixture.Query.Any(new Value1Specification().Set(4)).ShouldBeFalse();
         }
 
         [Fact]
@@ -73,13 +73,13 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Any_IEnumerable_ShouldBeTrue()
         {
-            _fixture.Collection.Any(new Value1Specification(3)).ShouldBeTrue();
+            _fixture.Collection.Any(new Value1Specification().Set(3)).ShouldBeTrue();
         }
 
         [Fact]
         public void Any_IEnumerable_ShouldBeFalse()
         {
-            _fixture.Collection.Any(new Value1Specification(4)).ShouldBeFalse();
+            _fixture.Collection.Any(new Value1Specification().Set(4)).ShouldBeFalse();
         }
 
         [Fact]
@@ -91,13 +91,13 @@ namespace LinqBuilder.Tests
         [Fact]
         public void All_IQueryable_ShouldBeTrue()
         {
-            _fixture.Query.All(new Value2Specification(1)).ShouldBeTrue();
+            _fixture.Query.All(new Value2Specification().Set(1)).ShouldBeTrue();
         }
 
         [Fact]
         public void All_IQueryable_ShouldBeFalse()
         {
-            _fixture.Query.All(new Value1Specification(3)).ShouldBeFalse();
+            _fixture.Query.All(new Value1Specification().Set(3)).ShouldBeFalse();
         }
 
         [Fact]
@@ -109,13 +109,13 @@ namespace LinqBuilder.Tests
         [Fact]
         public void All_IEnumerable_ShouldBeTrue()
         {
-            _fixture.Collection.All(new Value2Specification(1)).ShouldBeTrue();
+            _fixture.Collection.All(new Value2Specification().Set(1)).ShouldBeTrue();
         }
 
         [Fact]
         public void All_IEnumerable_ShouldBeFalse()
         {
-            _fixture.Collection.All(new Value1Specification(3)).ShouldBeFalse();
+            _fixture.Collection.All(new Value1Specification().Set(3)).ShouldBeFalse();
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Count_IQueryable_ShouldBeFilteredCount()
         {
-            _fixture.Query.Count(new Value1Specification(3)).ShouldBe(2);
+            _fixture.Query.Count(new Value1Specification().Set(3)).ShouldBe(2);
         }
 
         [Fact]
@@ -139,7 +139,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Count_IEnumerable_ShouldBeFilteredCount()
         {
-            _fixture.Collection.Count(new Value1Specification(3)).ShouldBe(2);
+            _fixture.Collection.Count(new Value1Specification().Set(3)).ShouldBe(2);
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void First_IQueryable_ShouldBeStoreEntity()
         {
-            _fixture.Query.First(new Value1Specification(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Query.First(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void First_IEnumerable_ShouldBeStoreEntity()
         {
-            _fixture.Collection.First(new Value1Specification(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Collection.First(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
@@ -175,7 +175,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void FirstOrDefault_IQueryable_ShouldBeStoreEntity()
         {
-            _fixture.Query.FirstOrDefault(new Value1Specification(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Query.FirstOrDefault(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void FirstOrDefault_IEnumerable_ShouldBeStoreEntity()
         {
-            _fixture.Collection.FirstOrDefault(new Value1Specification(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Collection.FirstOrDefault(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
@@ -199,7 +199,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Single_IQueryable_ShouldBeStoreEntity()
         {
-            _fixture.Query.Single(new Value1Specification(1)).ShouldBe(_fixture.Store[2]);
+            _fixture.Query.Single(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
@@ -211,7 +211,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Single_IEnumerable_ShouldBeStoreEntity()
         {
-            _fixture.Collection.Single(new Value1Specification(1)).ShouldBe(_fixture.Store[2]);
+            _fixture.Collection.Single(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
@@ -223,7 +223,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void SingleOrDefault_IQueryable_ShouldBeStoreEntity()
         {
-            _fixture.Query.SingleOrDefault(new Value1Specification(1)).ShouldBe(_fixture.Store[2]);
+            _fixture.Query.SingleOrDefault(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
@@ -235,7 +235,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void SingleOrDefault_IEnumerable_ShouldBeStoreEntity()
         {
-            _fixture.Collection.SingleOrDefault(new Value1Specification(1)).ShouldBe(_fixture.Store[2]);
+            _fixture.Collection.SingleOrDefault(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]

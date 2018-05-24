@@ -4,14 +4,13 @@ using Xunit;
 
 namespace LinqBuilder.Tests
 {
-    public class NotSpecificationTests
+    public class DynamicSpecificationTests
     {
         [Theory]
         [ClassData(typeof(TestData))]
         public void IsSatisfiedBy_Theory(Entity entity, bool expected)
         {
-            new Value1Specification().Set(5)
-                .Not()
+            new MultipleValueSpecification().Set(3, 5, 4, 2)
                 .IsSatisfiedBy(entity)
                 .ShouldBe(expected);
         }
@@ -20,8 +19,8 @@ namespace LinqBuilder.Tests
         {
             public TestData()
             {
-                AddEntity(3, 1, true);
-                AddEntity(5, 1, false);
+                AddEntity(3, 5, 4, 2, true);
+                AddEntity(3, 4, 4, 2, false);
             }
         }
     }
