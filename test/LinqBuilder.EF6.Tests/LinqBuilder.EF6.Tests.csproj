@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="Shouldly" Version="3.0.0" />
     <PackageReference Include="SQLite.CodeFirst" Version="1.5.1.25" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.108" />
