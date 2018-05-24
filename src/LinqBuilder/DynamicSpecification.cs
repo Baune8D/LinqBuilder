@@ -1,6 +1,6 @@
 ﻿namespace LinqBuilder
 {
-    public class DynamicSpecification<TEntity, TValue> : Specification<TEntity>
+    public class DynamicSpecification<TEntity, TValue> : BaseSpecification<TEntity>
         where TEntity : class
     {
         public TValue Value { get; private set; }
@@ -12,7 +12,7 @@
         }
     }
 
-    public class DynamicSpecification<TEntity, TValue1, TValue2> : Specification<TEntity>
+    public class DynamicSpecification<TEntity, TValue1, TValue2> : BaseSpecification<TEntity>
         where TEntity : class
     {
         public TValue1 Value1 { get; private set; }
