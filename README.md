@@ -46,12 +46,12 @@ var isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 
 ### Example
 ```csharp
-public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync()
+public List<Entity> GetEntitiesWithNumberFiveOrSix()
 {
-    var specification = new IsValueSpecification().Set(5) // Dynamic
-        .Or(new IsSixSpecification()); // Static
+    var specification = new IsValueSpecification().Set(5) // Dynamic specification
+        .Or(new IsSixSpecification()); // Static specification
 
-    return await _sampleRepository.GetAsync(specification);
+    return _sampleRepository.Get(specification);
 }
 ```
 <br/>
@@ -121,12 +121,12 @@ var descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.N
 
 ## Example
 ```csharp
-public async Task<List<Entity>> GetAsync()
+public List<Entity> Get()
 {
     var specification = new DescNumberOrderSpecification()
         .ThenBy(new OtherNumberOrderSpecification());
 
-    return await _sampleRepository.GetAsync(specification);
+    return _sampleRepository.Get(specification);
 }
 ```
 <br/>
@@ -173,17 +173,40 @@ IOrderedSpecification<Entity> specification = new IsFiveSpecification()
 
 IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
 ```
+**Note** that chained specifications will not work with the regular LINQ extensions.  
+Use the "ExeQuery" extension instead.
+
+Chained OrderSpecifications can also be attatched to a specification later.
 ```csharp
-IOrderedSpecification<Entity> ordering = new DescNumberOrderSpecification();
-    .Paginate(1, 10);
+IOrderedSpecification<Entity> orderSpecification = new DescNumberOrderSpecification();
+    .ThenBy(new OtherNumberOrderSpecification());
 
 IOrderedSpecification<Entity> specification = new IsFiveSpecification()
-    .UseOrdering(ordering);
-
-IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
+    .UseOrdering(orderSpecification);
 ```
-**Note** that chained specifications will not work with the regular LINQ extensions.  
-We have to use the "ExeQuery" extension instead.
+
+The following extensions help with differentiate regular specifications from ordered specifications.
+```csharp
+ISpecificationQuery<Entity> specification = new IsFiveSpecification();
+specification.IsOrdered(); // Returns false
+specification.AsOrdered(); // Returns null
+
+ISpecificationQuery<Entity> specification = specification
+    .OrderBy(new DescNumberOrderSpecification());
+specification.IsOrdered(); // Returns true
+specification.AsOrdered(); // Returns IOrderedSpecification<Entity>
+```
+<br/>
+
+### Methods
+```csharp
+new DescNumberOrderSpecification();
+    .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
+
+new DescNumberOrderSpecification()
+    .ThenBy(new OtherNumberOrderSpecification())
+    .GetOrdering(); // Returns object containing ordering configuration
+```
 <br/>
 
 ## LinqBuilder.EF6
@@ -219,26 +242,25 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ```csharp
 public class SampleService
 {
-    private readonly ISampleRepository _sampleRepository;
+    private readonly SampleRepository _sampleRepository;
 
-    public SampleService(ISampleRepository sampleRepository)
+    public SampleService(SampleRepository sampleRepository)
     {
         _sampleRepository = sampleRepository;
     }
 
-    public async Task<List<Entity>> GetEntitiesWithNumberFiveOrSixAsync(int skip = 0, int take = int.MaxValue)
+    public List<Entity> GetEntitiesWithNumberFiveOrSix(int pageNumber = 1, int pageSize = 10)
     {
         var filter = new IsFiveSpecification()
             .Or(new IsSixSpecification())
             .OrderBy(new NumberOrderSpecification())
-            .Skip(skip)
-            .Take(take);
+            .Paginate(pageNumber, pageSize);
 
-        return await _sampleRepository.GetAsync(filter);
+        return _sampleRepository.Get(filter);
     }
 }
 
-public class SampleRepository : ISampleRepository
+public class SampleRepository
 {
     private readonly SampleDbContext _context;
 
@@ -247,9 +269,9 @@ public class SampleRepository : ISampleRepository
         _context = context;
     }
 
-    public async Task<List<Entity>> GetAsync(ISpecificationQuery<Entity> query)
+    public List<Entity> Get(ISpecificationQuery<Entity> query)
     {
-        return await _context.Entities.ExeQuery(query).ToListAsync();
+        return _context.Entities.ExeQuery(query).ToList();
     }
 }
 ```
