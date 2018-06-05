@@ -93,7 +93,7 @@ Task("Test")
 		settings.WithFilter(filter);
 	}
 
-	var parameters = $"--fx-version 2.0.6 -nobuild -configuration {configuration}";
+	var parameters = $"--fx-version 2.0.7 -nobuild -configuration {configuration}";
 
 	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
 	{
@@ -180,6 +180,12 @@ Task("NuGet-Push")
 				{
 					Source = "https://www.myget.org/F/baunegaard/api/v2/package",
 					ApiKey = EnvironmentVariable("MYGET_API_KEY")
+				});
+
+				NuGetPush(file, new NuGetPushSettings 
+				{
+					Source = "https://api.nuget.org/v3/index.json",
+					ApiKey = EnvironmentVariable("NUGET_API_KEY")
 				});
 			}
 		}
