@@ -43,6 +43,66 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void All_Specifications_ShouldReturnTrue()
+        {
+            Specification<Entity>.All(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+        }
+
+        [Fact]
+        public void All_Specifications_ShouldReturnFalse()
+        {
+            Specification<Entity>.All(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+        }
+
+        [Fact]
+        public void None_Specifications_ShouldReturnTrue()
+        {
+            Specification<Entity>.None(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
+        }
+
+        [Fact]
+        public void None_Specifications_ShouldReturnFalse()
+        {
+            Specification<Entity>.None(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+        }
+
+        [Fact]
+        public void Any_Specifications_ShouldReturnTrue()
+        {
+            Specification<Entity>.Any(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+        }
+
+        [Fact]
+        public void Any_Specifications_ShouldReturnFalse()
+        {
+            Specification<Entity>.Any(
+                new Value1Specification().Set(1),
+                new Value2Specification().Set(2)
+            )
+            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
+        }
+
+        [Fact]
         public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
         {
             const int value = 3;
