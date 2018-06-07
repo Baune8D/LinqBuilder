@@ -52,7 +52,7 @@ public List<Entity> GetEntitiesWithNumberFiveOrSix()
     var specification = new IsValueSpecification().Set(5) // Dynamic specification
         .Or(new IsSixSpecification()); // Static specification
 
-    return _sampleRepository.Get(specification);
+    return _context.Entities.Where(specification).ToList();
 }
 ```
 <br/>
@@ -92,6 +92,25 @@ Entity result = _sampleContext.Entities.SingleOrDefault(specification);
 ```
 <br/>
 
+### Methods
+```csharp
+ISpecification<Entity> specification = Spec<Entity>.All(
+    new SomeSpecification(),
+    new SomeOtherSpecification();
+);
+
+ISpecification<Entity> specification = Spec<Entity>.None(
+    new SomeSpecification(),
+    new SomeOtherSpecification();
+);
+
+ISpecification<Entity> specification = Spec<Entity>.Any(
+    new SomeSpecification(),
+    new SomeOtherSpecification();
+);
+```
+<br/>
+
 ## LinqBuilder.OrderBy
 
 ### Usage
@@ -127,7 +146,7 @@ public List<Entity> Get()
     var specification = new DescNumberOrderSpecification()
         .ThenBy(new OtherNumberOrderSpecification());
 
-    return _sampleRepository.Get(specification);
+    return _context.Entities.ExeQuery(specification).ToList();
 }
 ```
 <br/>
@@ -204,8 +223,7 @@ specification.AsOrdered(); // Returns IOrderedSpecification<Entity>
 new DescNumberOrderSpecification();
     .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
 
-new DescNumberOrderSpecification()
-    .ThenBy(new OtherNumberOrderSpecification())
+IOrderedSpecification<Entity> specification
     .GetOrdering(); // Returns object containing ordering configuration
 ```
 <br/>
@@ -243,36 +261,35 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ```csharp
 public class SampleService
 {
-    private readonly SampleRepository _sampleRepository;
+    private readonly _context = context;
 
-    public SampleService(SampleRepository sampleRepository)
-    {
-        _sampleRepository = sampleRepository;
-    }
-
-    public List<Entity> GetEntitiesWithNumberFiveOrSix(int pageNumber = 1, int pageSize = 10)
-    {
-        var filter = new IsFiveSpecification()
-            .Or(new IsSixSpecification())
-            .OrderBy(new NumberOrderSpecification())
-            .Paginate(pageNumber, pageSize);
-
-        return _sampleRepository.Get(filter);
-    }
-}
-
-public class SampleRepository
-{
-    private readonly SampleDbContext _context;
-
-    public SampleRepository(SampleDbContext context)
+    public SampleService(SampleDbContext context)
     {
         _context = context;
     }
 
-    public List<Entity> Get(ISpecificationQuery<Entity> query)
+    public int Count(ISpecification<Entity> specification)
     {
-        return _context.Entities.ExeQuery(query).ToList();
+        return _context.Entities.Count(specification);
+    }
+
+    public List<Entity> Get(ISpecificationQuery<Entity> specification)
+    {
+        return _context.Entities.ExeQuery(specification).ToList();
+    }
+
+    public (List<Entity> items, int count) GetAndCount(IOrderedSpecification<Entity> specification)
+    {
+        return (Get(specification), Count(specification.GetSpecification()));
     }
 }
+
+var specification = new SomeValueSpecification()
+    .And(new SomeOtherValueSpecification())
+    .OrderBy(new IdOrderSpecification())
+    .Paginate(1, 10);
+
+var result = _sampleService.GetAndCount(specification);
+// result.items = Paginated list of items
+// result.count = Total unpaginated result count
 ```
