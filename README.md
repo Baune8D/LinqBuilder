@@ -6,7 +6,7 @@
 **Dev feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
 **Build feed:** [https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227](https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227)
 
-# Table of Contents
+## Table of Contents
 1. [LinqBuilder](#linqbuilder)
 2. [LinqBuilder.OrderBy](#linqbuilder.orderby)
 3. [LinqBuilder.EF6](#linqbuilder.ef6)
