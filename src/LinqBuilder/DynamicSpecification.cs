@@ -8,6 +8,13 @@ namespace LinqBuilder
     {
         public TValue Value { get; private set; }
 
+        protected DynamicSpecification() { }
+
+        protected DynamicSpecification(TValue value)
+        {
+            Set(value);
+        }
+
         public ISpecification<TEntity> Set(TValue value)
         {
             Value = value;
@@ -22,6 +29,13 @@ namespace LinqBuilder
     {
         public TValue1 Value1 { get; private set; }
         public TValue2 Value2 { get; private set; }
+
+        protected DynamicSpecification() { }
+
+        protected DynamicSpecification(TValue1 value1, TValue2 value2)
+        {
+            Set(value1, value2);
+        }
 
         public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2)
         {
@@ -38,6 +52,13 @@ namespace LinqBuilder
     {
         public TValue3 Value3 { get; private set; }
 
+        protected DynamicSpecification() { }
+
+        protected DynamicSpecification(TValue1 value1, TValue2 value2, TValue3 value3) : base(value1, value2)
+        {
+            Value3 = value3;
+        }
+
         public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2, TValue3 value3)
         {
             Set(value1, value2);
@@ -50,6 +71,13 @@ namespace LinqBuilder
         where TEntity : class
     {
         public TValue4 Value4 { get; private set; }
+
+        protected DynamicSpecification() { }
+
+        protected DynamicSpecification(TValue1 value1, TValue2 value2, TValue3 value3, TValue4 value4) : base(value1, value2, value3)
+        {
+            Value4 = value4;
+        }
 
         public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2, TValue3 value3, TValue4 value4)
         {
