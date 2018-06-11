@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
 [![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
 
-**Available on NuGet**  
+**Available on NuGet:** [https://www.nuget.org/packages?q=linqbuilder](https://www.nuget.org/packages?q=linqbuilder)  
 **Dev feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
 **Build feed:** [https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227](https://ci.appveyor.com/nuget/linqbuilder-uwyim2pji227)
 
@@ -227,6 +227,12 @@ specification.AsOrdered(); // Returns IOrderedSpecification<Entity>
 
 ### Methods
 ```csharp
+new DescNumberOrderSpecification();
+    .Take(10);
+
+new DescNumberOrderSpecification();
+    .Skip(5);
+
 new DescNumberOrderSpecification();
     .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
 
