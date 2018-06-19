@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using LinqBuilder.Core;
 using LinqBuilder.EF6.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -8,6 +9,11 @@ namespace LinqBuilder.EF6.Tests
 {
     public class EntityFrameworkTests : IDisposable
     {
+        private readonly IQuerySpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly IQuerySpecification<Entity> _value1ShouldBe2 = Spec<Entity>.New(entity => entity.Value1 == 2);
+        private readonly IQuerySpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
+        private readonly IQuerySpecification<Entity> _value2ShouldBe3 = Spec<Entity>.New(entity => entity.Value2 == 3);
+
         private readonly DbFixture _dbFixture;
 
         public EntityFrameworkTests()
@@ -22,10 +28,8 @@ namespace LinqBuilder.EF6.Tests
         [Fact]
         public async Task AnyAsync_Specification_ShouldBeTrue()
         {
-            var specifiction = new Value1Specification(1);
-
             var result = await _dbFixture.Context.Entities
-                .AnyAsync(specifiction);
+                .AnyAsync(_value1ShouldBe1);
 
             result.ShouldBeTrue();
         }
@@ -33,27 +37,17 @@ namespace LinqBuilder.EF6.Tests
         [Fact]
         public async Task AnyAsync_Specification_ShouldBeFalse()
         {
-            var specifiction = new Value1Specification(4);
-
             var result = await _dbFixture.Context.Entities
-                .AnyAsync(specifiction);
+                .AnyAsync(_value1ShouldBe4);
 
             result.ShouldBeFalse();
         }
 
         [Fact]
-        public async Task AnyAsync_Null_ShouldThrowArgumentNullException()
-        {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.AnyAsync(null));
-        }
-        
-        [Fact]
         public async Task AllAsync_Specification_ShouldBeTrue()
         {
-            var specifiction = new Value2Specification(3);
-
             var result = await _dbFixture.Context.Entities
-                .AllAsync(specifiction);
+                .AllAsync(_value2ShouldBe3);
 
             result.ShouldBeTrue();
         }
@@ -61,103 +55,55 @@ namespace LinqBuilder.EF6.Tests
         [Fact]
         public async Task AllAsync_Specification_ShouldBeFalse()
         {
-            var specifiction = new Value1Specification(1);
-
             var result = await _dbFixture.Context.Entities
-                .AllAsync(specifiction);
+                .AllAsync(_value1ShouldBe1);
 
             result.ShouldBeFalse();
         }
 
         [Fact]
-        public async Task AllAsync_Null_ShouldThrowArgumentNullException()
-        {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.AllAsync(null));
-        }
-
-        [Fact]
         public async Task CountAsync_Specification_ShouldBeTrue()
         {
-            var specifiction = new Value1Specification(1);
-
             var result = await _dbFixture.Context.Entities
-                .CountAsync(specifiction);
+                .CountAsync(_value1ShouldBe1);
 
             result.ShouldBe(2);
         }
 
         [Fact]
-        public async Task CountAsync_Null_ShouldThrowArgumentNullException()
+        public async Task FirstAsync_Specification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.CountAsync(null));
-        }
-
-        [Fact]
-        public async Task FirstAsync_Specification_ShouldReturnDbEntity()
-        {
-            var specifiction = new Value1Specification(1);
-
             var result = await _dbFixture.Context.Entities
-                .FirstAsync(specifiction);
+                .FirstAsync(_value1ShouldBe1);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(2));
         }
 
         [Fact]
-        public async Task FirstAsync_Null_ShouldThrowArgumentNullException()
+        public async Task FirstOrDefaultAsync_Specification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.FirstAsync(null));
-        }
-
-        [Fact]
-        public async Task FirstOrDefaultAsync_Specification_ShouldReturnDbEntity()
-        {
-            var specifiction = new Value1Specification(1);
-
             var result = await _dbFixture.Context.Entities
-                .FirstOrDefaultAsync(specifiction);
+                .FirstOrDefaultAsync(_value1ShouldBe1);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(2));
         }
 
         [Fact]
-        public async Task FirstOrDefaultAsync_Null_ShouldThrowArgumentNullException()
+        public async Task SingleAsync_Specification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.FirstOrDefaultAsync(null));
-        }
-
-        [Fact]
-        public async Task SingleAsync_Specification_ShouldReturnDbEntity()
-        {
-            var specifiction = new Value1Specification(2);
-
             var result = await _dbFixture.Context.Entities
-                .SingleAsync(specifiction);
+                .SingleAsync(_value1ShouldBe2);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(1));
         }
 
         [Fact]
-        public async Task SingleAsync_Null_ShouldThrowArgumentNullException()
+        public async Task SingleOrDefaultAsync_Specification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.SingleAsync(null));
-        }
-
-        [Fact]
-        public async Task SingleOrDefaultAsync_Specification_ShouldReturnDbEntity()
-        {
-            var specifiction = new Value1Specification(2);
-
             var result = await _dbFixture.Context.Entities
-                .SingleOrDefaultAsync(specifiction);
+                .SingleOrDefaultAsync(_value1ShouldBe2);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(1));
-        }
-
-        [Fact]
-        public async Task SingleOrDefaultAsync_Null_ShouldThrowArgumentNullException()
-        {
-            await Should.ThrowAsync<ArgumentNullException>(_dbFixture.Context.Entities.SingleOrDefaultAsync(null));
         }
 
         public void Dispose()

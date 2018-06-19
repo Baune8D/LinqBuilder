@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace LinqBuilder
+﻿namespace LinqBuilder
 {
-    public abstract class DynamicSpecification<TEntity, TValue> : BaseSpecification<TEntity>
+    public abstract class DynamicSpecification<TEntity, TValue> : QuerySpecificationBase<TEntity>, IDynamicQuerySpecification<TEntity, TValue>
         where TEntity : class
     {
         public TValue Value { get; private set; }
@@ -15,16 +12,14 @@ namespace LinqBuilder
             Set(value);
         }
 
-        public ISpecification<TEntity> Set(TValue value)
+        public IDynamicQuerySpecification<TEntity, TValue> Set(TValue value)
         {
             Value = value;
             return this;
         }
-
-        public abstract override Expression<Func<TEntity, bool>> AsExpression();
     }
 
-    public abstract class DynamicSpecification<TEntity, TValue1, TValue2> : BaseSpecification<TEntity>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2> : QuerySpecificationBase<TEntity>, IDynamicQuerySpecification<TEntity, TValue1, TValue2>
         where TEntity : class
     {
         public TValue1 Value1 { get; private set; }
@@ -37,17 +32,15 @@ namespace LinqBuilder
             Set(value1, value2);
         }
 
-        public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2)
+        public IDynamicQuerySpecification<TEntity, TValue1, TValue2> Set(TValue1 value1, TValue2 value2)
         {
             Value1 = value1;
             Value2 = value2;
             return this;
         }
-
-        public abstract override Expression<Func<TEntity, bool>> AsExpression();
     }
 
-    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3> : DynamicSpecification<TEntity, TValue1, TValue2>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3> : DynamicSpecification<TEntity, TValue1, TValue2>, IDynamicQuerySpecification<TEntity, TValue1, TValue2, TValue3>
         where TEntity : class
     {
         public TValue3 Value3 { get; private set; }
@@ -59,7 +52,7 @@ namespace LinqBuilder
             Value3 = value3;
         }
 
-        public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2, TValue3 value3)
+        public IDynamicQuerySpecification<TEntity, TValue1, TValue2, TValue3> Set(TValue1 value1, TValue2 value2, TValue3 value3)
         {
             Set(value1, value2);
             Value3 = value3;
@@ -67,7 +60,7 @@ namespace LinqBuilder
         }
     }
 
-    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3, TValue4> : DynamicSpecification<TEntity, TValue1, TValue2, TValue3>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3, TValue4> : DynamicSpecification<TEntity, TValue1, TValue2, TValue3>, IDynamicQuerySpecification<TEntity, TValue1, TValue2, TValue3, TValue4>
         where TEntity : class
     {
         public TValue4 Value4 { get; private set; }
@@ -79,7 +72,7 @@ namespace LinqBuilder
             Value4 = value4;
         }
 
-        public ISpecification<TEntity> Set(TValue1 value1, TValue2 value2, TValue3 value3, TValue4 value4)
+        public IDynamicQuerySpecification<TEntity, TValue1, TValue2, TValue3, TValue4> Set(TValue1 value1, TValue2 value2, TValue3 value3, TValue4 value4)
         {
             Set(value1, value2, value3);
             Value4 = value4;

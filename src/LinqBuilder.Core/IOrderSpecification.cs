@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqBuilder.OrderBy
+namespace LinqBuilder.Core
 {
-    public interface IOrderSpecification<TEntity> : IBaseOrderSpecification<TEntity>
+    public interface IOrderSpecification<TEntity> : ISpecification<TEntity>
+        where TEntity : class
     {
         IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
         IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);

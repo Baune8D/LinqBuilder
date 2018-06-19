@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using LinqBuilder.Core;
 using LinqBuilder.OrderBy.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -8,6 +9,11 @@ namespace LinqBuilder.OrderBy.Tests
 {
     public class SpecificationExtensionsTests
     {
+        private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly IOrderSpecification<Entity> _emptyOrderSpecification = OrderSpec<Entity, int>.New();
+        private readonly IOrderSpecification<Entity> _orderValue1Asc = OrderSpec<Entity, int>.New(entity => entity.Value1);
+        private readonly IOrderSpecification<Entity> _orderValue2Asc = OrderSpec<Entity, int>.New(entity => entity.Value2);
+
         private readonly Fixture _fixture;
 
         public SpecificationExtensionsTests()
@@ -15,87 +21,184 @@ namespace LinqBuilder.OrderBy.Tests
             _fixture = new Fixture();
             _fixture.AddToCollection(3, 1, 1);
             _fixture.AddToCollection(1, 1, 1);
+            _fixture.AddToCollection(2, 2, 1);
             _fixture.AddToCollection(2, 1, 1);
         }
 
         [Fact]
-        public void Create_EmptyConstructor_ShouldBeInterface()
+        public void OrderBy_IQueryable_ShouldReturnCorrectResult()
         {
-            OrderSpecification<Entity, int>.New().ShouldBeAssignableTo<IOrderSpecification<Entity>>();
-        }
-
-        [Fact]
-        public void Create_ExpressionSortConstructor_ShouldBeInterface()
-        {
-            OrderSpecification<Entity, int>.New(entity => 1).ShouldBeAssignableTo<IOrderSpecification<Entity>>();
-        }
-
-        [Fact]
-        public void OrderBy_IQueryable_ShouldReturnFilteredAndOrderedList()
-        {
-            var specification = new Specification<Entity>()
-                .OrderBy(new Value1OrderSpecification());
-
-            var result = specification.Invoke(_fixture.Query).ToList();
-
-            result.Count.ShouldBe(3);
+            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
+            var result = _fixture.Query.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[2].Value1.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void OrderBy_IEnumerable_ShouldReturnFilteredAndOrderedList()
+        public void OrderBy_IEnumerable_ShouldReturnCorrectResult()
         {
-            var specification = new Specification<Entity>()
-                .OrderBy(new Value1OrderSpecification());
-
-            var result = specification.Invoke(_fixture.Collection).ToList();
-
-            result.Count.ShouldBe(3);
+            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
+            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[2].Value1.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void OrderBy_Null_ShouldThrowArgumentNullException()
+        public void ThenBy_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => new Specification<Entity>().OrderBy(null));
+            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
+            var result = _fixture.Query.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void UseOrdering_IQueryable_ShouldReturnFilteredAndOrderedList()
+        public void ThenBy_IEnumerable_ShouldReturnCorrectResult()
         {
-            var ordering = new Value1OrderSpecification().Skip(1).Take(1);
+            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
+            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
+        }
 
-            var specification = new Specification<Entity>()
-                .UseOrdering(ordering);
+        [Fact]
+        public void ThenByOrdered_IQueryable_ShouldReturnCorrectResult()
+        {
+            var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
+            var result = _fixture.Query.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
+        }
 
-            var result = specification.Invoke(_fixture.Query).ToList();
+        [Fact]
+        public void ThenByOrdered_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
+            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
+        }
 
+        [Fact]
+        public void UseOrdering_IQueryable_ShouldReturnCorrectResult()
+        {
+            var ordering = _orderValue1Asc.Skip(1).Take(1);
+            var specification = _emptyOrderSpecification.UseOrdering(ordering);
+            var result = _fixture.Query.ExeQuery(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);
         }
 
         [Fact]
-        public void UseOrdering_IEnumerable_ShouldReturnFilteredAndOrderedList()
+        public void UseOrdering_IEnumerable_ShouldReturnCorrectResult()
         {
-            var ordering = new Value1OrderSpecification().Skip(1).Take(1);
-
-            var specification = new Specification<Entity>()
-                .UseOrdering(ordering);
-
-            var result = specification.Invoke(_fixture.Collection).ToList();
-
+            var ordering = _orderValue1Asc.Skip(1).Take(1);
+            var specification = _emptyOrderSpecification.UseOrdering(ordering);
+            var result = _fixture.Collection.ExeQuery(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);
         }
 
         [Fact]
-        public void UseOrdering_Null_ShouldThrowArgumentNullException()
+        public void IsOrdered_OrderedSpecification_ShouldBeTrue()
         {
-            Should.Throw<ArgumentNullException>(() => new Specification<Entity>().UseOrdering(null));
+            ISpecification<Entity> specification = _value1ShouldBe1.OrderBy(_orderValue1Asc);
+            specification
+                .IsOrdered()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void IsOrdered_Specification_ShouldBeFalse()
+        {
+            _value1ShouldBe1
+                .IsOrdered()
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void Skip_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query.ExeQuery(_orderValue1Asc.Skip(1)).ToList();
+            result.Count.ShouldBe(3);
+            result[0].Value1.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void Skip_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection.ExeQuery(_orderValue1Asc.Skip(1)).ToList();
+            result.Count.ShouldBe(3);
+            result[0].Value1.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[2].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void Take_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query.ExeQuery(_orderValue1Asc.Take(2)).ToList();
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+        }
+
+        [Fact]
+        public void Take_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection.ExeQuery(_orderValue1Asc.Take(2)).ToList();
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+        }
+
+        [Fact]
+        public void Paginate_PageNoAndSize_ShouldHaveCorrectValues()
+        {
+            var linqBuilder = _orderValue1Asc.Paginate(2, 5).GetLinqBuilder();
+            linqBuilder.OrderSpecifications.Count.ShouldBe(1);
+            linqBuilder.Skip.ShouldBe(5);
+            linqBuilder.Take.ShouldBe(5);
+        }
+
+        [Fact]
+        public void Paginate_InvalidPageNo_ShouldThrowArgumentException()
+        {
+            Should.Throw<ArgumentException>(() => _orderValue1Asc.Paginate(0, 5));
+        }
+
+        [Fact]
+        public void Paginate_InvalidPageSize_ShouldThrowArgumentException()
+        {
+            Should.Throw<ArgumentException>(() => _orderValue1Asc.Paginate(1, 0));
         }
     }
 }

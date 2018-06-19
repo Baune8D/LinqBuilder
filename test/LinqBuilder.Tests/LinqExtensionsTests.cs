@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using LinqBuilder.Core;
 using LinqBuilder.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -8,6 +8,11 @@ namespace LinqBuilder.Tests
 {
     public class LinqExtensionsTests
     {
+        private readonly IQuerySpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly IQuerySpecification<Entity> _value1ShouldBe3 = Spec<Entity>.New(entity => entity.Value1 == 3);
+        private readonly IQuerySpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
+        private readonly IQuerySpecification<Entity> _value2ShouldBe1 = Spec<Entity>.New(entity => entity.Value2 == 1);
+
         private readonly Fixture _fixture;
 
         public LinqExtensionsTests()
@@ -19,229 +24,163 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
-        public void Where_IQueryable_ShouldReturnFilteredQueryable()
+        public void Where_IQueryable_ShouldReturnCorrectResult()
         {
-            const int value = 3;
-
-            var result = _fixture.Query.Where(new Value1Specification().Set(value));
-
+            var result = _fixture.Query.Where(_value1ShouldBe3);
             result.ShouldBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == value);
+            result.ShouldAllBe(e => e.Value1 == 3);
         }
 
         [Fact]
-        public void Where_IQueryable_ShouldThrowArgumentNullException()
+        public void Where_IEnumerable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.Where(null));
-        }
-
-        [Fact]
-        public void Where_IEnumerable_ShouldReturnFilteredEnumerable()
-        {
-            const int value = 3;
-
-            var result = _fixture.Collection.Where(new Value1Specification().Set(value));
-
+            var result = _fixture.Collection.Where(_value1ShouldBe3);
             result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == value);
-        }
-
-        [Fact]
-        public void Where_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.Where(null));
+            result.ShouldAllBe(e => e.Value1 == 3);
         }
 
         [Fact]
         public void Any_IQueryable_ShouldBeTrue()
         {
-            _fixture.Query.Any(new Value1Specification().Set(3)).ShouldBeTrue();
+            _fixture.Query
+                .Any(_value1ShouldBe3)
+                .ShouldBeTrue();
         }
 
         [Fact]
         public void Any_IQueryable_ShouldBeFalse()
         {
-            _fixture.Query.Any(new Value1Specification().Set(4)).ShouldBeFalse();
-        }
-
-        [Fact]
-        public void Any_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.Any(null));
+            _fixture.Query
+                .Any(_value1ShouldBe4)
+                .ShouldBeFalse();
         }
 
         [Fact]
         public void Any_IEnumerable_ShouldBeTrue()
         {
-            _fixture.Collection.Any(new Value1Specification().Set(3)).ShouldBeTrue();
+            _fixture.Collection
+                .Any(_value1ShouldBe3)
+                .ShouldBeTrue();
         }
 
         [Fact]
         public void Any_IEnumerable_ShouldBeFalse()
         {
-            _fixture.Collection.Any(new Value1Specification().Set(4)).ShouldBeFalse();
-        }
-
-        [Fact]
-        public void Any_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.Any(null));
+            _fixture.Collection
+                .Any(_value1ShouldBe4)
+                .ShouldBeFalse();
         }
 
         [Fact]
         public void All_IQueryable_ShouldBeTrue()
         {
-            _fixture.Query.All(new Value2Specification().Set(1)).ShouldBeTrue();
+            _fixture.Query
+                .All(_value2ShouldBe1)
+                .ShouldBeTrue();
         }
 
         [Fact]
         public void All_IQueryable_ShouldBeFalse()
         {
-            _fixture.Query.All(new Value1Specification().Set(3)).ShouldBeFalse();
-        }
-
-        [Fact]
-        public void All_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.All(null));
+            _fixture.Query
+                .All(_value1ShouldBe3)
+                .ShouldBeFalse();
         }
 
         [Fact]
         public void All_IEnumerable_ShouldBeTrue()
         {
-            _fixture.Collection.All(new Value2Specification().Set(1)).ShouldBeTrue();
+            _fixture.Collection
+                .All(_value2ShouldBe1)
+                .ShouldBeTrue();
         }
 
         [Fact]
         public void All_IEnumerable_ShouldBeFalse()
         {
-            _fixture.Collection.All(new Value1Specification().Set(3)).ShouldBeFalse();
+            _fixture.Collection
+                .All(_value1ShouldBe3)
+                .ShouldBeFalse();
         }
 
         [Fact]
-        public void All_IEnumerable_ShouldThrowArgumentNullException()
+        public void Count_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.All(null));
+            _fixture.Query
+                .Count(_value1ShouldBe3)
+                .ShouldBe(2);
         }
 
         [Fact]
-        public void Count_IQueryable_ShouldBeFilteredCount()
+        public void Count_IEnumerable_ShouldReturnCorrectResult()
         {
-            _fixture.Query.Count(new Value1Specification().Set(3)).ShouldBe(2);
+            _fixture.Collection
+                .Count(_value1ShouldBe3)
+                .ShouldBe(2);
         }
 
         [Fact]
-        public void Count_IQueryable_ShouldThrowArgumentNullException()
+        public void First_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.Count(null));
+            _fixture.Query
+                .First(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
-        public void Count_IEnumerable_ShouldBeFilteredCount()
+        public void First_IEnumerable_ShouldReturnCorrectResult()
         {
-            _fixture.Collection.Count(new Value1Specification().Set(3)).ShouldBe(2);
+            _fixture.Collection
+                .First(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
-        public void Count_IEnumerable_ShouldThrowArgumentNullException()
+        public void FirstOrDefault_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.Count(null));
+            _fixture.Query
+                .FirstOrDefault(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
-        public void First_IQueryable_ShouldBeStoreEntity()
+        public void FirstOrDefault_IEnumerable_ShouldReturnCorrectResult()
         {
-            _fixture.Query.First(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Collection
+                .FirstOrDefault(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
         }
 
         [Fact]
-        public void First_IQueryable_ShouldThrowArgumentNullException()
+        public void Single_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.First(null));
+            _fixture.Query
+                .Single(_value1ShouldBe1)
+                .ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
-        public void First_IEnumerable_ShouldBeStoreEntity()
+        public void Single_IEnumerable_ShouldReturnCorrectResult()
         {
-            _fixture.Collection.First(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
+            _fixture.Collection
+                .Single(_value1ShouldBe1)
+                .ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
-        public void First_IEnumerable_ShouldThrowArgumentNullException()
+        public void SingleOrDefault_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.First(null));
+            _fixture.Query
+                .SingleOrDefault(_value1ShouldBe1)
+                .ShouldBe(_fixture.Store[2]);
         }
 
         [Fact]
-        public void FirstOrDefault_IQueryable_ShouldBeStoreEntity()
+        public void SingleOrDefault_IEnumerable_ShouldReturnCorrectResult()
         {
-            _fixture.Query.FirstOrDefault(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
-        }
-
-        [Fact]
-        public void FirstOrDefault_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.FirstOrDefault(null));
-        }
-
-        [Fact]
-        public void FirstOrDefault_IEnumerable_ShouldBeStoreEntity()
-        {
-            _fixture.Collection.FirstOrDefault(new Value1Specification().Set(3)).ShouldBe(_fixture.Store[0]);
-        }
-
-        [Fact]
-        public void FirstOrDefault_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.FirstOrDefault(null));
-        }
-
-        [Fact]
-        public void Single_IQueryable_ShouldBeStoreEntity()
-        {
-            _fixture.Query.Single(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
-        }
-
-        [Fact]
-        public void Single_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.Single(null));
-        }
-
-        [Fact]
-        public void Single_IEnumerable_ShouldBeStoreEntity()
-        {
-            _fixture.Collection.Single(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
-        }
-
-        [Fact]
-        public void Single_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.Single(null));
-        }
-
-        [Fact]
-        public void SingleOrDefault_IQueryable_ShouldBeStoreEntity()
-        {
-            _fixture.Query.SingleOrDefault(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
-        }
-
-        [Fact]
-        public void SingleOrDefault_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.SingleOrDefault(null));
-        }
-
-        [Fact]
-        public void SingleOrDefault_IEnumerable_ShouldBeStoreEntity()
-        {
-            _fixture.Collection.SingleOrDefault(new Value1Specification().Set(1)).ShouldBe(_fixture.Store[2]);
-        }
-
-        [Fact]
-        public void SingleOrDefault_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.SingleOrDefault(null));
+            _fixture.Collection
+                .SingleOrDefault(_value1ShouldBe1)
+                .ShouldBe(_fixture.Store[2]);
         }
     }
 }

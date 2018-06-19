@@ -22,7 +22,7 @@ namespace LinqBuilder.EF6.Tests
         }
 
         [Fact]
-        public async Task ExeQueryAsync_ChildSpecification_ShouldReturnCorrectList()
+        public async Task ExeQueryAsync_ChildSpecification_ShouldReturnCorrectResult()
         {
             var specifiction = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));

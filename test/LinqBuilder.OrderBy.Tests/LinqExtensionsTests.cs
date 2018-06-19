@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using LinqBuilder.Core;
 using LinqBuilder.OrderBy.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -8,6 +8,10 @@ namespace LinqBuilder.OrderBy.Tests
 {
     public class LinqExtensionsTests
     {
+        private readonly ISpecification<Entity> _value1ShouldBe2 = Spec<Entity>.New(entity => entity.Value1 == 2);
+        private readonly IOrderSpecification<Entity> _orderValue1Asc = OrderSpec<Entity, int>.New(entity => entity.Value1);
+        private readonly IOrderSpecification<Entity> _orderValue2Asc = OrderSpec<Entity, int>.New(entity => entity.Value2);
+
         private readonly Fixture _fixture;
 
         public LinqExtensionsTests()
@@ -15,123 +19,250 @@ namespace LinqBuilder.OrderBy.Tests
             _fixture = new Fixture();
             _fixture.AddToCollection(3, 1, 1);
             _fixture.AddToCollection(1, 1, 1);
+            _fixture.AddToCollection(2, 2, 1);
             _fixture.AddToCollection(2, 1, 1);
         }
 
         [Fact]
-        public void OrderBy_IQueryable_ShouldReturnOrderedList()
+        public void OrderBy_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .OrderBy(new Value1OrderSpecification())
+                .OrderBy(_orderValue1Asc)
                 .ToList();
 
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(2);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(1);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void OrderBy_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.OrderBy(null));
-        }
-
-        [Fact]
-        public void OrderBy_IEnumerable_ShouldReturnOrderedList()
+        public void OrderBy_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .OrderBy(new Value1OrderSpecification())
+                .OrderBy(_orderValue1Asc)
                 .ToList();
 
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(2);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(1);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void OrderBy_IEnumerable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.OrderBy(null));
-        }
-
-        [Fact]
-        public void ThenBy_IQueryable_ShouldReturnOrderedList()
+        public void ThenBy_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .OrderBy(e => e.Value2)
-                .ThenBy(new Value1OrderSpecification())
+                .OrderBy(_orderValue1Asc)
+                .ThenBy(_orderValue2Asc)
                 .ToList();
 
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void ThenBy_IQueryable_ShouldThrowArgumentNullException()
-        {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.OrderBy(e => 1).ThenBy(null));
-        }
-
-        [Fact]
-        public void ThenBy_IEnumerable_ShouldReturnOrderedList()
+        public void ThenBy_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .OrderBy(e => e.Value2)
-                .ThenBy(new Value1OrderSpecification())
+                .OrderBy(_orderValue1Asc)
+                .ThenBy(_orderValue2Asc)
                 .ToList();
 
+            result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void ThenBy_IEnumerable_ShouldThrowArgumentNullException()
+        public void ExeQueryNoSort_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.OrderBy(e => 1).ThenBy(null));
-        }
-
-        [Fact]
-        public void ExeQuery_IQueryable_ShouldReturnFilteredAndOrderedList()
-        {
-            var specification = new Specification<Entity>()
-                .OrderBy(new Value1OrderSpecification());
-
             var result = _fixture.Query
-                .ExeQuery(specification)
+                .ExeQuery(_value1ShouldBe2)
                 .ToList();
 
-            result[0].Value1.ShouldBe(1);
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(1);
         }
 
         [Fact]
-        public void ExeQuery_IQueryable_ShouldThrowArgumentNullException()
+        public void ExeQueryNoSort_IEnumerable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Query.ExeQuery(null));
-        }
-
-        [Fact]
-        public void ExeQuery_IEnumerable_ShouldReturnFilteredAndOrderedList()
-        {
-            var specification = new Specification<Entity>()
-                .OrderBy(new Value1OrderSpecification());
-
             var result = _fixture.Collection
-                .ExeQuery(specification)
+                .ExeQuery(_value1ShouldBe2)
                 .ToList();
 
-            result[0].Value1.ShouldBe(1);
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
             result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[1].Value2.ShouldBe(1);
         }
 
         [Fact]
-        public void ExeQuery_IEnumerable_ShouldThrowArgumentNullException()
+        public void ExeQuerySort_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<ArgumentNullException>(() => _fixture.Collection.ExeQuery(null));
+            var result = _fixture.Query
+                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc))
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(2);
+        }
+
+        [Fact]
+        public void ExeQuerySort_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection
+                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc))
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(2);
+        }
+
+        [Fact]
+        public void ExeQuerySkipSort_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query
+                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+        }
+
+        [Fact]
+        public void ExeQuerySkipSort_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection
+                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+        }
+
+        [Fact]
+        public void ExeQueryOnlySort_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query
+                .ExeQuery(_orderValue1Asc)
+                .ToList();
+
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(2);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(1);
+            result[3].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void ExeQueryOnlySort_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection
+                .ExeQuery(_orderValue1Asc)
+                .ToList();
+
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(2);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(1);
+            result[3].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void ExeQueryMultipleSort_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query
+                .ExeQuery(_orderValue1Asc.ThenBy(_orderValue2Asc))
+                .ToList();
+
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void ExeQueryMultipleSort_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection
+                .ExeQuery(_orderValue1Asc.ThenBy(_orderValue2Asc))
+                .ToList();
+
+            result.Count.ShouldBe(4);
+            result[0].Value1.ShouldBe(1);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+            result[2].Value1.ShouldBe(2);
+            result[2].Value2.ShouldBe(2);
+            result[3].Value1.ShouldBe(3);
+        }
+
+        [Fact]
+        public void ExeQuerySkipTake_IQueryable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Query
+                .ExeQuery(_orderValue1Asc.Skip(1).Take(2))
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
+        }
+
+        [Fact]
+        public void ExeQuerySkipTake_IEnumerable_ShouldReturnCorrectResult()
+        {
+            var result = _fixture.Collection
+                .ExeQuery(_orderValue1Asc.Skip(1).Take(2))
+                .ToList();
+
+            result.Count.ShouldBe(2);
+            result[0].Value1.ShouldBe(2);
+            result[0].Value2.ShouldBe(2);
+            result[1].Value1.ShouldBe(2);
+            result[1].Value2.ShouldBe(1);
         }
     }
 }

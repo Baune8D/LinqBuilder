@@ -5,6 +5,8 @@ namespace LinqBuilder.Tests.TestHelpers
 {
     public class MultipleValueSpecification1 : DynamicSpecification<Entity, int>
     {
+        public MultipleValueSpecification1() { }
+
         public MultipleValueSpecification1(int value1) : base(value1) { }
 
         public override Expression<Func<Entity, bool>> AsExpression()
@@ -15,7 +17,10 @@ namespace LinqBuilder.Tests.TestHelpers
 
     public class MultipleValueSpecification2 : DynamicSpecification<Entity, int, int>
     {
+        public MultipleValueSpecification2() { }
+
         public MultipleValueSpecification2(int value1, int value2) : base(value1, value2) { }
+
         public override Expression<Func<Entity, bool>> AsExpression()
         {
             return entity => entity.Value1 == Value1 &&
@@ -25,6 +30,8 @@ namespace LinqBuilder.Tests.TestHelpers
 
     public class MultipleValueSpecification3 : DynamicSpecification<Entity, int, int, int>
     {
+        public MultipleValueSpecification3() { }
+
         public MultipleValueSpecification3(int value1, int value2, int value3) : base(value1, value2, value3) { }
 
         public override Expression<Func<Entity, bool>> AsExpression()

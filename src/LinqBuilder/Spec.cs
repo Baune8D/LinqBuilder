@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace LinqBuilder
 {
     // Just an alias of Specification
-    public class Spec<TEntity> : Specification<TEntity>
+    public sealed class Spec<TEntity> : Specification<TEntity>
         where TEntity : class
     {
         public Spec() { }

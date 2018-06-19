@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using LinqBuilder.Core;
 using LinqBuilder.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
@@ -7,139 +7,110 @@ namespace LinqBuilder.Tests
 {
     public class SpecificationTests
     {
-        private readonly Fixture _fixture;
+        private readonly IQuerySpecification<Entity> _emptySpecification = Spec<Entity>.New();
+        private readonly IQuerySpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly IQuerySpecification<Entity> _value2ShouldBe2 = Spec<Entity>.New(entity => entity.Value2 == 2);
 
-        public SpecificationTests()
+        [Fact]
+        public void Constructor_DefaultExpression_ShouldBeTrue()
         {
-            _fixture = new Fixture();
-            _fixture.AddToCollection(3, 1);
-            _fixture.AddToCollection(3, 1);
-            _fixture.AddToCollection(1, 1);
+            _emptySpecification
+                .IsSatisfiedBy(new Entity())
+                .ShouldBeTrue();
         }
 
         [Fact]
-        public void Use_Specification_ShouldBeSameClass()
+        public void Constructor_InlineExpression_ShouldBeTrue()
         {
-            var specification = new Value1Specification().Set(1);
-            specification.ShouldBe(specification);
+            _value1ShouldBe1
+                .IsSatisfiedBy(new Entity { Value1 = 1 })
+                .ShouldBeTrue();
         }
 
         [Fact]
-        public void Specification_AsInterface_ShouldBeInterface()
+        public void Constructor_InlineExpression_ShouldBeFalse()
         {
-            new Specification<Entity>().AsInterface().ShouldBeAssignableTo<ISpecification<Entity>>();
+            _value1ShouldBe1
+                .IsSatisfiedBy(new Entity { Value1 = 2 })
+                .ShouldBeFalse();
         }
 
         [Fact]
-        public void Create_EmptyConstructor_ShouldBeInterface()
+        public void New_DefaultExpression_ShouldBeTrue()
         {
-            Specification<Entity>.New().ShouldBeAssignableTo<ISpecification<Entity>>();
+            _emptySpecification
+                .IsSatisfiedBy(new Entity())
+                .ShouldBeTrue();
         }
 
         [Fact]
-        public void Create_ExpressionConstructor_ShouldBeInterface()
+        public void New_InlineExpression_ShouldBeTrue()
         {
-            Specification<Entity>.New(entity => true).ShouldBeAssignableTo<ISpecification<Entity>>();
+            _value1ShouldBe1
+                .IsSatisfiedBy(new Entity { Value1 = 1 })
+                .ShouldBeTrue();
         }
 
         [Fact]
-        public void All_Specifications_ShouldReturnTrue()
+        public void New_InlineExpression_ShouldBeFalse()
+        {
+            _value1ShouldBe1
+                .IsSatisfiedBy(new Entity { Value1 = 2 })
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void All_Specifications_ShouldBeTrue()
         {
             Specification<Entity>.All(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
         }
 
         [Fact]
-        public void All_Specifications_ShouldReturnFalse()
+        public void All_Specifications_ShouldBeFalse()
         {
             Specification<Entity>.All(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
         }
 
         [Fact]
-        public void None_Specifications_ShouldReturnTrue()
+        public void None_Specifications_ShouldBeTrue()
         {
             Specification<Entity>.None(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
         }
 
         [Fact]
-        public void None_Specifications_ShouldReturnFalse()
+        public void None_Specifications_ShouldBeFalse()
         {
             Specification<Entity>.None(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
         }
 
         [Fact]
-        public void Any_Specifications_ShouldReturnTrue()
+        public void Any_Specifications_ShouldBeTrue()
         {
             Specification<Entity>.Any(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
         }
 
         [Fact]
-        public void Any_Specifications_ShouldReturnFalse()
+        public void Any_Specifications_ShouldBeFalse()
         {
             Specification<Entity>.Any(
-                new Value1Specification().Set(1),
-                new Value2Specification().Set(2)
-            )
-            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
-        }
-
-        [Fact]
-        public void Invoke_IQueryable_ShouldReturnFilteredQueryable()
-        {
-            const int value = 3;
-
-            var result = new Value1Specification().Set(value).Invoke(_fixture.Query);
-
-            result.ShouldBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == value);
-        }
-
-        [Fact]
-        public void Invoke_IEnumerable_ShouldReturnFilteredEnumerable()
-        {
-            const int value = 3;
-
-            var result = new Value1Specification().Set(value).Invoke(_fixture.Collection);
-
-            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == value);
-        }
-
-        [Theory]
-        [ClassData(typeof(TestData))]
-        public void IsSatisfiedBy_Theory(Entity entity, bool expected)
-        {
-            new Value1Specification().Set(3)
-                .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
-        }
-
-        private class TestData : EntityTheoryData
-        {
-            public TestData()
-            {
-                AddEntity(3, 1, true);
-                AddEntity(4, 1, false);
-            }
+                _value1ShouldBe1,
+                _value2ShouldBe2
+            ).IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
         }
     }
 }

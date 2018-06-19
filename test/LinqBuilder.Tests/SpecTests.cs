@@ -7,7 +7,7 @@ namespace LinqBuilder.Tests
     public class SpecTests
     {
         [Fact]
-        public void IsSatisfiedBy_DefaltValue()
+        public void Constructor_DefaultExpression_ShouldBeTrue()
         {
             new Spec<Entity>()
                 .IsSatisfiedBy(new Entity())
@@ -15,17 +15,15 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
-        public void IsSatisfiedBy_Expression_ShouldBeTrue()
+        public void Constructor_InlineExpression_ShouldBeTrue()
         {
-            const int value = 3;
-
-            new Spec<Entity>(entity => entity.Value1 == value)
-                .IsSatisfiedBy(new Entity { Value1 = value })
+            new Spec<Entity>(entity => entity.Value1 == 1)
+                .IsSatisfiedBy(new Entity { Value1 = 1 })
                 .ShouldBeTrue();
         }
 
         [Fact]
-        public void IsSatisfiedBy_Expression_ShouldBeFalse()
+        public void Constructor_InlineExpression_ShouldBeFalse()
         {
             new Spec<Entity>(entity => entity.Value1 == 2)
                 .IsSatisfiedBy(new Entity { Value1 = 1 })

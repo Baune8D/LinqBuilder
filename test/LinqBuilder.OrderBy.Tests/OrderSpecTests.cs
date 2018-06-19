@@ -18,36 +18,30 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
-        public void Invoke_DefaltValue()
+        public void Constructor_DefaultExpression_ShouldBeTrue()
         {
             var specification = new OrderSpec<Entity, int>();
-
-            var result = specification.Invoke(_fixture.Query).ToList();
-
+            var result = _fixture.Query.OrderBy(specification).ToList();
             result[0].Value1.ShouldBe(3);
             result[1].Value1.ShouldBe(1);
             result[2].Value1.ShouldBe(2);
         }
 
         [Fact]
-        public void Invoke_Expression_ShouldReturnOrderedList()
+        public void Constructor_InlineExpression__ShouldReturnOrderedList()
         {
             var specification = new OrderSpec<Entity, int>(entity => entity.Value1);
-
-            var result = specification.Invoke(_fixture.Query).ToList();
-
+            var result = _fixture.Query.OrderBy(specification).ToList();
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(3);
         }
 
         [Fact]
-        public void Invoke_ExpressionDescending_ShouldReturnOrderedList()
+        public void Constructor_InlineExpression_ShouldReturnOrderedList()
         {
             var specification = new OrderSpec<Entity, int>(entity => entity.Value1, Sort.Descending);
-
-            var result = specification.Invoke(_fixture.Query).ToList();
-
+            var result = _fixture.Query.OrderBy(specification).ToList();
             result[0].Value1.ShouldBe(3);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(1);

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using LinqBuilder.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinqBuilder.EFCore
@@ -9,50 +10,43 @@ namespace LinqBuilder.EFCore
         public static async Task<bool> AnyAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.AnyAsync(specification.AsExpression());
+            return await query.AnyAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<bool> AllAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.AllAsync(specification.AsExpression());
+            return await query.AllAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<int> CountAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.CountAsync(specification.AsExpression());
+            return await query.CountAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<TEntity> FirstAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.FirstAsync(specification.AsExpression());
+            return await query.FirstAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<TEntity> FirstOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.FirstOrDefaultAsync(specification.AsExpression());
+            return await query.FirstOrDefaultAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<TEntity> SingleAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.SingleAsync(specification.AsExpression());
+            return await query.SingleAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
 
         public static async Task<TEntity> SingleOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
-            Validate.Specification(specification, nameof(specification));
-            return await query.SingleOrDefaultAsync(specification.AsExpression());
+            return await query.SingleOrDefaultAsync(specification.GetLinqBuilder().QuerySpecification.AsExpression());
         }
     }
 }
