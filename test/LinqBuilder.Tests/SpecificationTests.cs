@@ -7,9 +7,9 @@ namespace LinqBuilder.Tests
 {
     public class SpecificationTests
     {
-        private readonly IQuerySpecification<Entity> _emptySpecification = Spec<Entity>.New();
-        private readonly IQuerySpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
-        private readonly IQuerySpecification<Entity> _value2ShouldBe2 = Spec<Entity>.New(entity => entity.Value2 == 2);
+        private readonly ISpecification<Entity> _emptySpecification = Spec<Entity>.New();
+        private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly ISpecification<Entity> _value2ShouldBe2 = Spec<Entity>.New(entity => entity.Value2 == 2);
 
         [Fact]
         public void Constructor_DefaultExpression_ShouldBeTrue()

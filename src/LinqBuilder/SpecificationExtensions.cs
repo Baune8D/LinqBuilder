@@ -7,17 +7,17 @@ namespace LinqBuilder
 {
     public static class SpecificationExtensions
     {
-        public static ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, IQuerySpecification<TEntity> right)
+        public static ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
-            var compositeSpecification = And(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.AsExpression());
+            var compositeSpecification = And(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.GetLinqBuilder().QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
 
-        public static ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, IQuerySpecification<TEntity> right)
+        public static ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
-            var compositeSpecification = Or(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.AsExpression());
+            var compositeSpecification = Or(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.GetLinqBuilder().QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
 

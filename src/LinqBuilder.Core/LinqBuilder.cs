@@ -17,9 +17,10 @@ namespace LinqBuilder.Core
             QuerySpecification = querySpecification;
         }
 
-        public LinqBuilder(IOrderSpecification<TEntity> orderSpecification)
+        public LinqBuilder(IQuerySpecification<TEntity> querySpecification, IOrderSpecification<TEntity> orderSpecification)
         {
             OrderSpecifications = new List<IOrderSpecification<TEntity>> {orderSpecification};
+            QuerySpecification = querySpecification;
         }
 
         public LinqBuilder<TEntity> GetLinqBuilder()

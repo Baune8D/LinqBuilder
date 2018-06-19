@@ -12,29 +12,29 @@ namespace LinqBuilder
 
         public Specification(Expression<Func<TEntity, bool>> expression) : base(expression) { }
 
-        public static IQuerySpecification<TEntity> New()
+        public static ISpecification<TEntity> New()
         {
             return new Specification<TEntity>();
         }
 
-        public static IQuerySpecification<TEntity> New(Expression<Func<TEntity, bool>> expression)
+        public static ISpecification<TEntity> New(Expression<Func<TEntity, bool>> expression)
         {
             return new Specification<TEntity>(expression);
         }
 
-        public static ISpecification<TEntity> All(params IQuerySpecification<TEntity>[] specifications)
+        public static ISpecification<TEntity> All(params ISpecification<TEntity>[] specifications)
         {
-            return specifications.Aggregate((ISpecification<TEntity>)New(), (current, specification) => current.And(specification));
+            return specifications.Aggregate(New(), (current, specification) => current.And(specification));
         }
 
-        public static ISpecification<TEntity> None(params IQuerySpecification<TEntity>[] specifications)
+        public static ISpecification<TEntity> None(params ISpecification<TEntity>[] specifications)
         {
-            return specifications.Aggregate((ISpecification<TEntity>)New(), (current, specification) => current.And(specification)).Not();
+            return specifications.Aggregate(New(), (current, specification) => current.And(specification)).Not();
         }
 
-        public static ISpecification<TEntity> Any(params IQuerySpecification<TEntity>[] specifications)
+        public static ISpecification<TEntity> Any(params ISpecification<TEntity>[] specifications)
         {
-            return specifications.Aggregate((ISpecification<TEntity>)New(), (current, specification) => current.Or(specification));
+            return specifications.Aggregate(New(), (current, specification) => current.Or(specification));
         }
     }
 }

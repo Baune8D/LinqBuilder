@@ -24,7 +24,7 @@ namespace LinqBuilder.OrderBy
 
         public LinqBuilder<TEntity> GetLinqBuilder()
         {
-            return new LinqBuilder<TEntity>(this);
+            return new LinqBuilder<TEntity>(new Specification<TEntity>(), this);
         }
 
         public virtual Expression<Func<TEntity, TResult>> AsExpression()

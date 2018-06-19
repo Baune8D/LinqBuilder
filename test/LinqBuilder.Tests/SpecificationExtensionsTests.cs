@@ -7,9 +7,9 @@ namespace LinqBuilder.Tests
 {
     public class SpecificationExtensionsTests
     {
-        private readonly IQuerySpecification<Entity> _value1ShouldBe3 = Spec<Entity>.New(entity => entity.Value1 == 3);
-        private readonly IQuerySpecification<Entity> _value1ShouldBe5 = Spec<Entity>.New(entity => entity.Value1 == 5);
-        private readonly IQuerySpecification<Entity> _value2ShouldBe5 = Spec<Entity>.New(entity => entity.Value2 == 5);
+        private readonly ISpecification<Entity> _value1ShouldBe3 = Spec<Entity>.New(entity => entity.Value1 == 3);
+        private readonly ISpecification<Entity> _value1ShouldBe5 = Spec<Entity>.New(entity => entity.Value1 == 5);
+        private readonly ISpecification<Entity> _value2ShouldBe5 = Spec<Entity>.New(entity => entity.Value2 == 5);
 
         [Theory]
         [ClassData(typeof(TestData))]

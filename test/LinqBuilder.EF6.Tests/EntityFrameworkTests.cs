@@ -9,10 +9,10 @@ namespace LinqBuilder.EF6.Tests
 {
     public class EntityFrameworkTests : IDisposable
     {
-        private readonly IQuerySpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
-        private readonly IQuerySpecification<Entity> _value1ShouldBe2 = Spec<Entity>.New(entity => entity.Value1 == 2);
-        private readonly IQuerySpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
-        private readonly IQuerySpecification<Entity> _value2ShouldBe3 = Spec<Entity>.New(entity => entity.Value2 == 3);
+        private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
+        private readonly ISpecification<Entity> _value1ShouldBe2 = Spec<Entity>.New(entity => entity.Value1 == 2);
+        private readonly ISpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
+        private readonly ISpecification<Entity> _value2ShouldBe3 = Spec<Entity>.New(entity => entity.Value2 == 3);
 
         private readonly DbFixture _dbFixture;
 
