@@ -28,7 +28,7 @@ public class IsFiveSpecification : Specification<Entity>
     }
 }
 
-var isFiveSpecification = new IsFiveSpecification();
+ISpecification<Entity> isFiveSpecification = new IsFiveSpecification();
 ```
 
 **By extending DynamicSpecification:**
@@ -41,14 +41,14 @@ public class IsValueSpecification : DynamicSpecification<Entity, int>
     }
 }
 
-var isFiveSpecification = new IsValueSpecification().Set(5);
+ISpecification<Entity> isFiveSpecification = new IsValueSpecification().Set(5);
 ```
 
 **By static New method:**
 ```csharp
-var isFiveSpecification = Specification<Entity>.New(entity => entity.Number == 5);
+ISpecification<Entity> isFiveSpecification = Specification<Entity>.New(entity => entity.Number == 5);
 // Or by alias
-var isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
+ISpecification<Entity> isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 ```
 <br/>
 
@@ -56,7 +56,7 @@ var isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 ```csharp
 public List<Entity> GetEntitiesWithNumberFiveOrSix()
 {
-    var specification = new IsValueSpecification().Set(5) // Dynamic specification
+    ISpecification<Entity> specification = new IsValueSpecification().Set(5) // Dynamic specification
         .Or(new IsSixSpecification()); // Static specification
 
     return _context.Entities.Where(specification).ToList();
@@ -66,19 +66,16 @@ public List<Entity> GetEntitiesWithNumberFiveOrSix()
 
 ### Interfaces
 ```csharp
-public interface ISpecificationQuery<TEntity>
+public interface ISpecification<TEntity>
+    where TEntity : class
 {
-    IQueryable<TEntity> Invoke(IQueryable<TEntity> query);
-    IEnumerable<TEntity> Invoke(IEnumerable<TEntity> collection);
+    LinqBuilder<TEntity> GetLinqBuilder(); // Returns the internal configuration object
 }
 ```
 ```csharp
-public interface ISpecification<TEntity> : ISpecificationQuery<TEntity>
+public interface IQuerySpecification<TEntity> : ISpecification<TEntity>
+    where TEntity : class
 {
-    IFilterSpecification<TEntity> And(IFilterSpecification<TEntity> specification);
-    IFilterSpecification<TEntity> Or(IFilterSpecification<TEntity> specification);
-    IFilterSpecification<TEntity> Not();
-    bool IsSatisfiedBy(TEntity entity);
     Expression<Func<TEntity, bool>> AsExpression();
     Func<TEntity, bool> AsFunc();
 }
@@ -135,14 +132,14 @@ public class DescNumberOrderSpecification : OrderSpecification<Entity, int>
     }
 }
 
-var descNumberOrderSpecification = new DescNumberOrderSpecification();
+ISpecification<Entity> descNumberOrderSpecification = new DescNumberOrderSpecification();
 ```
 
 **By static New method:**
 ```csharp
-var descNumberOrderSpecification = OrderSpecification<Entity, int>.New(entity => entity.Number, Sort.Descending);
+ISpecification<Entity> descNumberOrderSpecification = OrderSpecification<Entity, int>.New(entity => entity.Number, Sort.Descending);
 // Or by alias
-var descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.Number, Sort.Descending);
+ISpecification<Entity> descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.Number, Sort.Descending);
 ```
 <br/>
 
@@ -150,7 +147,7 @@ var descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.N
 ```csharp
 public List<Entity> Get()
 {
-    var specification = new DescNumberOrderSpecification()
+    ISpecification<Entity> specification = new DescNumberOrderSpecification()
         .ThenBy(new OtherNumberOrderSpecification());
 
     return _context.Entities.ExeQuery(specification).ToList();
@@ -160,28 +157,18 @@ public List<Entity> Get()
 
 ### Interfaces
 ```csharp
-public interface IBaseOrderSpecification<TEntity> : ISpecificationQuery<TEntity>
-{
-    IOrderedSpecification<TEntity> ThenBy(IOrderSpecification<TEntity> orderSpecification);
-    IOrderedSpecification<TEntity> Skip(int count);
-    IOrderedSpecification<TEntity> Take(int count);
-    IOrderedSpecification<TEntity> Paginate(int pageNo, int pageSize);
-}
-```
-```csharp
-public interface IOrderedSpecification<TEntity> : IBaseOrderSpecification<TEntity>
-{
-    Ordering<TEntity> GetOrdering();
-}
-```
-```csharp
-public interface IOrderSpecification<TEntity> : IBaseOrderSpecification<TEntity>
+public interface IOrderSpecification<TEntity> : ISpecification<TEntity>
+    where TEntity : class
 {
     IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
     IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);
     IOrderedQueryable<TEntity> InvokeSort(IOrderedQueryable<TEntity> query);
     IOrderedEnumerable<TEntity> InvokeSort(IOrderedEnumerable<TEntity> collection);
 }
+```
+```csharp
+public interface IOrderedSpecification<TEntity> : ISpecification<TEntity>
+    where TEntity : class { } // Only exist to filter some extension methods
 ```
 <br/>
 
@@ -195,7 +182,7 @@ IOrderedQueryable<Entity> query = _sampleContext.Entities
 
 It also extends regular specifications to support chaining with order specifications.
 ```csharp
-IOrderedSpecification<Entity> specification = new IsFiveSpecification()
+ISpecification<Entity> specification = new IsFiveSpecification()
     .OrderBy(new DescNumberOrderSpecification());
 
 IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
@@ -205,39 +192,34 @@ Use the "ExeQuery" extension instead.
 
 Chained OrderSpecifications can also be attatched to a specification later.
 ```csharp
-IOrderedSpecification<Entity> orderSpecification = new DescNumberOrderSpecification();
+ISpecification<Entity> orderSpecification = new DescNumberOrderSpecification();
     .ThenBy(new OtherNumberOrderSpecification());
 
-IOrderedSpecification<Entity> specification = new IsFiveSpecification()
+ISpecification<Entity> specification = new IsFiveSpecification()
     .UseOrdering(orderSpecification);
 ```
 
 The following extensions help with differentiate regular specifications from ordered specifications.
 ```csharp
-ISpecificationQuery<Entity> specification = new IsFiveSpecification();
+ISpecification<Entity> specification = new IsFiveSpecification();
 specification.IsOrdered(); // Returns false
-specification.AsOrdered(); // Returns null
 
-ISpecificationQuery<Entity> specification = specification
+ISpecification<Entity> specification = specification
     .OrderBy(new DescNumberOrderSpecification());
 specification.IsOrdered(); // Returns true
-specification.AsOrdered(); // Returns IOrderedSpecification<Entity>
 ```
 <br/>
 
 ### Methods
 ```csharp
-new DescNumberOrderSpecification();
+ISpecification specification = new DescNumberOrderSpecification()
     .Take(10);
 
-new DescNumberOrderSpecification();
+ISpecification specification = new DescNumberOrderSpecification()
     .Skip(5);
 
-new DescNumberOrderSpecification();
+ISpecification specification = new DescNumberOrderSpecification()
     .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
-
-IOrderedSpecification<Entity> specification
-    .GetOrdering(); // Returns object containing ordering configuration
 ```
 <br/>
 
@@ -286,18 +268,18 @@ public class SampleService
         return _context.Entities.Count(specification);
     }
 
-    public List<Entity> Get(ISpecificationQuery<Entity> specification)
+    public List<Entity> Get(ISpecification<Entity> specification)
     {
         return _context.Entities.ExeQuery(specification).ToList();
     }
 
-    public (List<Entity> items, int count) GetAndCount(IOrderedSpecification<Entity> specification)
+    public (List<Entity> items, int count) GetAndCount(ISpecification<Entity> specification)
     {
-        return (Get(specification), Count(specification.GetSpecification()));
+        return (Get(specification), Count(specification));
     }
 }
 
-var specification = new SomeValueSpecification()
+ISpecification<Entity> specification = new SomeValueSpecification()
     .And(new SomeOtherValueSpecification())
     .OrderBy(new IdOrderSpecification())
     .Paginate(1, 10);
