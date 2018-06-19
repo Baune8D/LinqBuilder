@@ -19,7 +19,7 @@ var coverageResult = File("./coverage.xml");
 var artifactsFolder = Directory("./artifacts");
 var coverageFolder = Directory("./coverage");
 
-Func<IDirectory, bool> excludeFolders = fileSystemInfo => 
+Func<IFileSystemInfo, bool> excludeFolders = fileSystemInfo => 
 	!fileSystemInfo.Path.FullPath.Contains("/bin") &&
 	!fileSystemInfo.Path.FullPath.Contains("/obj");
 
@@ -160,34 +160,51 @@ Task("NuGet-Push")
     .IsDependentOn("Package")
     .Does(() =>
 {
-	if (AppVeyor.IsRunningOnAppVeyor && EnvironmentVariable("APPVEYOR_REPO_TAG") == "true")
+	if (AppVeyor.IsRunningOnAppVeyor)
 	{
-		Information("Pushing artifacts to MyGet repository");
-
-		foreach (var file in GetFiles(artifactsFolder.Path + "/*.nupkg"))
+		if (EnvironmentVariable("APPVEYOR_REPO_TAG") == "true")
 		{
-			if (file.ToString().Contains(".symbols.nupkg"))
-			{
-				NuGetPush(file, new NuGetPushSettings 
-				{
-					Source = "https://www.myget.org/F/baunegaard/symbols/api/v2/package",
-					ApiKey = EnvironmentVariable("MYGET_API_KEY")
-				});
-			}
-			else
-			{
-				NuGetPush(file, new NuGetPushSettings 
-				{
-					Source = "https://www.myget.org/F/baunegaard/api/v2/package",
-					ApiKey = EnvironmentVariable("MYGET_API_KEY")
-				});
+			Information("Pushing artifacts to NuGet repository");
 
-				NuGetPush(file, new NuGetPushSettings 
+			foreach (var file in GetFiles(artifactsFolder.Path + "/*.nupkg"))
+			{
+				if (!file.ToString().EndsWith(".symbols.nupkg"))
 				{
-					Source = "https://api.nuget.org/v3/index.json",
-					ApiKey = EnvironmentVariable("NUGET_API_KEY")
-				});
+					NuGetPush(file, new NuGetPushSettings 
+					{
+						Source = "https://www.myget.org/F/baunegaard/api/v2/package",
+						ApiKey = EnvironmentVariable("MYGET_API_KEY")
+					});
+				}
 			}
+		}
+		else if (EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
+		{
+			Information("Pushing artifacts to MyGet repository");
+
+			foreach (var file in GetFiles(artifactsFolder.Path + "/*.nupkg"))
+			{
+				if (file.ToString().EndsWith(".symbols.nupkg"))
+				{
+					NuGetPush(file, new NuGetPushSettings 
+					{
+						Source = "https://www.myget.org/F/baunegaard/symbols/api/v2/package",
+						ApiKey = EnvironmentVariable("MYGET_API_KEY")
+					});
+				}
+				else
+				{
+					NuGetPush(file, new NuGetPushSettings 
+					{
+						Source = "https://www.myget.org/F/baunegaard/api/v2/package",
+						ApiKey = EnvironmentVariable("MYGET_API_KEY")
+					});
+				}
+			}
+		}
+		else
+		{
+			Information("Nothing to do");
 		}
 	}
 	else
