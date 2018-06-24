@@ -58,9 +58,10 @@ public List<Entity> GetEntitiesWithNumberFiveOrSix()
     ISpecification<Entity> specification = new IsValueSpecification().Set(5) // Dynamic specification
         .Or(new IsSixSpecification()); // Static specification
 
-    return _context.Entities.Where(specification).ToList();
+    return _context.Entities.ExeSpec(specification).ToList();
 }
 ```
+The extension ```ExeSpec``` allows all kinds of ```ISpecification``` implementations to be executed on ```IQueryable``` and ```IEnumerable```.
 <br/>
 
 ### Interfaces
@@ -149,7 +150,7 @@ public List<Entity> Get()
     ISpecification<Entity> specification = new DescNumberOrderSpecification()
         .ThenBy(new OtherNumberOrderSpecification());
 
-    return _context.Entities.ExeQuery(specification).ToList();
+    return _context.Entities.ExeSpec(specification).ToList();
 }
 ```
 <br/>
@@ -184,10 +185,8 @@ It also extends regular specifications to support chaining with order specificat
 ISpecification<Entity> specification = new IsFiveSpecification()
     .OrderBy(new DescNumberOrderSpecification());
 
-IQueryable<Entity> query = _sampleContext.Entities.ExeQuery(specification);
+IQueryable<Entity> query = _sampleContext.Entities.ExeSpec(specification);
 ```
-**Note** that chained specifications will not work with the regular LINQ extensions.  
-Use the "ExeQuery" extension instead.
 
 Chained OrderSpecifications can also be attatched to a specification later.
 ```csharp
