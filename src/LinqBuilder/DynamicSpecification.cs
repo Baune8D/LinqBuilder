@@ -1,6 +1,6 @@
 ﻿namespace LinqBuilder
 {
-    public abstract class DynamicSpecification<TEntity, TValue> : QuerySpecificationBase<TEntity>, IDynamicSpecification<TEntity, TValue>
+    public abstract class DynamicSpecification<TEntity, TValue> : QuerySpecification<TEntity>, IDynamicSpecification<TEntity, TValue>
         where TEntity : class
     {
         public TValue Value { get; private set; }
@@ -19,7 +19,7 @@
         }
     }
 
-    public abstract class DynamicSpecification<TEntity, TValue1, TValue2> : QuerySpecificationBase<TEntity>, IDynamicSpecification<TEntity, TValue1, TValue2>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2> : QuerySpecification<TEntity>, IDynamicSpecification<TEntity, TValue1, TValue2>
         where TEntity : class
     {
         public TValue1 Value1 { get; private set; }

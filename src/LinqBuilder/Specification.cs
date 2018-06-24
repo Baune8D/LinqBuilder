@@ -5,7 +5,7 @@ using LinqBuilder.Core;
 
 namespace LinqBuilder
 {
-    public class Specification<TEntity> : QuerySpecificationBase<TEntity>
+    public class Specification<TEntity> : QuerySpecification<TEntity>
         where TEntity : class
     {
         public Specification() : this(entity => true) { }

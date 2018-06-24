@@ -4,15 +4,15 @@ using LinqBuilder.Core;
 
 namespace LinqBuilder
 {
-    public abstract class QuerySpecificationBase<TEntity> : IQuerySpecification<TEntity>
+    public abstract class QuerySpecification<TEntity> : IQuerySpecification<TEntity>
         where TEntity : class
     {
         private readonly Expression<Func<TEntity, bool>> _expression;
         private Func<TEntity, bool> _func;
 
-        protected QuerySpecificationBase() { }
+        protected QuerySpecification() { }
 
-        protected QuerySpecificationBase(Expression<Func<TEntity, bool>> expression)
+        protected QuerySpecification(Expression<Func<TEntity, bool>> expression)
         {
             _expression = expression;
         }
