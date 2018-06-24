@@ -1,9 +1,6 @@
 next-version: 0.10.0
 branches:
   master:
-    tag: beta
-  develop:
-    tag: alpha
-    increment: Patch
+    tag: build
 ignore:
   sha: []
