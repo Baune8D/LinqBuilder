@@ -126,65 +126,6 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
-        public void IsOrdered_OrderedSpecification_ShouldBeTrue()
-        {
-            ISpecification<Entity> specification = _value1ShouldBe1.OrderBy(_orderValue1Asc);
-            specification
-                .IsOrdered()
-                .ShouldBeTrue();
-        }
-
-        [Fact]
-        public void IsOrdered_Specification_ShouldBeTrue()
-        {
-            _orderValue1Asc
-                .IsOrdered()
-                .ShouldBeTrue();
-        }
-
-        [Fact]
-        public void IsOrdered_Specification_ShouldBeFalse()
-        {
-            _value1ShouldBe1
-                .IsOrdered()
-                .ShouldBeFalse();
-        }
-
-        [Fact]
-        public void HasSkip_Specification_ShouldBeTrue()
-        {
-            _value1ShouldBe1
-                .Skip(10)
-                .HasSkip()
-                .ShouldBeTrue();
-        }
-
-        [Fact]
-        public void HasSkip_Specification_ShouldBeFalse()
-        {
-            _value1ShouldBe1
-                .HasSkip()
-                .ShouldBeFalse();
-        }
-
-        [Fact]
-        public void HasTake_Specification_ShouldBeTrue()
-        {
-            _value1ShouldBe1
-                .Take(10)
-                .HasTake()
-                .ShouldBeTrue();
-        }
-
-        [Fact]
-        public void HasTake_Specification_ShouldBeFalse()
-        {
-            _value1ShouldBe1
-                .HasTake()
-                .ShouldBeFalse();
-        }
-
-        [Fact]
         public void Skip_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
@@ -241,6 +182,65 @@ namespace LinqBuilder.OrderBy.Tests
         public void Paginate_InvalidPageSize_ShouldThrowArgumentException()
         {
             Should.Throw<ArgumentException>(() => _orderValue1Asc.Paginate(1, 0));
+        }
+
+        [Fact]
+        public void IsOrdered_OrderedSpecification_ShouldBeTrue()
+        {
+            ISpecification<Entity> specification = _value1ShouldBe1.OrderBy(_orderValue1Asc);
+            specification
+                .IsOrdered()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void IsOrdered_Specification_ShouldBeTrue()
+        {
+            _orderValue1Asc
+                .IsOrdered()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void IsOrdered_Specification_ShouldBeFalse()
+        {
+            _value1ShouldBe1
+                .IsOrdered()
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void HasSkip_Specification_ShouldBeTrue()
+        {
+            _value1ShouldBe1
+                .Skip(10)
+                .HasSkip()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void HasSkip_Specification_ShouldBeFalse()
+        {
+            _value1ShouldBe1
+                .HasSkip()
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void HasTake_Specification_ShouldBeTrue()
+        {
+            _value1ShouldBe1
+                .Take(10)
+                .HasTake()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void HasTake_Specification_ShouldBeFalse()
+        {
+            _value1ShouldBe1
+                .HasTake()
+                .ShouldBeFalse();
         }
     }
 }

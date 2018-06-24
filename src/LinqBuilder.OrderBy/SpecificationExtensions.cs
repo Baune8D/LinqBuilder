@@ -35,24 +35,6 @@ namespace LinqBuilder.OrderBy
             return configuration;
         }
 
-        public static bool IsOrdered<TEntity>(this ISpecification<TEntity> specification)
-            where TEntity : class
-        {
-            return specification.Internal.OrderSpecifications.Any();
-        }
-
-        public static bool HasSkip<TEntity>(this ISpecification<TEntity> specification)
-            where TEntity : class
-        {
-            return specification.Internal.Skip != null;
-        }
-
-        public static bool HasTake<TEntity>(this ISpecification<TEntity> specification)
-            where TEntity : class
-        {
-            return specification.Internal.Take != null;
-        }
-
         public static ISpecification<TEntity> Skip<TEntity>(this ISpecification<TEntity> specification, int count)
             where TEntity : class
         {
@@ -78,6 +60,24 @@ namespace LinqBuilder.OrderBy
             configuration.Skip = (pageNo - 1) * pageSize;
             configuration.Take = pageSize;
             return configuration;
+        }
+
+        public static bool IsOrdered<TEntity>(this ISpecification<TEntity> specification)
+            where TEntity : class
+        {
+            return specification.Internal.OrderSpecifications.Any();
+        }
+
+        public static bool HasSkip<TEntity>(this ISpecification<TEntity> specification)
+            where TEntity : class
+        {
+            return specification.Internal.Skip != null;
+        }
+
+        public static bool HasTake<TEntity>(this ISpecification<TEntity> specification)
+            where TEntity : class
+        {
+            return specification.Internal.Take != null;
         }
 
         private static IOrderedSpecification<TEntity> AddOrderSpecification<TEntity>(ISpecification<TEntity> specification, IOrderSpecification<TEntity> orderSpecification)
