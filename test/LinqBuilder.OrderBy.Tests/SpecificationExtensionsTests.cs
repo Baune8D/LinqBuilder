@@ -29,7 +29,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void OrderBy_IQueryable_ShouldReturnCorrectResult()
         {
             var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
-            var result = _fixture.Query.ExeQuery(specification).ToList();
+            var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -41,7 +41,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void OrderBy_IEnumerable_ShouldReturnCorrectResult()
         {
             var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
-            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -53,7 +53,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ThenBy_IQueryable_ShouldReturnCorrectResult()
         {
             var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
-            var result = _fixture.Query.ExeQuery(specification).ToList();
+            var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -67,7 +67,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ThenBy_IEnumerable_ShouldReturnCorrectResult()
         {
             var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
-            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -81,7 +81,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ThenByOrdered_IQueryable_ShouldReturnCorrectResult()
         {
             var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
-            var result = _fixture.Query.ExeQuery(specification).ToList();
+            var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -95,7 +95,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ThenByOrdered_IEnumerable_ShouldReturnCorrectResult()
         {
             var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
-            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -110,7 +110,7 @@ namespace LinqBuilder.OrderBy.Tests
         {
             var ordering = _orderValue1Asc.Skip(1).Take(1);
             var specification = _emptyOrderSpecification.UseOrdering(ordering);
-            var result = _fixture.Query.ExeQuery(specification).ToList();
+            var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);
         }
@@ -120,7 +120,7 @@ namespace LinqBuilder.OrderBy.Tests
         {
             var ordering = _orderValue1Asc.Skip(1).Take(1);
             var specification = _emptyOrderSpecification.UseOrdering(ordering);
-            var result = _fixture.Collection.ExeQuery(specification).ToList();
+            var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);
         }
@@ -187,7 +187,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void Skip_IQueryable_ShouldReturnCorrectResult()
         {
-            var result = _fixture.Query.ExeQuery(_orderValue1Asc.Skip(1)).ToList();
+            var result = _fixture.Query.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
             result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(2);
             result[1].Value1.ShouldBe(2);
@@ -197,7 +197,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void Skip_IEnumerable_ShouldReturnCorrectResult()
         {
-            var result = _fixture.Collection.ExeQuery(_orderValue1Asc.Skip(1)).ToList();
+            var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
             result.Count.ShouldBe(3);
             result[0].Value1.ShouldBe(2);
             result[1].Value1.ShouldBe(2);
@@ -207,7 +207,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void Take_IQueryable_ShouldReturnCorrectResult()
         {
-            var result = _fixture.Query.ExeQuery(_orderValue1Asc.Take(2)).ToList();
+            var result = _fixture.Query.ExeSpec(_orderValue1Asc.Take(2)).ToList();
             result.Count.ShouldBe(2);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);
@@ -216,7 +216,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void Take_IEnumerable_ShouldReturnCorrectResult()
         {
-            var result = _fixture.Collection.ExeQuery(_orderValue1Asc.Take(2)).ToList();
+            var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Take(2)).ToList();
             result.Count.ShouldBe(2);
             result[0].Value1.ShouldBe(1);
             result[1].Value1.ShouldBe(2);

@@ -93,7 +93,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryNoSort_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_value1ShouldBe2)
+                .ExeSpec(_value1ShouldBe2)
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -107,7 +107,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryNoSort_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_value1ShouldBe2)
+                .ExeSpec(_value1ShouldBe2)
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -121,7 +121,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySort_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc))
+                .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc))
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -135,7 +135,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySort_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc))
+                .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc))
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -149,7 +149,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySkipSort_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
+                .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -163,7 +163,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySkipSort_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
+                .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -177,7 +177,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryOnlySort_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_orderValue1Asc)
+                .ExeSpec(_orderValue1Asc)
                 .ToList();
 
             result.Count.ShouldBe(4);
@@ -193,7 +193,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryOnlySort_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_orderValue1Asc)
+                .ExeSpec(_orderValue1Asc)
                 .ToList();
 
             result.Count.ShouldBe(4);
@@ -209,7 +209,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryMultipleSort_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_orderValue1Asc.ThenBy(_orderValue2Asc))
+                .ExeSpec(_orderValue1Asc.ThenBy(_orderValue2Asc))
                 .ToList();
 
             result.Count.ShouldBe(4);
@@ -225,7 +225,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQueryMultipleSort_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_orderValue1Asc.ThenBy(_orderValue2Asc))
+                .ExeSpec(_orderValue1Asc.ThenBy(_orderValue2Asc))
                 .ToList();
 
             result.Count.ShouldBe(4);
@@ -241,7 +241,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySkipTake_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query
-                .ExeQuery(_orderValue1Asc.Skip(1).Take(2))
+                .ExeSpec(_orderValue1Asc.Skip(1).Take(2))
                 .ToList();
 
             result.Count.ShouldBe(2);
@@ -255,7 +255,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void ExeQuerySkipTake_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection
-                .ExeQuery(_orderValue1Asc.Skip(1).Take(2))
+                .ExeSpec(_orderValue1Asc.Skip(1).Take(2))
                 .ToList();
 
             result.Count.ShouldBe(2);

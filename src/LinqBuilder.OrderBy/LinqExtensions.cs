@@ -30,7 +30,7 @@ namespace LinqBuilder.OrderBy
             return orderSpecification.InvokeSort(collection);
         }
 
-        public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification, bool skipSort = false)
+        public static IQueryable<TEntity> ExeSpec<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification, bool skipSort = false)
             where TEntity : class
         {
             var configuration = specification.Internal;
@@ -52,7 +52,7 @@ namespace LinqBuilder.OrderBy
             return SkipTake(ordered ?? query, configuration);
         }
 
-        public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ISpecification<TEntity> specification, bool skipSort = false)
+        public static IEnumerable<TEntity> ExeSpec<TEntity>(this IEnumerable<TEntity> collection, ISpecification<TEntity> specification, bool skipSort = false)
             where TEntity : class
         {
             var configuration = specification.Internal;

@@ -28,7 +28,7 @@ namespace LinqBuilder.EF6.Tests
                 .Or(new ChildValueSpecification(2));
             
             var result = await _dbFixture.Context.Entities
-                .ExeQuery(specifiction)
+                .ExeSpec(specifiction)
                 .ToListAsync();
 
             result.Count.ShouldBe(2);
