@@ -17,10 +17,7 @@ namespace LinqBuilder
             _expression = expression;
         }
 
-        public LinqBuilder<TEntity> GetLinqBuilder()
-        {
-            return new LinqBuilder<TEntity>(this);
-        }
+        public Configuration<TEntity> Internal => new Configuration<TEntity>(this);
 
         public virtual Expression<Func<TEntity, bool>> AsExpression()
         {

@@ -135,6 +135,14 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
+        public void IsOrdered_Specification_ShouldBeTrue()
+        {
+            _orderValue1Asc
+                .IsOrdered()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
         public void IsOrdered_Specification_ShouldBeFalse()
         {
             _value1ShouldBe1
@@ -183,10 +191,10 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void Paginate_PageNoAndSize_ShouldHaveCorrectValues()
         {
-            var linqBuilder = _orderValue1Asc.Paginate(2, 5).GetLinqBuilder();
-            linqBuilder.OrderSpecifications.Count.ShouldBe(1);
-            linqBuilder.Skip.ShouldBe(5);
-            linqBuilder.Take.ShouldBe(5);
+            var configuration = _orderValue1Asc.Paginate(2, 5).Internal;
+            configuration.OrderSpecifications.Count.ShouldBe(1);
+            configuration.Skip.ShouldBe(5);
+            configuration.Take.ShouldBe(5);
         }
 
         [Fact]

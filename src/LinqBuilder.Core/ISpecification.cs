@@ -3,6 +3,6 @@
     public interface ISpecification<TEntity>
         where TEntity : class
     {
-        LinqBuilder<TEntity> GetLinqBuilder();
+        Configuration<TEntity> Internal { get; }
     }
 }

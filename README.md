@@ -69,7 +69,7 @@ public List<Entity> GetEntitiesWithNumberFiveOrSix()
 public interface ISpecification<TEntity>
     where TEntity : class
 {
-    LinqBuilder<TEntity> GetLinqBuilder(); // Returns the internal configuration object
+    Configuration<TEntity> Internal { get; } // Returns the internal configuration object
 }
 ```
 ```csharp

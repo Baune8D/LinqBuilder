@@ -10,37 +10,37 @@ namespace LinqBuilder
         public static ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
-            var compositeSpecification = And(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.GetLinqBuilder().QuerySpecification.AsExpression());
+            var compositeSpecification = And(left.Internal.QuerySpecification.AsExpression(), right.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
 
         public static ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
-            var compositeSpecification = Or(left.GetLinqBuilder().QuerySpecification.AsExpression(), right.GetLinqBuilder().QuerySpecification.AsExpression());
+            var compositeSpecification = Or(left.Internal.QuerySpecification.AsExpression(), right.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
 
         public static ISpecification<TEntity> Not<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
-            var compositeSpecification = Not(specification.GetLinqBuilder().QuerySpecification.AsExpression());
+            var compositeSpecification = Not(specification.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(specification, compositeSpecification);
         }
 
         public static bool IsSatisfiedBy<TEntity>(this ISpecification<TEntity> specification, TEntity entity)
             where TEntity : class
         {
-            var predicate = specification.GetLinqBuilder().QuerySpecification.AsFunc();
+            var predicate = specification.Internal.QuerySpecification.AsFunc();
             return predicate(entity);
         }
 
         private static ISpecification<TEntity> SetQuerySpecification<TEntity>(ISpecification<TEntity> specification, IQuerySpecification<TEntity> querySpecification)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            linqBuilder.QuerySpecification = querySpecification;
-            return linqBuilder;
+            var configuration = specification.Internal;
+            configuration.QuerySpecification = querySpecification;
+            return configuration;
         }
 
         private static Specification<TEntity> And<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)

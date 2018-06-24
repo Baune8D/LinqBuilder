@@ -33,9 +33,9 @@ namespace LinqBuilder.OrderBy
         public static IQueryable<TEntity> ExeQuery<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification, bool skipSort = false)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            var querySpecification = linqBuilder.QuerySpecification;
-            var orderSpecifications = linqBuilder.OrderSpecifications;
+            var configuration = specification.Internal;
+            var querySpecification = configuration.QuerySpecification;
+            var orderSpecifications = configuration.OrderSpecifications;
 
             if (querySpecification != null)
             {
@@ -49,15 +49,15 @@ namespace LinqBuilder.OrderBy
                 ordered = orderSpecifications[i].InvokeSort(ordered);
             }
 
-            return SkipTake(ordered ?? query, linqBuilder);
+            return SkipTake(ordered ?? query, configuration);
         }
 
         public static IEnumerable<TEntity> ExeQuery<TEntity>(this IEnumerable<TEntity> collection, ISpecification<TEntity> specification, bool skipSort = false)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            var querySpecification = linqBuilder.QuerySpecification;
-            var orderSpecifications = linqBuilder.OrderSpecifications;
+            var configuration = specification.Internal;
+            var querySpecification = configuration.QuerySpecification;
+            var orderSpecifications = configuration.OrderSpecifications;
 
             if (querySpecification != null)
             {
@@ -71,22 +71,22 @@ namespace LinqBuilder.OrderBy
                 ordered = orderSpecifications[i].InvokeSort(ordered);
             }
 
-            return SkipTake(ordered ?? collection, linqBuilder);
+            return SkipTake(ordered ?? collection, configuration);
         }
 
-        private static IQueryable<TEntity> SkipTake<TEntity>(IQueryable<TEntity> query, LinqBuilder<TEntity> linqBuilder)
+        private static IQueryable<TEntity> SkipTake<TEntity>(IQueryable<TEntity> query, Configuration<TEntity> configuration)
             where TEntity : class
         {
-            if (linqBuilder.Skip.HasValue) query = query.Skip(linqBuilder.Skip.Value);
-            if (linqBuilder.Take.HasValue) query = query.Take(linqBuilder.Take.Value);
+            if (configuration.Skip.HasValue) query = query.Skip(configuration.Skip.Value);
+            if (configuration.Take.HasValue) query = query.Take(configuration.Take.Value);
             return query;
         }
 
-        private static IEnumerable<TEntity> SkipTake<TEntity>(IEnumerable<TEntity> collection, LinqBuilder<TEntity> linqBuilder)
+        private static IEnumerable<TEntity> SkipTake<TEntity>(IEnumerable<TEntity> collection, Configuration<TEntity> configuration)
             where TEntity : class
         {
-            if (linqBuilder.Skip.HasValue) collection = collection.Skip(linqBuilder.Skip.Value);
-            if (linqBuilder.Take.HasValue) collection = collection.Take(linqBuilder.Take.Value);
+            if (configuration.Skip.HasValue) collection = collection.Skip(configuration.Skip.Value);
+            if (configuration.Take.HasValue) collection = collection.Take(configuration.Take.Value);
             return collection;
         }
     }

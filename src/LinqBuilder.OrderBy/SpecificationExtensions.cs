@@ -24,56 +24,68 @@ namespace LinqBuilder.OrderBy
             return AddOrderSpecification(specification, orderSpecification);
         }
 
-        public static ISpecification<TEntity> UseOrdering<TEntity>(this ISpecification<TEntity> specification, IOrderedSpecification<TEntity> orderedSpecification)
+        public static ISpecification<TEntity> UseOrdering<TEntity>(this ISpecification<TEntity> specification, ISpecification<TEntity> orderedSpecification)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            var orderedLinqBuilder = orderedSpecification.GetLinqBuilder();
-            linqBuilder.OrderSpecifications.AddRange(orderedLinqBuilder.OrderSpecifications);
-            linqBuilder.Skip = orderedLinqBuilder.Skip;
-            linqBuilder.Take = orderedLinqBuilder.Take;
-            return linqBuilder;
+            var configuration = specification.Internal;
+            var orderedConfiguration = orderedSpecification.Internal;
+            configuration.OrderSpecifications.AddRange(orderedConfiguration.OrderSpecifications);
+            configuration.Skip = orderedConfiguration.Skip;
+            configuration.Take = orderedConfiguration.Take;
+            return configuration;
         }
 
         public static bool IsOrdered<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
-            return specification.GetLinqBuilder().OrderSpecifications.Any();
+            return specification.Internal.OrderSpecifications.Any();
         }
 
-        public static IOrderedSpecification<TEntity> Skip<TEntity>(this ISpecification<TEntity> specification, int count)
+        public static bool HasSkip<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            linqBuilder.Skip = count;
-            return linqBuilder;
+            return specification.Internal.Skip != null;
         }
 
-        public static IOrderedSpecification<TEntity> Take<TEntity>(this ISpecification<TEntity> specification, int count)
+        public static bool HasTake<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            linqBuilder.Take = count;
-            return linqBuilder;
+            return specification.Internal.Take != null;
         }
 
-        public static IOrderedSpecification<TEntity> Paginate<TEntity>(this ISpecification<TEntity> specification, int pageNo, int pageSize)
+        public static ISpecification<TEntity> Skip<TEntity>(this ISpecification<TEntity> specification, int count)
+            where TEntity : class
+        {
+            var configuration = specification.Internal;
+            configuration.Skip = count;
+            return configuration;
+        }
+
+        public static ISpecification<TEntity> Take<TEntity>(this ISpecification<TEntity> specification, int count)
+            where TEntity : class
+        {
+            var configuration = specification.Internal;
+            configuration.Take = count;
+            return configuration;
+        }
+
+        public static ISpecification<TEntity> Paginate<TEntity>(this ISpecification<TEntity> specification, int pageNo, int pageSize)
             where TEntity : class
         {
             if (pageNo < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageNo));
             if (pageSize < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageSize));
-            var linqBuilder = specification.GetLinqBuilder();
-            linqBuilder.Skip = (pageNo - 1) * pageSize;
-            linqBuilder.Take = pageSize;
-            return linqBuilder;
+            var configuration = specification.Internal;
+            configuration.Skip = (pageNo - 1) * pageSize;
+            configuration.Take = pageSize;
+            return configuration;
         }
 
         private static IOrderedSpecification<TEntity> AddOrderSpecification<TEntity>(ISpecification<TEntity> specification, IOrderSpecification<TEntity> orderSpecification)
             where TEntity : class
         {
-            var linqBuilder = specification.GetLinqBuilder();
-            linqBuilder.OrderSpecifications.Add(orderSpecification);
-            return linqBuilder;
+            var configuration = specification.Internal;
+            configuration.OrderSpecifications.Add(orderSpecification);
+            return configuration;
         }
     }
 }
