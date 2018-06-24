@@ -198,7 +198,7 @@ ISpecification<Entity> specification = new IsFiveSpecification()
     .UseOrdering(orderSpecification);
 ```
 
-The following extensions help with differentiate regular specifications from ordered specifications.
+The following extension helps to differentiate regular specifications from ordered specifications.
 ```csharp
 ISpecification<Entity> specification = new IsFiveSpecification();
 specification.IsOrdered(); // Returns false
@@ -206,6 +206,21 @@ specification.IsOrdered(); // Returns false
 ISpecification<Entity> specification = specification
     .OrderBy(new DescNumberOrderSpecification());
 specification.IsOrdered(); // Returns true
+```
+And the following will help to check what kind of filtering is applied.
+```csharp
+ISpecification<Entity> specification = new IsFiveSpecification();
+specification.HasSkip(); // Returns false
+
+ISpecification<Entity> specification = specification.Skip(10);
+specification.HasSkip(); // Returns true
+```
+```csharp
+ISpecification<Entity> specification = new IsFiveSpecification();
+specification.HasTake(); // Returns false
+
+ISpecification<Entity> specification = specification.Take(10);
+specification.HasTake(); // Returns true
 ```
 <br/>
 
