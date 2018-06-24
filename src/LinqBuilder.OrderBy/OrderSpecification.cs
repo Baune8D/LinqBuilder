@@ -22,7 +22,7 @@ namespace LinqBuilder.OrderBy
             _sort = sort;
         }
 
-        public Configuration<TEntity> Internal => new Configuration<TEntity>(new Specification<TEntity>(), this);
+        public Configuration<TEntity> Internal => new Configuration<TEntity>(this);
 
         public virtual Expression<Func<TEntity, TResult>> AsExpression()
         {

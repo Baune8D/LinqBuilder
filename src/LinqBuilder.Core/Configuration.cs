@@ -17,10 +17,10 @@ namespace LinqBuilder.Core
             QuerySpecification = querySpecification;
         }
 
-        public Configuration(IQuerySpecification<TEntity> querySpecification, IOrderSpecification<TEntity> orderSpecification)
+        public Configuration(IOrderSpecification<TEntity> orderSpecification)
         {
             OrderSpecifications = new List<IOrderSpecification<TEntity>> {orderSpecification};
-            QuerySpecification = querySpecification;
+            QuerySpecification = null;
         }
 
         public Configuration<TEntity> Internal => this;
