@@ -172,8 +172,8 @@ Task("NuGet-Push")
 				{
 					NuGetPush(file, new NuGetPushSettings 
 					{
-						Source = "https://www.myget.org/F/baunegaard/api/v2/package",
-						ApiKey = EnvironmentVariable("MYGET_API_KEY")
+						Source = "https://api.nuget.org/v3/index.json",
+						ApiKey = EnvironmentVariable("NUGET_API_KEY")
 					});
 				}
 			}
