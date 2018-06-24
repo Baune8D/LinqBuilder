@@ -1,8 +1,8 @@
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using LinqBuilder.Core;
 using LinqBuilder.EF6.Tests.TestHelpers;
-using LinqBuilder.OrderBy;
 using Shouldly;
 using Xunit;
 
