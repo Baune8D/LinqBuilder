@@ -48,7 +48,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{9D48
 		.vscode\tasks.json = .vscode\tasks.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.Core", "src\LinqBuilder.Core\LinqBuilder.Core.csproj", "{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Core", "src\LinqBuilder.Core\LinqBuilder.Core.csproj", "{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Core.Tests", "test\LinqBuilder.Core.Tests\LinqBuilder.Core.Tests.csproj", "{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +94,10 @@ Global
 		{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{318A1093-3885-4E30-BF3D-F7D331F4A626} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
 		{9D486D51-00D2-47A0-87EA-3128DC8A12AF} = {E9CE7133-E0CC-469B-81F9-529EE0AE003D}
 		{5C9DCEFF-FC76-40AB-93F0-7C8D00FF142D} = {DAB01770-8D12-4638-9BBA-ABC31C2A2D6E}
+		{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4029E7C4-F013-4A5C-A3A7-9BD01FA6ED4A}
