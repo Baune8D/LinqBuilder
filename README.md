@@ -4,7 +4,9 @@
 [![Analytics](https://ga-beacon.appspot.com/UA-121440026-1/linqbuilder)](https://github.com/igrigorik/ga-beacon)
 
 **Available on NuGet:** [https://www.nuget.org/packages?q=linqbuilder](https://www.nuget.org/packages?q=linqbuilder)  
-**Dev feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
+**Dev build feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
+
+LinqBuilder is based on the specification pattern.
 
 ## Table of Contents
 1. [LinqBuilder](#linqbuilder)
@@ -50,23 +52,22 @@ ISpecification<Entity> isFiveSpecification = Specification<Entity>.New(entity =>
 // Or by alias
 ISpecification<Entity> isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
 ```
-<br/>
 
 ### Example
 ```csharp
-public List<Entity> GetEntitiesWithNumberFiveOrSix()
-{
-    ISpecification<Entity> specification = new IsValueSpecification().Set(5) // Dynamic specification
-        .Or(new IsSixSpecification()); // Static specification
+var collection = new List<Entity>() { ... };
 
-    return _context.Entities.ExeSpec(specification).ToList();
-}
+ISpecification<Entity> specification = new IsFiveSpecification()
+    .Or(new IsSixSpecification());
+
+var result = collection.ExeSpec(specification).ToList();
+// result = collection items satisfied by specification
 ```
-The extension ```ExeSpec``` allows all kinds of ```ISpecification``` implementations to be executed on ```IQueryable``` and ```IEnumerable```.
-<br/>
+The extension ```ExeSpec``` allows all types of ```ISpecification``` to be executed on ```IQueryable``` and ```IEnumerable```.
 
 ### Interfaces
 ```csharp
+// All types of specifications implements this interface
 public interface ISpecification<TEntity>
     where TEntity : class
 {
@@ -74,6 +75,7 @@ public interface ISpecification<TEntity>
 }
 ```
 ```csharp
+// Specification and DynamicSpecification implements this interface
 public interface IQuerySpecification<TEntity> : ISpecification<TEntity>
     where TEntity : class
 {
@@ -81,40 +83,40 @@ public interface IQuerySpecification<TEntity> : ISpecification<TEntity>
     Func<TEntity, bool> AsFunc();
 }
 ```
-<br/>
-
-### Extensions
-**LinqBuilder** extends the following LINQ extensions to support specifications.
-```csharp
-IQueryable<Entity> query = _sampleContext.Entities.Where(specification);
-bool result = _sampleContext.Entities.Any(specification);
-bool result = _sampleContext.Entities.All(specification);
-int result = _sampleContext.Entities.Count(specification);
-Entity result = _sampleContext.Entities.First(specification);
-Entity result = _sampleContext.Entities.FirstOrDefault(specification);
-Entity result = _sampleContext.Entities.Single(specification);
-Entity result = _sampleContext.Entities.SingleOrDefault(specification);
-```
-<br/>
 
 ### Methods
 ```csharp
 ISpecification<Entity> specification = Spec<Entity>.All(
     new SomeSpecification(),
-    new SomeOtherSpecification();
+    new SomeOtherSpecification(),
+    ...
 );
 
 ISpecification<Entity> specification = Spec<Entity>.None(
     new SomeSpecification(),
-    new SomeOtherSpecification();
+    new SomeOtherSpecification(),
+    ...
 );
 
 ISpecification<Entity> specification = Spec<Entity>.Any(
     new SomeSpecification(),
-    new SomeOtherSpecification();
+    new SomeOtherSpecification(),
+    ...
 );
 ```
-<br/>
+
+### Extensions
+**LinqBuilder** extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
+```csharp
+IEnumerable<Entity> collection = collection.Where(specification);
+bool result = collection.Any(specification);
+bool result = collection.All(specification);
+int result = collection.Count(specification);
+Entity result = collection.First(specification);
+Entity result = collection.FirstOrDefault(specification);
+Entity result = collection.Single(specification);
+Entity result = collection.SingleOrDefault(specification);
+```
 
 ## LinqBuilder.OrderBy
 
@@ -142,22 +144,21 @@ ISpecification<Entity> descNumberOrderSpecification = OrderSpecification<Entity,
 // Or by alias
 ISpecification<Entity> descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.Number, Sort.Descending);
 ```
-<br/>
 
 ## Example
 ```csharp
-public List<Entity> Get()
-{
-    ISpecification<Entity> specification = new DescNumberOrderSpecification()
-        .ThenBy(new OtherNumberOrderSpecification());
+var collection = new List<Entity>() { ... };
 
-    return _context.Entities.ExeSpec(specification).ToList();
-}
+ISpecification<Entity> specification = new DescNumberOrderSpecification()
+    .ThenBy(new OtherNumberOrderSpecification());
+
+var result = _context.Entities.ExeSpec(specification).ToList();
+// result = collection ordered by descending number, then by other number
 ```
-<br/>
 
 ### Interfaces
 ```csharp
+// OrderSpecification implements this interface
 public interface IOrderSpecification<TEntity> : ISpecification<TEntity>
     where TEntity : class
 {
@@ -168,15 +169,27 @@ public interface IOrderSpecification<TEntity> : ISpecification<TEntity>
 }
 ```
 ```csharp
+// Is used to properly specify when to allow ThenBy
 public interface IOrderedSpecification<TEntity> : ISpecification<TEntity>
-    where TEntity : class { } // Only exist to filter some extension methods
+    where TEntity : class { }
 ```
-<br/>
+
+### Methods
+```csharp
+ISpecification specification = new DescNumberOrderSpecification()
+    .Take(10);
+
+ISpecification specification = new DescNumberOrderSpecification()
+    .Skip(5);
+
+ISpecification specification = new DescNumberOrderSpecification()
+    .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
+```
 
 ### Extensions
-**LinqBuilder.OrderBy** extends the following LINQ extensions to support order specifications.
+**LinqBuilder.OrderBy** extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
 ```csharp
-IOrderedQueryable<Entity> query = _sampleContext.Entities
+IOrderedEnumerable<Entity> collection = collection
     .OrderBy(specification);
     .ThenBy(otherSpecification);
 ```
@@ -222,25 +235,11 @@ specification.HasTake(); // Returns false
 ISpecification<Entity> specification = specification.Take(10);
 specification.HasTake(); // Returns true
 ```
-<br/>
-
-### Methods
-```csharp
-ISpecification specification = new DescNumberOrderSpecification()
-    .Take(10);
-
-ISpecification specification = new DescNumberOrderSpecification()
-    .Skip(5);
-
-ISpecification specification = new DescNumberOrderSpecification()
-    .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
-```
-<br/>
 
 ## LinqBuilder.EF6
 
 ### Extensions
-**LinqBuilder.EF6** extends the following LINQ extensions to support specifications.
+**LinqBuilder.EF6** extends the following extensions to support ```ISpecification```.
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification);
 bool result = await _sampleContext.Entities.AllAsync(specification);
@@ -250,10 +249,9 @@ Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification)
 Entity result = await _sampleContext.Entities.SingleAsync(specification);
 Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
-<br/>
 
 ## LinqBuilder.EFCore
-**LinqBuilder.EFCore** extends the following LINQ extensions to support specifications.
+**LinqBuilder.EFCore** extends the following extensions to support ```ISpecification```.
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification);
 bool result = await _sampleContext.Entities.AllAsync(specification);
@@ -263,7 +261,6 @@ Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification)
 Entity result = await _sampleContext.Entities.SingleAsync(specification);
 Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
-<br/>
 
 ## Full example
 
@@ -284,7 +281,7 @@ public class SampleService
 
     public List<Entity> Get(ISpecification<Entity> specification)
     {
-        return _context.Entities.ExeQuery(specification).ToList();
+        return _context.Entities.ExeSpec(specification).ToList();
     }
 
     public (List<Entity> items, int count) GetAndCount(ISpecification<Entity> specification)
