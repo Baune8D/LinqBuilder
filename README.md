@@ -152,7 +152,7 @@ var collection = new List<Entity>() { ... };
 ISpecification<Entity> specification = new DescNumberOrderSpecification()
     .ThenBy(new OtherNumberOrderSpecification());
 
-var result = _context.Entities.ExeSpec(specification).ToList();
+var result = collection.ExeSpec(specification).ToList();
 // result = collection ordered by descending number, then by other number
 ```
 
@@ -194,15 +194,13 @@ IOrderedEnumerable<Entity> collection = collection
     .ThenBy(otherSpecification);
 ```
 
-It also extends regular specifications to support chaining with order specifications.
+It also extends regular LinqBuilder specifications to support chaining with ```OrderSpecification```'s.
 ```csharp
 ISpecification<Entity> specification = new IsFiveSpecification()
     .OrderBy(new DescNumberOrderSpecification());
-
-IQueryable<Entity> query = _sampleContext.Entities.ExeSpec(specification);
 ```
 
-Chained OrderSpecifications can also be attatched to a specification later.
+Chained ```OrderSpecification```'s can also be attatched to a specification later.
 ```csharp
 ISpecification<Entity> orderSpecification = new DescNumberOrderSpecification();
     .ThenBy(new OtherNumberOrderSpecification());
@@ -211,16 +209,14 @@ ISpecification<Entity> specification = new IsFiveSpecification()
     .UseOrdering(orderSpecification);
 ```
 
-The following extension helps to differentiate regular specifications from ordered specifications.
+The following extensions will help to check what kind of ordering is applied.
 ```csharp
 ISpecification<Entity> specification = new IsFiveSpecification();
 specification.IsOrdered(); // Returns false
 
-ISpecification<Entity> specification = specification
-    .OrderBy(new DescNumberOrderSpecification());
+ISpecification<Entity> specification = specification.OrderBy(new DescNumberOrderSpecification());
 specification.IsOrdered(); // Returns true
 ```
-And the following will help to check what kind of filtering is applied.
 ```csharp
 ISpecification<Entity> specification = new IsFiveSpecification();
 specification.HasSkip(); // Returns false
@@ -267,7 +263,7 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ```csharp
 public class SampleService
 {
-    private readonly _context = context;
+    private readonly SampleDbContext _context;
 
     public SampleService(SampleDbContext context)
     {
