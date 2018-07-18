@@ -14,10 +14,14 @@ namespace LinqBuilder.OrderBy
 
         private readonly Sort _sort;
 
-        public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
+        protected OrderSpecification(Sort sort = Sort.Ascending)
+        {
+            _sort = sort;
+        }
+
+        public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending) : this(sort)
         {
             _expression = expression;
-            _sort = sort;
         }
 
         public Configuration<TEntity> Internal => new Configuration<TEntity>(this);
