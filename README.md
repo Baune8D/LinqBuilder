@@ -261,37 +261,56 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ## Full example
 
 ```csharp
-public class SampleService
+public class Person
 {
-    private readonly SampleDbContext _context;
+    public int Id { get; set; }
+    public string Firstname { get; set; }
+    public string Lastname { get; set; }
+}
 
-    public SampleService(SampleDbContext context)
+public class SampleDbContext : DbContext // Simplified DBContext
+{
+    public virtual DbSet<Person> Persons { get; set; }
+}
+
+public class DbService<TEntity>
+    where TEntity : class
+{
+    private readonly DbSet<TEntity> _dbSet;
+
+    public DbService(SampleDbContext context)
     {
-        _context = context;
+        _dbSet = context.Set<TEntity>();
     }
 
-    public int Count(ISpecification<Entity> specification)
+    public int Count(ISpecification<TEntity> specification)
     {
-        return _context.Entities.Count(specification);
+        return _dbSet.Count(specification);
     }
 
-    public List<Entity> Get(ISpecification<Entity> specification)
+    public List<Entity> Get(ISpecification<TEntity> specification)
     {
-        return _context.Entities.ExeSpec(specification).ToList();
+        return _dbSet.ExeSpec(specification).ToList();
     }
 
-    public (List<Entity> items, int count) GetAndCount(ISpecification<Entity> specification)
+    public (List<Person> items, int count) GetAndCount(ISpecification<TEntity> specification)
     {
         return (Get(specification), Count(specification));
     }
 }
 
-ISpecification<Entity> specification = new SomeValueSpecification()
-    .And(new SomeOtherValueSpecification())
-    .OrderBy(new IdOrderSpecification())
-    .Paginate(1, 10);
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
+ISpecification<Person> lastnameIsBar = Spec<Person>.New(p => p.Lastname == "Bar");
+ISpecification<Person> idDescending = OrderSpec<Person, int>(p => p.Id, Sort.Descending);
 
-var result = _sampleService.GetAndCount(specification);
-// result.items = Paginated list of items
-// result.count = Total unpaginated result count
+ISpecification<Entity> specification = firstnameIsFoo.And(lastnameIsBar)
+    .OrderBy(idDescending)
+    .Paginate(1, 5); // pageNo = 1, pageSize = 5
+
+using (var context = new SampleDbContext())
+{
+    var result = new DbService<Person>(context).GetAndCount(specification);
+    // result.items = Paginated list of Person's with name: Foo Bar
+    // result.count = Total unpaginated result count
+}
 ```
