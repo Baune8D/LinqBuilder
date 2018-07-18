@@ -76,7 +76,7 @@ Task("Test")
 
 	string[] coverageFilters = 
 	{
-		"+[LinqBuilder.*]*",
+		"+[LinqBuilder*]*",
 		"-[LinqBuilder.*Tests]*"
 	};
 
