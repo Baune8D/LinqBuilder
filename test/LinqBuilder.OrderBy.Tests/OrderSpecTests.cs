@@ -18,16 +18,6 @@ namespace LinqBuilder.OrderBy.Tests
         }
 
         [Fact]
-        public void Constructor_DefaultExpression_ShouldBeTrue()
-        {
-            var specification = new OrderSpec<Entity, int>();
-            var result = _fixture.Query.OrderBy(specification).ToList();
-            result[0].Value1.ShouldBe(3);
-            result[1].Value1.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-        }
-
-        [Fact]
         public void Constructor_InlineExpression__ShouldReturnOrderedList()
         {
             var specification = new OrderSpec<Entity, int>(entity => entity.Value1);

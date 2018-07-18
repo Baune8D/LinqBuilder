@@ -14,8 +14,6 @@ namespace LinqBuilder.OrderBy
 
         private readonly Sort _sort;
 
-        public OrderSpecification(Sort sort = Sort.Ascending) : this(entity => default, sort) { }
-
         public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
         {
             _expression = expression;
@@ -32,11 +30,6 @@ namespace LinqBuilder.OrderBy
         public Func<TEntity, TResult> AsFunc()
         {
             return _func ?? (_func = AsExpression().Compile());
-        }
-
-        public static IOrderSpecification<TEntity> New(Sort sort = Sort.Ascending)
-        {
-            return new OrderSpecification<TEntity, TResult>(sort);
         }
 
         public static IOrderSpecification<TEntity> New(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)

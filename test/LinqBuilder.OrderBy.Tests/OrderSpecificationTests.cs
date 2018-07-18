@@ -8,7 +8,6 @@ namespace LinqBuilder.OrderBy.Tests
 {
     public class OrderSpecificationTests
     {
-        private readonly IOrderSpecification<Entity> _emptyOrderSpecification = OrderSpec<Entity, int>.New();
         private readonly IOrderSpecification<Entity> _orderValue1Asc = OrderSpec<Entity, int>.New(entity => entity.Value1);
         private readonly IOrderSpecification<Entity> _orderValue1Desc = OrderSpec<Entity, int>.New(entity => entity.Value1, Sort.Descending);
 
@@ -20,15 +19,6 @@ namespace LinqBuilder.OrderBy.Tests
             _fixture.AddToCollection(3, 1, 1);
             _fixture.AddToCollection(1, 1, 1);
             _fixture.AddToCollection(2, 1, 1);
-        }
-
-        [Fact]
-        public void Constructor_DefaultExpression_ShouldBeTrue()
-        {
-            var result = _fixture.Query.OrderBy(_emptyOrderSpecification).ToList();
-            result[0].Value1.ShouldBe(3);
-            result[1].Value1.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
         }
 
         [Fact]
@@ -47,15 +37,6 @@ namespace LinqBuilder.OrderBy.Tests
             result[0].Value1.ShouldBe(3);
             result[1].Value1.ShouldBe(2);
             result[2].Value1.ShouldBe(1);
-        }
-
-        [Fact]
-        public void New_DefaultExpression_ShouldBeTrue()
-        {
-            var result = _fixture.Query.OrderBy(_emptyOrderSpecification).ToList();
-            result[0].Value1.ShouldBe(3);
-            result[1].Value1.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
         }
 
         [Fact]

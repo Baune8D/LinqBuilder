@@ -9,8 +9,8 @@ namespace LinqBuilder.OrderBy.Tests
 {
     public class SpecificationExtensionsTests
     {
+        private readonly ISpecification<Entity> _emptySpecification = Spec<Entity>.New();
         private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
-        private readonly IOrderSpecification<Entity> _emptyOrderSpecification = OrderSpec<Entity, int>.New();
         private readonly IOrderSpecification<Entity> _orderValue1Asc = OrderSpec<Entity, int>.New(entity => entity.Value1);
         private readonly IOrderSpecification<Entity> _orderValue2Asc = OrderSpec<Entity, int>.New(entity => entity.Value2);
 
@@ -28,7 +28,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void OrderBy_IQueryable_ShouldReturnCorrectResult()
         {
-            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
+            var specification = _emptySpecification.OrderBy(_orderValue1Asc);
             var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
@@ -40,7 +40,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void OrderBy_IEnumerable_ShouldReturnCorrectResult()
         {
-            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc);
+            var specification = _emptySpecification.OrderBy(_orderValue1Asc);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
@@ -52,7 +52,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void ThenBy_IQueryable_ShouldReturnCorrectResult()
         {
-            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
+            var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
             var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
@@ -66,7 +66,7 @@ namespace LinqBuilder.OrderBy.Tests
         [Fact]
         public void ThenBy_IEnumerable_ShouldReturnCorrectResult()
         {
-            var specification = _emptyOrderSpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
+            var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(4);
             result[0].Value1.ShouldBe(1);
@@ -109,7 +109,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void UseOrdering_IQueryable_ShouldReturnCorrectResult()
         {
             var ordering = _orderValue1Asc.Skip(1).Take(1);
-            var specification = _emptyOrderSpecification.UseOrdering(ordering);
+            var specification = _emptySpecification.UseOrdering(ordering);
             var result = _fixture.Query.ExeSpec(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);
@@ -119,7 +119,7 @@ namespace LinqBuilder.OrderBy.Tests
         public void UseOrdering_IEnumerable_ShouldReturnCorrectResult()
         {
             var ordering = _orderValue1Asc.Skip(1).Take(1);
-            var specification = _emptyOrderSpecification.UseOrdering(ordering);
+            var specification = _emptySpecification.UseOrdering(ordering);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
             result.Count.ShouldBe(1);
             result[0].Value1.ShouldBe(2);

@@ -11,7 +11,7 @@ namespace LinqBuilder.Core.Tests
         [Fact]
         public void Configuration_NewOrderSpecification_ShouldBeCorrectlyConfigured()
         {
-            var configuration = new Configuration<Entity>(new OrderSpecification<Entity, int>());
+            var configuration = new Configuration<Entity>(new OrderSpecification<Entity, int>(x => x.Value1));
             configuration.QuerySpecification.Internal.ShouldNotBeNull();
             configuration.QuerySpecification.ShouldNotBeNull();
             configuration.QuerySpecification.AsExpression().ShouldBeNull();
