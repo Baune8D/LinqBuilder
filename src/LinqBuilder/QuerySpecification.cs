@@ -26,7 +26,9 @@ namespace LinqBuilder
 
         public Func<TEntity, bool> AsFunc()
         {
-            return _func ?? (_func = AsExpression().Compile());
+            var expression = AsExpression();
+            if (expression == null) return null;
+            return _func ?? (_func = expression.Compile());
         }
     }
 }

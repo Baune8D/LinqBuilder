@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LinqBuilder.Core;
 using LinqBuilder.Tests.TestHelpers;
 using Shouldly;
@@ -8,6 +9,7 @@ namespace LinqBuilder.Tests
 {
     public class LinqExtensionsTests
     {
+        private readonly ISpecification<Entity> _emptySpecification = Spec<Entity>.New();
         private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
         private readonly ISpecification<Entity> _value1ShouldBe3 = Spec<Entity>.New(entity => entity.Value1 == 3);
         private readonly ISpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
@@ -37,6 +39,22 @@ namespace LinqBuilder.Tests
             var result = _fixture.Collection.Where(_value1ShouldBe3);
             result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
             result.ShouldAllBe(e => e.Value1 == 3);
+        }
+
+        [Fact]
+        public void WhereEmpty_IQueryable_ShouldReturnEqualQuery()
+        {
+            var result = _fixture.Query.Where(_emptySpecification);
+            result.ShouldBeAssignableTo<IQueryable<Entity>>();
+            result.ShouldBe(_fixture.Query);
+        }
+
+        [Fact]
+        public void WhereEmpty_IEnumerable_ShouldReturnEqualCollection()
+        {
+            var result = _fixture.Collection.Where(_emptySpecification);
+            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
+            result.ShouldBe(_fixture.Collection);
         }
 
         [Fact]
@@ -72,6 +90,22 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void AnyEmpty_IQueryable_ShouldBeTrue()
+        {
+            _fixture.Query
+                .Any(_emptySpecification)
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void AnyEmpty_IEnumerable_ShouldBeTrue()
+        {
+            _fixture.Collection
+                .Any(_emptySpecification)
+                .ShouldBeTrue();
+        }
+
+        [Fact]
         public void All_IQueryable_ShouldBeTrue()
         {
             _fixture.Query
@@ -104,6 +138,22 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void AllEmpty_IQueryable_ShouldBeTrue()
+        {
+            _fixture.Query
+                .All(_emptySpecification)
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void AllEmpty_IEnumerable_ShouldBeTrue()
+        {
+            _fixture.Collection
+                .All(_emptySpecification)
+                .ShouldBeTrue();
+        }
+
+        [Fact]
         public void Count_IQueryable_ShouldReturnCorrectResult()
         {
             _fixture.Query
@@ -120,6 +170,14 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void CountEmpty_IEnumerable_ShouldReturnEqualCount()
+        {
+            _fixture.Collection
+                .Count(_emptySpecification)
+                .ShouldBe(_fixture.Collection.Count());
+        }
+
+        [Fact]
         public void First_IQueryable_ShouldReturnCorrectResult()
         {
             _fixture.Query
@@ -132,6 +190,14 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .First(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
+        }
+
+        [Fact]
+        public void FirstEmpty_IEnumerable_ShouldReturnCorrectResult()
+        {
+            _fixture.Collection
+                .First(_emptySpecification)
                 .ShouldBe(_fixture.Store[0]);
         }
 
@@ -152,6 +218,14 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void FirstOrDefaultEmpty_IEnumerable_ShouldReturnCorrectResult()
+        {
+            _fixture.Collection
+                .FirstOrDefault(_emptySpecification)
+                .ShouldBe(_fixture.Store[0]);
+        }
+
+        [Fact]
         public void Single_IQueryable_ShouldReturnCorrectResult()
         {
             _fixture.Query
@@ -168,6 +242,12 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void SingleEmpty_IEnumerable_ShouldReturnCorrectResult()
+        {
+            Should.Throw<InvalidOperationException>(() => _fixture.Collection.Single(_emptySpecification));
+        }
+
+        [Fact]
         public void SingleOrDefault_IQueryable_ShouldReturnCorrectResult()
         {
             _fixture.Query
@@ -181,6 +261,12 @@ namespace LinqBuilder.Tests
             _fixture.Collection
                 .SingleOrDefault(_value1ShouldBe1)
                 .ShouldBe(_fixture.Store[2]);
+        }
+
+        [Fact]
+        public void SingleOrDefaultEmpty_IEnumerable_ShouldReturnCorrectResult()
+        {
+            Should.Throw<InvalidOperationException>(() => _fixture.Collection.SingleOrDefault(_emptySpecification));
         }
     }
 }

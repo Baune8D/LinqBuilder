@@ -12,7 +12,7 @@ namespace LinqBuilder.Core
             var querySpecification = configuration.QuerySpecification;
             var orderSpecifications = configuration.OrderSpecifications;
 
-            if (querySpecification != null)
+            if (querySpecification.AsExpression() != null)
             {
                 query = query.Where(querySpecification.AsExpression());
             }
@@ -34,7 +34,7 @@ namespace LinqBuilder.Core
             var querySpecification = configuration.QuerySpecification;
             var orderSpecifications = configuration.OrderSpecifications;
 
-            if (querySpecification != null)
+            if (querySpecification.AsExpression() != null)
             {
                 collection = collection.Where(querySpecification.AsFunc());
             }

@@ -31,7 +31,9 @@ namespace LinqBuilder
         public static bool IsSatisfiedBy<TEntity>(this ISpecification<TEntity> specification, TEntity entity)
             where TEntity : class
         {
-            var predicate = specification.Internal.QuerySpecification.AsFunc();
+            var querySpecification = specification.Internal.QuerySpecification;
+            if (querySpecification.AsExpression() == null) return true;
+            var predicate = querySpecification.AsFunc();
             return predicate(entity);
         }
 
@@ -46,20 +48,32 @@ namespace LinqBuilder
         private static Specification<TEntity> And<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)
             where TEntity : class
         {
-            var predicate = PredicateBuilder.New(leftExpression);
-            return new Specification<TEntity>(predicate.And(rightExpression));
+            if (leftExpression != null && rightExpression != null)
+            {
+                var predicate = PredicateBuilder.New(leftExpression);
+                return new Specification<TEntity>(predicate.And(rightExpression));
+            }
+            if (leftExpression == null && rightExpression != null) return new Specification<TEntity>(rightExpression);
+            return leftExpression != null ? new Specification<TEntity>(leftExpression) : new Specification<TEntity>();
+
         }
 
         private static Specification<TEntity> Or<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)
             where TEntity : class
         {
-            var predicate = PredicateBuilder.New(leftExpression);
-            return new Specification<TEntity>(predicate.Or(rightExpression));
+            if (leftExpression != null && rightExpression != null)
+            {
+                var predicate = PredicateBuilder.New(leftExpression);
+                return new Specification<TEntity>(predicate.Or(rightExpression));
+            }
+            if (leftExpression == null && rightExpression != null) return new Specification<TEntity>(rightExpression);
+            return leftExpression != null ? new Specification<TEntity>(leftExpression) : new Specification<TEntity>();
         }
 
         private static Specification<TEntity> Not<TEntity>(Expression<Func<TEntity, bool>> specificationExpression)
             where TEntity : class
         {
+            if (specificationExpression == null) return new Specification<TEntity>();
             var notExpression = Expression.Not(specificationExpression.Body);
             var expression = Expression.Lambda<Func<TEntity, bool>>(notExpression, specificationExpression.Parameters);
             return new Specification<TEntity>(expression);

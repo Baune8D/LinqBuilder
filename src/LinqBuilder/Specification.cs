@@ -8,7 +8,7 @@ namespace LinqBuilder
     public class Specification<TEntity> : QuerySpecification<TEntity>
         where TEntity : class
     {
-        public Specification() : this(entity => true) { }
+        public Specification() { }
 
         public Specification(Expression<Func<TEntity, bool>> expression) : base(expression) { }
 
