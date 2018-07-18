@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using LinqBuilder.Core;
 using LinqBuilder.EFCore.Tests.TestHelpers;
@@ -7,8 +8,9 @@ using Xunit;
 
 namespace LinqBuilder.EFCore.Tests
 {
-    public class EntityFrameworkCoreTests : IDisposable
+    public class EntityFrameworkCoreExtensionsTests : IDisposable
     {
+        private readonly ISpecification<Entity> _emptySpecification = Spec<Entity>.New();
         private readonly ISpecification<Entity> _value1ShouldBe1 = Spec<Entity>.New(entity => entity.Value1 == 1);
         private readonly ISpecification<Entity> _value1ShouldBe2 = Spec<Entity>.New(entity => entity.Value1 == 2);
         private readonly ISpecification<Entity> _value1ShouldBe4 = Spec<Entity>.New(entity => entity.Value1 == 4);
@@ -16,7 +18,7 @@ namespace LinqBuilder.EFCore.Tests
 
         private readonly DbFixture _dbFixture;
 
-        public EntityFrameworkCoreTests()
+        public EntityFrameworkCoreExtensionsTests()
         {
             _dbFixture = new DbFixture();
             _dbFixture.AddEntity(2, 3);
@@ -42,7 +44,16 @@ namespace LinqBuilder.EFCore.Tests
 
             result.ShouldBeFalse();
         }
-        
+
+        [Fact]
+        public async Task AnyAsync_EmptySpecification_ShouldBeTrue()
+        {
+            var result = await _dbFixture.Context.Entities
+                .AnyAsync(_emptySpecification);
+
+            result.ShouldBeTrue();
+        }
+
         [Fact]
         public async Task AllAsync_Specification_ShouldBeTrue()
         {
@@ -62,12 +73,30 @@ namespace LinqBuilder.EFCore.Tests
         }
 
         [Fact]
+        public async Task AllAsync_EmptySpecification_ShouldBeTrue()
+        {
+            var result = await _dbFixture.Context.Entities
+                .AllAsync(_emptySpecification);
+
+            result.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task CountAsync_Specification_ShouldBeTrue()
         {
             var result = await _dbFixture.Context.Entities
                 .CountAsync(_value1ShouldBe1);
 
             result.ShouldBe(2);
+        }
+
+        [Fact]
+        public async Task CountAsync_EmptySpecification_ShouldBeEqualCount()
+        {
+            var result = await _dbFixture.Context.Entities
+                .CountAsync(_emptySpecification);
+
+            result.ShouldBe(_dbFixture.Context.Entities.Count());
         }
 
         [Fact]
@@ -80,12 +109,30 @@ namespace LinqBuilder.EFCore.Tests
         }
 
         [Fact]
+        public async Task FirstAsync_EmptySpecification_ShouldReturnCorrectResult()
+        {
+            var result = await _dbFixture.Context.Entities
+                .FirstAsync(_emptySpecification);
+
+            result.ShouldBe(_dbFixture.Context.Entities.Find(1));
+        }
+
+        [Fact]
         public async Task FirstOrDefaultAsync_Specification_ShouldReturnCorrectResult()
         {
             var result = await _dbFixture.Context.Entities
                 .FirstOrDefaultAsync(_value1ShouldBe1);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(2));
+        }
+
+        [Fact]
+        public async Task FirstOrDefaultAsync_EmptySpecification_ShouldReturnCorrectResult()
+        {
+            var result = await _dbFixture.Context.Entities
+                .FirstOrDefaultAsync(_emptySpecification);
+
+            result.ShouldBe(_dbFixture.Context.Entities.Find(1));
         }
 
         [Fact]
@@ -98,12 +145,24 @@ namespace LinqBuilder.EFCore.Tests
         }
 
         [Fact]
+        public async Task SingleAsync_EmptySpecification_ShouldReturnCorrectResult()
+        {
+            await Should.ThrowAsync<InvalidOperationException>(() => _dbFixture.Context.Entities.SingleAsync(_emptySpecification));
+        }
+
+        [Fact]
         public async Task SingleOrDefaultAsync_Specification_ShouldReturnCorrectResult()
         {
             var result = await _dbFixture.Context.Entities
                 .SingleOrDefaultAsync(_value1ShouldBe2);
 
             result.ShouldBe(_dbFixture.Context.Entities.Find(1));
+        }
+
+        [Fact]
+        public async Task SingleOrDefaultAsync_EmptySpecification_ShouldReturnCorrectResult()
+        {
+            await Should.ThrowAsync<InvalidOperationException>(() => _dbFixture.Context.Entities.SingleOrDefaultAsync(_emptySpecification));
         }
 
         public void Dispose()
