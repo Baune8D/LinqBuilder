@@ -93,15 +93,18 @@ Task("Test")
 		settings.WithFilter(filter);
 	}
 
-	var parameters = $"--fx-version 2.0.7 -nobuild -configuration {configuration}";
-
 	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
 	{
 		settings.WorkingDirectory = file.GetDirectory();
 
 		OpenCover(tool => 
 		{
-			tool.DotNetCoreTool(file, "xunit", parameters);
+			tool.DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
+			{
+				Configuration = configuration,
+				NoBuild = true,
+				NoRestore = true
+			});
 		},
 		coverageResult, settings);
 	}
