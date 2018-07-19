@@ -273,8 +273,7 @@ public class SampleDbContext : DbContext // Simplified DbContext
     public virtual DbSet<Person> Persons { get; set; }
 }
 
-public class DbService<TEntity>
-    where TEntity : class
+public class DbService<TEntity> where TEntity : class
 {
     private readonly DbSet<TEntity> _dbSet;
 
