@@ -300,7 +300,7 @@ public class DbService<TEntity> where TEntity : class
 
 ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
 ISpecification<Person> lastnameIsBar = Spec<Person>.New(p => p.Lastname == "Bar");
-ISpecification<Person> idDescending = OrderSpec<Person, int>(p => p.Id, Sort.Descending);
+ISpecification<Person> idDescending = OrderSpec<Person, int>.New(p => p.Id, Sort.Descending);
 
 ISpecification<Person> specification = firstnameIsFoo.And(lastnameIsBar)
     .OrderBy(idDescending)
