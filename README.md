@@ -268,7 +268,7 @@ public class Person
     public string Lastname { get; set; }
 }
 
-public class SampleDbContext : DbContext // Simplified DBContext
+public class SampleDbContext : DbContext // Simplified DbContext
 {
     public virtual DbSet<Person> Persons { get; set; }
 }
@@ -303,7 +303,7 @@ ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Fo
 ISpecification<Person> lastnameIsBar = Spec<Person>.New(p => p.Lastname == "Bar");
 ISpecification<Person> idDescending = OrderSpec<Person, int>(p => p.Id, Sort.Descending);
 
-ISpecification<Entity> specification = firstnameIsFoo.And(lastnameIsBar)
+ISpecification<Person> specification = firstnameIsFoo.And(lastnameIsBar)
     .OrderBy(idDescending)
     .Paginate(1, 5); // pageNo = 1, pageSize = 5
 
