@@ -22,46 +22,48 @@ Specifications can be constructed in three different ways.
 
 **By extending Specification:**
 ```csharp
-public class IsFiveSpecification : Specification<Entity>
+public class FirstnameIsFoo : Specification<Person>
 {
-    public override Expression<Func<Entity, bool>> AsExpression()
+    public override Expression<Func<Person, bool>> AsExpression()
     {
-        return entity => entity.Number == 5;
+        return person => person.Firstname == "Foo";
     }
 }
 
-ISpecification<Entity> isFiveSpecification = new IsFiveSpecification();
+ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo();
 ```
 
 **By extending DynamicSpecification:**
 ```csharp
-public class IsValueSpecification : DynamicSpecification<Entity, int>
+public class FirstnameIs : DynamicSpecification<Person, string>
 {
-    public override Expression<Func<Entity, bool>> AsExpression()
+    public override Expression<Func<Person, bool>> AsExpression()
     {
-        return entity => entity.Number == Value;
+        return person => person.Firstname == Value;
     }
 }
 
-ISpecification<Entity> isFiveSpecification = new IsValueSpecification().Set(5);
+ISpecification<Person> firstnameIsFoo = new FirstnameIs().Set("Foo");
 ```
 
 **By static New method:**
 ```csharp
-ISpecification<Entity> isFiveSpecification = Specification<Entity>.New(entity => entity.Number == 5);
+ISpecification<Person> firstnameIsFoo = Specification<Person>.New(p => p.Firstname == "Foo");
 // Or by alias
-ISpecification<Entity> isFiveSpecification = Spec<Entity>.New(entity => entity.Number == 5);
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
 ```
 
 ### Example
 ```csharp
-var collection = new List<Entity>() { ... };
+var collection = new List<Person>() { ... };
 
-ISpecification<Entity> specification = new IsFiveSpecification()
-    .Or(new IsSixSpecification());
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
+ISpecification<Person> firstnameIsBar = Spec<Person>.New(p => p.Firstname == "Bar");
+
+ISpecification<Entity> specification = firstnameIsFoo.Or(firstnameIsBar);
 
 var result = collection.ExeSpec(specification).ToList();
-// result = collection items satisfied by specification
+// result = Collection items satisfied by specification
 ```
 The extension ```ExeSpec``` allows all types of ```ISpecification``` to be executed on ```IQueryable``` and ```IEnumerable```.
 
@@ -125,35 +127,37 @@ Order specifications can be constructed in almost the same way as regular specif
 
 **By extending OrderSpecification:**
 ```csharp
-public class DescNumberOrderSpecification : OrderSpecification<Entity, int>
+public class FirstnameDescending : OrderSpecification<Person, string>
 {
     public DescNumberOrderSpecification() : base(Sort.Descending) { }
 
-    public override Expression<Func<Entity, int>> AsExpression()
+    public override Expression<Func<Person, string>> AsExpression()
     {
-        return entity => entity.Number;
+        return person => person.Firstname;
     }
 }
 
-ISpecification<Entity> descNumberOrderSpecification = new DescNumberOrderSpecification();
+ISpecification<Person> firstnameDescending = new FirstnameDescending();
 ```
 
 **By static New method:**
 ```csharp
-ISpecification<Entity> descNumberOrderSpecification = OrderSpecification<Entity, int>.New(entity => entity.Number, Sort.Descending);
+ISpecification<Person> firstnameDescending = OrderSpecification<Person, string>.New(p => p.Firstname, Sort.Descending);
 // Or by alias
-ISpecification<Entity> descNumberOrderSpecification = OrderSpec<Entity, int>.New(entity => entity.Number, Sort.Descending);
+ISpecification<Person> firstnameDescending = OrderSpec<Person, string>.New(p => p.Firstname, Sort.Descending);
 ```
 
 ## Example
 ```csharp
-var collection = new List<Entity>() { ... };
+var collection = new List<Person>() { ... };
 
-ISpecification<Entity> specification = new DescNumberOrderSpecification()
-    .ThenBy(new OtherNumberOrderSpecification());
+ISpecification<Person> firstnameDescending = OrderSpec<Person, string>.New(p => p.Firstname, Sort.Descending);
+ISpecification<Person> lastnameDescending = OrderSpec<Person, string>.New(p => p.Lastname, Sort.Descending);
+
+ISpecification<Person> specification = firstnameDescending.ThenBy(lastnameDescending);
 
 var result = collection.ExeSpec(specification).ToList();
-// result = collection ordered by descending number, then by other number
+// result = Collection ordered by descending number, then by other number
 ```
 
 ### Interfaces
@@ -176,13 +180,13 @@ public interface IOrderedSpecification<TEntity> : ISpecification<TEntity>
 
 ### Methods
 ```csharp
-ISpecification specification = new DescNumberOrderSpecification()
+ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
     .Take(10);
 
-ISpecification specification = new DescNumberOrderSpecification()
+ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
     .Skip(5);
 
-ISpecification specification = new DescNumberOrderSpecification()
+ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
     .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
 ```
 
@@ -196,39 +200,45 @@ IOrderedEnumerable<Entity> collection = collection
 
 It also extends regular LinqBuilder specifications to support chaining with ```OrderSpecification```'s.
 ```csharp
-ISpecification<Entity> specification = new IsFiveSpecification()
-    .OrderBy(new DescNumberOrderSpecification());
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
+ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
+
+ISpecification<Entity> specification = firstnameIsFoo.OrderBy(firstnameAscending);
 ```
 
 Chained ```OrderSpecification```'s can also be attatched to a specification later.
 ```csharp
-ISpecification<Entity> orderSpecification = new DescNumberOrderSpecification();
-    .ThenBy(new OtherNumberOrderSpecification());
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
+ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
+ISpecification<Person> lastnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
 
-ISpecification<Entity> specification = new IsFiveSpecification()
-    .UseOrdering(orderSpecification);
+ISpecification<Person> orderSpecification = firstnameAscending.ThenBy(lastnameAscending);
+
+ISpecification<Person> specification = firstnameIsFoo.UseOrdering(orderSpecification);
 ```
 
 The following extensions will help to check what kind of ordering is applied.
 ```csharp
-ISpecification<Entity> specification = new IsFiveSpecification();
-specification.IsOrdered(); // Returns false
+ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
+ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
 
-ISpecification<Entity> specification = specification.OrderBy(new DescNumberOrderSpecification());
+firstnameIsFoo.IsOrdered(); // Returns false
+
+ISpecification<Person> specification = firstnameIsFoo.OrderBy(firstnameAscending);
 specification.IsOrdered(); // Returns true
 ```
 ```csharp
-ISpecification<Entity> specification = new IsFiveSpecification();
+ISpecification<Person> specification = Spec<Person>.New(p => p.Firstname == "Foo");
 specification.HasSkip(); // Returns false
 
-ISpecification<Entity> specification = specification.Skip(10);
+ISpecification<Person> specification = specification.Skip(10);
 specification.HasSkip(); // Returns true
 ```
 ```csharp
-ISpecification<Entity> specification = new IsFiveSpecification();
+ISpecification<Person> specification = Spec<Person>.New(p => p.Firstname == "Foo");
 specification.HasTake(); // Returns false
 
-ISpecification<Entity> specification = specification.Take(10);
+ISpecification<Person> specification = specification.Take(10);
 specification.HasTake(); // Returns true
 ```
 
