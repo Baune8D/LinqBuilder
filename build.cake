@@ -1,4 +1,4 @@
-#tool "GitVersion.CommandLine&version=4.0.0-beta0012"
+#tool "GitVersion.CommandLine&version=4.0.0-beta0014"
 #tool "OpenCover&version=4.6.519"
 #tool "ReportGenerator&version=3.1.2"
 
@@ -19,7 +19,7 @@ var coverageResult = File("./coverage.xml");
 var artifactsFolder = Directory("./artifacts");
 var coverageFolder = Directory("./coverage");
 
-Func<IFileSystemInfo, bool> excludeFolders = fileSystemInfo => 
+Func<IFileSystemInfo, bool> excludeFolders = fileSystemInfo =>
 	!fileSystemInfo.Path.FullPath.Contains("/bin") &&
 	!fileSystemInfo.Path.FullPath.Contains("/obj");
 
@@ -36,14 +36,14 @@ Task("Version")
 
     if (AppVeyor.IsRunningOnAppVeyor)
     {
-		GitVersion(new GitVersionSettings 
+		GitVersion(new GitVersionSettings
 		{
 			OutputType = GitVersionOutput.BuildServer,
 			UpdateAssemblyInfo = true
 		});
 	}
 
-    var result = GitVersion(new GitVersionSettings 
+    var result = GitVersion(new GitVersionSettings
 	{
 		OutputType = GitVersionOutput.Json
     });
@@ -74,7 +74,7 @@ Task("Test")
 
 	Information("Running tests and generating coverage");
 
-	string[] coverageFilters = 
+	string[] coverageFilters =
 	{
 		"+[LinqBuilder*]*",
 		"-[LinqBuilder.*Tests]*"
@@ -97,7 +97,7 @@ Task("Test")
 	{
 		settings.WorkingDirectory = file.GetDirectory();
 
-		OpenCover(tool => 
+		OpenCover(tool =>
 		{
 			tool.DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
 			{
@@ -173,7 +173,7 @@ Task("NuGet-Push")
 			{
 				if (!file.ToString().EndsWith(".symbols.nupkg"))
 				{
-					NuGetPush(file, new NuGetPushSettings 
+					NuGetPush(file, new NuGetPushSettings
 					{
 						Source = "https://api.nuget.org/v3/index.json",
 						ApiKey = EnvironmentVariable("NUGET_API_KEY")
@@ -189,7 +189,7 @@ Task("NuGet-Push")
 			{
 				if (file.ToString().EndsWith(".symbols.nupkg"))
 				{
-					NuGetPush(file, new NuGetPushSettings 
+					NuGetPush(file, new NuGetPushSettings
 					{
 						Source = "https://www.myget.org/F/baunegaard/symbols/api/v2/package",
 						ApiKey = EnvironmentVariable("MYGET_API_KEY")
@@ -197,7 +197,7 @@ Task("NuGet-Push")
 				}
 				else
 				{
-					NuGetPush(file, new NuGetPushSettings 
+					NuGetPush(file, new NuGetPushSettings
 					{
 						Source = "https://www.myget.org/F/baunegaard/api/v2/package",
 						ApiKey = EnvironmentVariable("MYGET_API_KEY")
