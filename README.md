@@ -46,6 +46,25 @@ public class FirstnameIs : DynamicSpecification<Person, string>
 ISpecification<Person> firstnameIsFoo = new FirstnameIs().Set("Foo");
 ```
 
+**By extending MultiSpecification:**
+```csharp
+public class FirstnameIs : MultiSpecification<Person, OtherPerson>
+{
+    public override Expression<Func<Person, bool>> AsExpressionForEntity1()
+    {
+        return person => person.Firstname == "Foo";
+    }
+
+    public override Expression<Func<OtherPerson, bool>> AsExpressionForEntity2()
+    {
+        return person => person.Firstname == "Foo";
+    }
+}
+
+ISpecification<Person> firstnameIsFoo1 = new FirstnameIs().For<Person>();
+ISpecification<OtherPerson> firstnameIsFoo2 = new FirstnameIs().For<OtherPerson>();
+```
+
 **By static New method:**
 ```csharp
 ISpecification<Person> firstnameIsFoo = Specification<Person>.New(p => p.Firstname == "Foo");
