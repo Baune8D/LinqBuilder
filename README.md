@@ -61,8 +61,9 @@ public class FirstnameIs : MultiSpecification<Person, OtherPerson>
     }
 }
 
-ISpecification<Person> firstnameIsFoo1 = new FirstnameIs().For<Person>();
-ISpecification<OtherPerson> firstnameIsFoo2 = new FirstnameIs().For<OtherPerson>();
+ISpecification<Person> firstnameIsFoo = new FirstnameIs(); // First generic is default
+ISpecification<Person> firstnameIsFoo = new FirstnameIs().For<Person>();
+ISpecification<OtherPerson> firstnameIsFoo = new FirstnameIs().For<OtherPerson>();
 ```
 
 **By static New method:**

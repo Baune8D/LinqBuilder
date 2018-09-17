@@ -8,6 +8,13 @@ namespace LinqBuilder.Tests
     public class MultiSpecificationTests
     {
         [Fact]
+        public void IsSatisfiedBy_MultiEntitySpecification2_Default()
+        {
+            new MultiEntitySpecification2()
+                .IsSatisfiedBy(new Entity { Value1 = 1 });
+        }
+
+        [Fact]
         public void IsSatisfiedBy_MultiEntitySpecification2_Entity()
         {
             new MultiEntitySpecification2()
@@ -29,6 +36,13 @@ namespace LinqBuilder.Tests
             Should.Throw<Exception>(() =>new MultiEntitySpecification2()
                 .For<Entity3>()
                 .IsSatisfiedBy(new Entity3()));
+        }
+
+        [Fact]
+        public void IsSatisfiedBy_MultiEntitySpecification3_Default()
+        {
+            new MultiEntitySpecification3()
+                .IsSatisfiedBy(new Entity { Value1 = 1 });
         }
 
         [Fact]
@@ -61,6 +75,13 @@ namespace LinqBuilder.Tests
             Should.Throw<Exception>(() => new MultiEntitySpecification3()
                 .For<Entity4>()
                 .IsSatisfiedBy(new Entity4()));
+        }
+
+        [Fact]
+        public void IsSatisfiedBy_MultiEntitySpecification4_Default()
+        {
+            new MultiEntitySpecification4()
+                .IsSatisfiedBy(new Entity { Value1 = 1 });
         }
 
         [Fact]
