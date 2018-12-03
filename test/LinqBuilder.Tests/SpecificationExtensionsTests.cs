@@ -114,6 +114,18 @@ namespace LinqBuilder.Tests
                 .ShouldBe(true);
         }
 
+        [Fact]
+        public void Clone_Specifications_ShouldNotBeEqual()
+        {
+            var spec1 = _value1ShouldBe3;
+            var spec2 = spec1.Clone();
+            spec1.ShouldNotBe(spec2);
+            spec1.Internal.QuerySpecification.ShouldBe(spec2.Internal.QuerySpecification);
+            spec1.Internal.OrderSpecifications.ShouldBe(spec2.Internal.OrderSpecifications);
+            spec1.Internal.Skip.ShouldBe(spec2.Internal.Skip);
+            spec1.Internal.Take.ShouldBe(spec2.Internal.Take);
+        }
+
         private class TestData : EntityTheoryData
         {
             public TestData()

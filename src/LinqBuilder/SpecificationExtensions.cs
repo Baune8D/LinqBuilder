@@ -37,6 +37,12 @@ namespace LinqBuilder
             return predicate(entity);
         }
 
+        public static ISpecification<TEntity> Clone<TEntity>(this ISpecification<TEntity> specification)
+            where TEntity : class
+        {
+            return specification.Internal.Clone();
+        }
+
         private static ISpecification<TEntity> SetQuerySpecification<TEntity>(ISpecification<TEntity> specification, IQuerySpecification<TEntity> querySpecification)
             where TEntity : class
         {

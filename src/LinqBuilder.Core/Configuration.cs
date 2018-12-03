@@ -23,6 +23,21 @@ namespace LinqBuilder.Core
             QuerySpecification = new DummySpecification<TEntity>();
         }
 
+        public Configuration(IQuerySpecification<TEntity> querySpecification, List<IOrderSpecification<TEntity>> orderSpecifications)
+        {
+            OrderSpecifications = orderSpecifications;
+            QuerySpecification = querySpecification;
+        }
+
         public Configuration<TEntity> Internal => this;
+
+        public ISpecification<TEntity> Clone()
+        {
+            return new Configuration<TEntity>(QuerySpecification, OrderSpecifications)
+            {
+                Skip = Skip,
+                Take = Take
+            };
+        }
     }
 }
