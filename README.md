@@ -128,7 +128,15 @@ ISpecification<Entity> specification = Spec<Entity>.Any(
 ```
 
 ### Extensions
-**LinqBuilder** extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
+```csharp
+ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right);
+ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right);
+ISpecification<TEntity> Not<TEntity>(this ISpecification<TEntity> specification);
+bool IsSatisfiedBy<TEntity>(this ISpecification<TEntity> specification, TEntity entity);
+ISpecification<TEntity> Clone<TEntity>(this ISpecification<TEntity> specification);
+```
+
+**LinqBuilder** also extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
 ```csharp
 IEnumerable<Entity> collection = collection.Where(specification);
 bool result = collection.Any(specification);
