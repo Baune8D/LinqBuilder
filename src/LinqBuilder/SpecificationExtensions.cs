@@ -46,7 +46,7 @@ namespace LinqBuilder
         private static ISpecification<TEntity> SetQuerySpecification<TEntity>(ISpecification<TEntity> specification, IQuerySpecification<TEntity> querySpecification)
             where TEntity : class
         {
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             configuration.QuerySpecification = querySpecification;
             return configuration;
         }

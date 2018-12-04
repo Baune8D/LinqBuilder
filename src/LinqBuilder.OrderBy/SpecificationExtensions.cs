@@ -38,7 +38,7 @@ namespace LinqBuilder.OrderBy
         public static ISpecification<TEntity> Skip<TEntity>(this ISpecification<TEntity> specification, int count)
             where TEntity : class
         {
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             configuration.Skip = count;
             return configuration;
         }
@@ -46,7 +46,7 @@ namespace LinqBuilder.OrderBy
         public static ISpecification<TEntity> Take<TEntity>(this ISpecification<TEntity> specification, int count)
             where TEntity : class
         {
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             configuration.Take = count;
             return configuration;
         }
@@ -56,7 +56,7 @@ namespace LinqBuilder.OrderBy
         {
             if (pageNo < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageNo));
             if (pageSize < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageSize));
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             configuration.Skip = (pageNo - 1) * pageSize;
             configuration.Take = pageSize;
             return configuration;
@@ -83,7 +83,7 @@ namespace LinqBuilder.OrderBy
         private static IOrderedSpecification<TEntity> AddOrderSpecification<TEntity>(ISpecification<TEntity> specification, IOrderSpecification<TEntity> orderSpecification)
             where TEntity : class
         {
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             configuration.OrderSpecifications.Add(orderSpecification);
             return configuration;
         }
