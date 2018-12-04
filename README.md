@@ -48,7 +48,7 @@ ISpecification<Person> firstnameIsFoo = new FirstnameIs().Set("Foo");
 
 **By extending MultiSpecification:**
 ```csharp
-public class FirstnameIs : MultiSpecification<Person, OtherPerson>
+public class FirstnameIsFoo : MultiSpecification<Person, OtherPerson>
 {
     public override Expression<Func<Person, bool>> AsExpressionForEntity1()
     {
@@ -61,9 +61,9 @@ public class FirstnameIs : MultiSpecification<Person, OtherPerson>
     }
 }
 
-ISpecification<Person> firstnameIsFoo = new FirstnameIs(); // First generic is default
-ISpecification<Person> firstnameIsFoo = new FirstnameIs().For<Person>();
-ISpecification<OtherPerson> firstnameIsFoo = new FirstnameIs().For<OtherPerson>();
+ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo(); // First generic is default
+ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo().For<Person>();
+ISpecification<OtherPerson> firstnameIsFoo = new FirstnameIsFoo().For<OtherPerson>();
 ```
 
 **By static New method:**
