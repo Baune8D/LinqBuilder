@@ -19,7 +19,7 @@ namespace LinqBuilder.Core
 
         public Configuration(IOrderSpecification<TEntity> orderSpecification)
         {
-            OrderSpecifications = new List<IOrderSpecification<TEntity>> {orderSpecification};
+            OrderSpecifications = new List<IOrderSpecification<TEntity>> { orderSpecification };
             QuerySpecification = new DummySpecification<TEntity>();
         }
 

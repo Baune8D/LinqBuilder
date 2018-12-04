@@ -61,7 +61,6 @@ namespace LinqBuilder
             }
             if (leftExpression == null && rightExpression != null) return new Specification<TEntity>(rightExpression);
             return leftExpression != null ? new Specification<TEntity>(leftExpression) : new Specification<TEntity>();
-
         }
 
         private static Specification<TEntity> Or<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)
