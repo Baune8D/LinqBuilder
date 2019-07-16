@@ -1,6 +1,6 @@
 #tool "GitVersion.CommandLine&version=4.0.0"
-#tool "OpenCover&version=4.6.519"
-#tool "ReportGenerator&version=4.0.4"
+#tool "OpenCover&version=4.7.922"
+#tool "ReportGenerator&version=4.2.9"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS

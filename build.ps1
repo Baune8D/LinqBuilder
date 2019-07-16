@@ -39,7 +39,7 @@ https://cakebuild.net
 
 #>
 
-[CmdletBinding()]
+    [CmdletBinding()]
 Param(
     [string]$Script = "build.cake",
     [string]$Target,
@@ -85,7 +85,7 @@ function GetProxyEnabledWebClient
 {
     $wc = New-Object System.Net.WebClient
     $proxy = [System.Net.WebRequest]::GetSystemWebProxy()
-    $proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials        
+    $proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
     $wc.Proxy = $proxy
     return $wc
 }
@@ -115,8 +115,8 @@ if ((Test-Path $PSScriptRoot) -and !(Test-Path $TOOLS_DIR)) {
 
 # Make sure that packages.config exist.
 if (!(Test-Path $PACKAGES_CONFIG)) {
-    Write-Verbose -Message "Downloading packages.config..."    
-    try {        
+    Write-Verbose -Message "Downloading packages.config..."
+    try {
         $wc = GetProxyEnabledWebClient
         $wc.DownloadFile("https://cakebuild.net/download/bootstrapper/packages", $PACKAGES_CONFIG) } catch {
         Throw "Could not download packages.config."
@@ -156,7 +156,7 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
     # Check for changes in packages.config and remove installed tools if true.
     [string] $md5Hash = MD5HashFile($PACKAGES_CONFIG)
     if((!(Test-Path $PACKAGES_CONFIG_MD5)) -Or
-      ($md5Hash -ne (Get-Content $PACKAGES_CONFIG_MD5 ))) {
+            ($md5Hash -ne (Get-Content $PACKAGES_CONFIG_MD5 ))) {
         Write-Verbose -Message "Missing or changed package.config hash..."
         Remove-Item * -Recurse -Exclude packages.config,nuget.exe
     }
