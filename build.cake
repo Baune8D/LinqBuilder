@@ -124,7 +124,6 @@ Task("Test")
     {
         Information("Skipping coverage and running tests");
 
-		OpenCover(tool =>
         foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
         {
             DotNetCoreTest(file.FullPath, testSettings);
