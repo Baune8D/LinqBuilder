@@ -1,6 +1,6 @@
-#tool "GitVersion.CommandLine&version=4.0.0"
+#tool "GitVersion.CommandLine&version=5.0.1"
 #tool "OpenCover&version=4.7.922"
-#tool "ReportGenerator&version=4.2.9"
+#tool "ReportGenerator&version=4.2.15"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -19,9 +19,12 @@ var coverageResult = File("./coverage.xml");
 var artifactsFolder = Directory("./artifacts");
 var coverageFolder = Directory("./coverage");
 
-Func<IFileSystemInfo, bool> excludeFolders = fileSystemInfo =>
+var excludeFolders = new GlobberSettings
+{
+  Predicate = fileSystemInfo =>
 	!fileSystemInfo.Path.FullPath.Contains("/bin") &&
 	!fileSystemInfo.Path.FullPath.Contains("/obj");
+};
 
 string semVersion;
 
@@ -60,7 +63,11 @@ Task("Build")
 
 	DotNetCoreBuild(solutionFile, new DotNetCoreBuildSettings
     {
-        Configuration = configuration
+        Configuration = configuration,
+        MSBuildSettings = new DotNetCoreMSBuildSettings
+        {
+            TreatAllWarningsAs = MSBuildTreatAllWarningsAs.Error
+        }
 	});
 });
 
@@ -68,46 +75,61 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
-	Information("Removing old coverage.xml");
+    var testSettings = new DotNetCoreTestSettings
+    {
+        Configuration = configuration,
+        NoBuild = true,
+        NoRestore = true
+    };
 
-	DeleteFileIfExists(coverageResult);
+    if (IsRunningOnWindows())
+    {
+    	Information("Removing old coverage.xml");
 
-	Information("Running tests and generating coverage");
+    	DeleteFileIfExists(coverageResult);
 
-	string[] coverageFilters =
-	{
-		"+[LinqBuilder*]*",
-		"-[LinqBuilder.*Tests]*"
-	};
+    	Information("Running tests and generating coverage");
 
-	var settings = new OpenCoverSettings
-	{
-		OldStyle = true,
-		MergeOutput = true,
-		ReturnTargetCodeOffset = 0
-	}
-	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*");
+    	string[] coverageFilters =
+    	{
+    		"+[LinqBuilder*]*",
+    		"-[LinqBuilder.*.Tests]*"
+    	};
 
-	foreach (var filter in coverageFilters)
-	{
-		settings.WithFilter(filter);
-	}
+    	var coverageSettings = new OpenCoverSettings
+    	{
+    		OldStyle = true,
+    		MergeOutput = true,
+    		ReturnTargetCodeOffset = 0
+    	}
+    	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*");
 
-	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
-	{
-		settings.WorkingDirectory = file.GetDirectory();
+    	foreach (var filter in coverageFilters)
+    	{
+    		coverageSettings.WithFilter(filter);
+    	}
+
+    	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
+    	{
+    		coverageSettings.WorkingDirectory = file.GetDirectory();
+
+    		OpenCover(tool =>
+    		{
+    			tool.DotNetCoreTest(file.FullPath, testSettings);
+    		},
+    		coverageResult, coverageSettings);
+    	}
+    }
+    else
+    {
+        Information("Skipping coverage and running tests");
 
 		OpenCover(tool =>
-		{
-			tool.DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings
-			{
-				Configuration = configuration,
-				NoBuild = true,
-				NoRestore = true
-			});
-		},
-		coverageResult, settings);
-	}
+        foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
+        {
+            DotNetCoreTest(file.FullPath, testSettings);
+        }
+    }
 });
 
 Task("Package")
