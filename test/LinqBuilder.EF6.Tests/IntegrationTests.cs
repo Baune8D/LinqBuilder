@@ -26,7 +26,7 @@ namespace LinqBuilder.EF6.Tests
         {
             var specifiction = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));
-            
+
             var result = await _dbFixture.Context.Entities
                 .ExeSpec(specifiction)
                 .ToListAsync();

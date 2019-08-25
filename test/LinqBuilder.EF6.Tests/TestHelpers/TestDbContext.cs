@@ -11,7 +11,11 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
         public TestDbContext(DbConnection connection)
             : base(connection, true)
         {
-            if (_modelBuilder == null) return;
+            if (_modelBuilder == null)
+            {
+                return;
+            }
+
             var model = _modelBuilder.Build(Database.Connection);
             var sqliteDatabaseCreator = new SqliteDatabaseCreator();
             sqliteDatabaseCreator.Create(Database, model);
