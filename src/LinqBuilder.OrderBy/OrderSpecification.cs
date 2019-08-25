@@ -9,22 +9,27 @@ namespace LinqBuilder.OrderBy
     public class OrderSpecification<TEntity, TResult> : IOrderSpecification<TEntity>
         where TEntity : class
     {
+        private readonly Sort _sort;
         private readonly Expression<Func<TEntity, TResult>> _expression;
         private Func<TEntity, TResult> _func;
 
-        private readonly Sort _sort;
+        public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
+            : this(sort)
+        {
+            _expression = expression;
+        }
 
         protected OrderSpecification(Sort sort = Sort.Ascending)
         {
             _sort = sort;
         }
 
-        public OrderSpecification(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending) : this(sort)
-        {
-            _expression = expression;
-        }
-
         public Configuration<TEntity> Internal => new Configuration<TEntity>(this);
+
+        public static IOrderSpecification<TEntity> New(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
+        {
+            return new OrderSpecification<TEntity, TResult>(expression, sort);
+        }
 
         public virtual Expression<Func<TEntity, TResult>> AsExpression()
         {
@@ -34,11 +39,6 @@ namespace LinqBuilder.OrderBy
         public Func<TEntity, TResult> AsFunc()
         {
             return _func ?? (_func = AsExpression().Compile());
-        }
-
-        public static IOrderSpecification<TEntity> New(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
-        {
-            return new OrderSpecification<TEntity, TResult>(expression, sort);
         }
 
         public IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query)

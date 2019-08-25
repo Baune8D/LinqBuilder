@@ -7,13 +7,14 @@ namespace LinqBuilder.OrderBy.Tests.TestHelpers
     {
         private readonly List<Entity> _collection;
 
-        public IEnumerable<Entity> Collection => _collection.AsEnumerable();
-        public IQueryable<Entity> Query => _collection.AsQueryable();
-
         public Fixture()
         {
             _collection = new List<Entity>();
         }
+
+        public IEnumerable<Entity> Collection => _collection.AsEnumerable();
+
+        public IQueryable<Entity> Query => _collection.AsQueryable();
 
         public void AddToCollection(int value1, int value2, int value3)
         {

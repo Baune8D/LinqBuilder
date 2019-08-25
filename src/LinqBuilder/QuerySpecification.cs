@@ -10,7 +10,9 @@ namespace LinqBuilder
         private readonly Expression<Func<TEntity, bool>> _expression;
         private Func<TEntity, bool> _func;
 
-        protected QuerySpecification() { }
+        protected QuerySpecification()
+        {
+        }
 
         protected QuerySpecification(Expression<Func<TEntity, bool>> expression)
         {
@@ -27,7 +29,11 @@ namespace LinqBuilder
         public Func<TEntity, bool> AsFunc()
         {
             var expression = AsExpression();
-            if (expression == null) return null;
+            if (expression == null)
+            {
+                return null;
+            }
+
             return _func ?? (_func = expression.Compile());
         }
     }

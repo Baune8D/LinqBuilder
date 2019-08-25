@@ -24,11 +24,11 @@ namespace LinqBuilder.EFCore.Tests
         [Fact]
         public async Task ExeSpecAsync_ChildSpecification_ShouldReturnCorrectResult()
         {
-            var specifiction = new ChildValueSpecification(1)
+            var specification = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));
-            
+
             var result = await _dbFixture.Context.Entities
-                .ExeSpec(specifiction)
+                .ExeSpec(specification)
                 .ToListAsync();
 
             result.Count.ShouldBe(2);

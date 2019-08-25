@@ -6,12 +6,12 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
 {
     public class DbFixture : IDisposable
     {
-        public TestDbContext Context { get; private set; }
-
         public DbFixture()
         {
             Context = CreateContext();
         }
+
+        public TestDbContext Context { get; private set; }
 
         // Tear down in-memory database.
         public void Dispose()
@@ -53,7 +53,7 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
         {
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
-                DataSource = ":memory:", 
+                DataSource = ":memory:",
                 ForeignKeys = true
             };
             var connectionString = connectionStringBuilder.ConnectionString;

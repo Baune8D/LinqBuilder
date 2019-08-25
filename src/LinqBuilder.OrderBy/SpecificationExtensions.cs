@@ -54,8 +54,16 @@ namespace LinqBuilder.OrderBy
         public static ISpecification<TEntity> Paginate<TEntity>(this ISpecification<TEntity> specification, int pageNo, int pageSize)
             where TEntity : class
         {
-            if (pageNo < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageNo));
-            if (pageSize < 1) throw new ArgumentException("Cannot be less than 1!", nameof(pageSize));
+            if (pageNo < 1)
+            {
+                throw new ArgumentException("Cannot be less than 1!", nameof(pageNo));
+            }
+
+            if (pageSize < 1)
+            {
+                throw new ArgumentException("Cannot be less than 1!", nameof(pageSize));
+            }
+
             var configuration = specification.Internal.Clone().Internal;
             configuration.Skip = (pageNo - 1) * pageSize;
             configuration.Take = pageSize;

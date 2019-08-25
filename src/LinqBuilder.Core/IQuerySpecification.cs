@@ -7,6 +7,7 @@ namespace LinqBuilder.Core
         where TEntity : class
     {
         Expression<Func<TEntity, bool>> AsExpression();
+
         Func<TEntity, bool> AsFunc();
     }
 }

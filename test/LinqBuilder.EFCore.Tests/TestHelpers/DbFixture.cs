@@ -8,7 +8,6 @@ namespace LinqBuilder.EFCore.Tests.TestHelpers
     public class DbFixture : IDisposable
     {
         private SqliteConnection _connection;
-        public TestDbContext Context { get; private set; }
 
         public DbFixture()
         {
@@ -20,6 +19,8 @@ namespace LinqBuilder.EFCore.Tests.TestHelpers
             Context = CreateContext();
             Context.Database.EnsureCreated();
         }
+
+        public TestDbContext Context { get; private set; }
 
         // Tear down in-memory database.
         public void Dispose()
@@ -53,13 +54,6 @@ namespace LinqBuilder.EFCore.Tests.TestHelpers
             Context.Entities.Add(entity);
         }
 
-        private TestDbContext CreateContext()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<TestDbContext>();
-            optionsBuilder.UseSqlite(_connection);
-            return new TestDbContext(optionsBuilder.Options);
-        }
-
         private static SqliteConnection CreateSqliteConnection()
         {
             var connectionStringBuilder = new SqliteConnectionStringBuilder
@@ -68,6 +62,13 @@ namespace LinqBuilder.EFCore.Tests.TestHelpers
             };
             var connectionString = connectionStringBuilder.ToString();
             return new SqliteConnection(connectionString);
+        }
+
+        private TestDbContext CreateContext()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<TestDbContext>();
+            optionsBuilder.UseSqlite(_connection);
+            return new TestDbContext(optionsBuilder.Options);
         }
     }
 }

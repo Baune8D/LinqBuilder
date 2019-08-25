@@ -33,7 +33,7 @@ namespace LinqBuilder.Tests
         [Fact]
         public void IsSatisfiedBy_MultiEntitySpecification2_ShouldThrowException()
         {
-            Should.Throw<Exception>(() =>new MultiEntitySpecification2()
+            Should.Throw<Exception>(() => new MultiEntitySpecification2()
                 .For<Entity3>()
                 .IsSatisfiedBy(new Entity3()));
         }

@@ -7,8 +7,13 @@ namespace LinqBuilder
     public sealed class Spec<TEntity> : Specification<TEntity>
         where TEntity : class
     {
-        public Spec() { }
+        public Spec()
+        {
+        }
 
-        public Spec(Expression<Func<TEntity, bool>> expression) : base(expression) { }
+        public Spec(Expression<Func<TEntity, bool>> expression)
+            : base(expression)
+        {
+        }
     }
 }

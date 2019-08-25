@@ -10,6 +10,6 @@ namespace LinqBuilder.EF6.Tests.TestHelpers
 
         public int Value2 { get; set; }
 
-        public ICollection<ChildEntity> ChildEntities { get;set; }
+        public ICollection<ChildEntity> ChildEntities { get; set; }
     }
 }

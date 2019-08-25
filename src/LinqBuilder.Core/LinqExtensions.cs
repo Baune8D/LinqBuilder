@@ -16,7 +16,11 @@ namespace LinqBuilder.Core
             {
                 query = query.Where(querySpecification.AsExpression());
             }
-            if (skipSort) return query;
+
+            if (skipSort)
+            {
+                return query;
+            }
 
             var ordered = orderSpecifications.FirstOrDefault()?.InvokeSort(query);
             for (var i = 1; i < orderSpecifications.Count; i++)
@@ -38,7 +42,11 @@ namespace LinqBuilder.Core
             {
                 collection = collection.Where(querySpecification.AsFunc());
             }
-            if (skipSort) return collection;
+
+            if (skipSort)
+            {
+                return collection;
+            }
 
             var ordered = orderSpecifications.FirstOrDefault()?.InvokeSort(collection);
             for (var i = 1; i < orderSpecifications.Count; i++)
@@ -52,16 +60,32 @@ namespace LinqBuilder.Core
         private static IQueryable<TEntity> SkipTake<TEntity>(IQueryable<TEntity> query, Configuration<TEntity> configuration)
             where TEntity : class
         {
-            if (configuration.Skip.HasValue) query = query.Skip(configuration.Skip.Value);
-            if (configuration.Take.HasValue) query = query.Take(configuration.Take.Value);
+            if (configuration.Skip.HasValue)
+            {
+                query = query.Skip(configuration.Skip.Value);
+            }
+
+            if (configuration.Take.HasValue)
+            {
+                query = query.Take(configuration.Take.Value);
+            }
+
             return query;
         }
 
         private static IEnumerable<TEntity> SkipTake<TEntity>(IEnumerable<TEntity> collection, Configuration<TEntity> configuration)
             where TEntity : class
         {
-            if (configuration.Skip.HasValue) collection = collection.Skip(configuration.Skip.Value);
-            if (configuration.Take.HasValue) collection = collection.Take(configuration.Take.Value);
+            if (configuration.Skip.HasValue)
+            {
+                collection = collection.Skip(configuration.Skip.Value);
+            }
+
+            if (configuration.Take.HasValue)
+            {
+                collection = collection.Take(configuration.Take.Value);
+            }
+
             return collection;
         }
     }

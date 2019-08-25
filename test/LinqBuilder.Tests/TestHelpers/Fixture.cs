@@ -5,16 +5,16 @@ namespace LinqBuilder.Tests.TestHelpers
 {
     public class Fixture
     {
+        public Fixture()
+        {
+            Store = new List<Entity>();
+        }
+
         public List<Entity> Store { get; }
 
         public IEnumerable<Entity> Collection => Store.AsEnumerable();
 
         public IQueryable<Entity> Query => Store.AsQueryable();
-
-        public Fixture()
-        {
-            Store = new List<Entity>();
-        }
 
         public void AddToCollection(int value1, int value2)
         {
