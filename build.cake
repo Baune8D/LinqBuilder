@@ -23,7 +23,7 @@ var excludeFolders = new GlobberSettings
 {
   Predicate = fileSystemInfo =>
 	!fileSystemInfo.Path.FullPath.Contains("/bin") &&
-	!fileSystemInfo.Path.FullPath.Contains("/obj");
+	!fileSystemInfo.Path.FullPath.Contains("/obj")
 };
 
 string semVersion;
