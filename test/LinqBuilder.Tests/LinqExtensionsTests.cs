@@ -166,7 +166,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Count(_emptySpecification)
-                .ShouldBe(2);
+                .ShouldBe(_fixture.Collection.Count());
         }
 
         [Fact]
