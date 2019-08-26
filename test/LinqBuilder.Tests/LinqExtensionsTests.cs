@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using LinqBuilder.Core;
 using LinqBuilder.Tests.TestHelpers;
@@ -162,6 +162,14 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void CountEmpty_IQueryable_ShouldReturnCorrectResult()
+        {
+            _fixture.Query
+                .Count(_emptySpecification)
+                .ShouldBe(2);
+        }
+
+        [Fact]
         public void Count_IEnumerable_ShouldReturnCorrectResult()
         {
             _fixture.Collection
@@ -182,6 +190,14 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .First(_value1ShouldBe3)
+                .ShouldBe(_fixture.Store[0]);
+        }
+
+        [Fact]
+        public void FirstEmpty_IQueryable_ShouldReturnCorrectResult()
+        {
+            _fixture.Query
+                .First(_emptySpecification)
                 .ShouldBe(_fixture.Store[0]);
         }
 
@@ -210,6 +226,14 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void FirstOrDefaultEmpty_IQueryable_ShouldReturnCorrectResult()
+        {
+            _fixture.Query
+                .FirstOrDefault(_emptySpecification)
+                .ShouldBe(_fixture.Store[0]);
+        }
+
+        [Fact]
         public void FirstOrDefault_IEnumerable_ShouldReturnCorrectResult()
         {
             _fixture.Collection
@@ -234,6 +258,12 @@ namespace LinqBuilder.Tests
         }
 
         [Fact]
+        public void SingleEmpty_IQueryable_ShouldReturnCorrectResult()
+        {
+            Should.Throw<InvalidOperationException>(() => _fixture.Query.Single(_emptySpecification));
+        }
+
+        [Fact]
         public void Single_IEnumerable_ShouldReturnCorrectResult()
         {
             _fixture.Collection
@@ -253,6 +283,12 @@ namespace LinqBuilder.Tests
             _fixture.Query
                 .SingleOrDefault(_value1ShouldBe1)
                 .ShouldBe(_fixture.Store[2]);
+        }
+
+        [Fact]
+        public void SingleOrDefaultEmpty_IQueryable_ShouldReturnCorrectResult()
+        {
+            Should.Throw<InvalidOperationException>(() => _fixture.Query.SingleOrDefault(_emptySpecification));
         }
 
         [Fact]
