@@ -18,8 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LinqBuilder.EFCore\LinqBuilder.EFCore.csproj" />
-    <ProjectReference Include="..\..\src\LinqBuilder.OrderBy\LinqBuilder.OrderBy.csproj" />
     <ProjectReference Include="..\..\src\LinqBuilder\LinqBuilder.csproj" />
+    <ProjectReference Include="..\LinqBuilder.EFCore.Tests.Shared\LinqBuilder.EFCore.Tests.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

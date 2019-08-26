@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using LinqBuilder.EFCore.Tests.Shared;
 
 namespace LinqBuilder.EFCore.AutoMapper.Tests.TestHelpers
 {

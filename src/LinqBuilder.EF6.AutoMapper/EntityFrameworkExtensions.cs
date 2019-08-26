@@ -1,6 +1,7 @@
-﻿using System.Data.Entity;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LinqBuilder.Core;
 
@@ -10,6 +11,7 @@ namespace LinqBuilder.EF6.AutoMapper
     {
         public static async Task<bool> AnyAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             return await (expression == null ? query.AnyAsync() : query.ProjectTo<T>(configuration).AnyAsync(expression));
@@ -17,6 +19,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<bool> AllAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             return expression == null || await query.ProjectTo<T>(configuration).AllAsync(expression);
@@ -24,6 +27,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<int> CountAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             return await (expression == null ? query.CountAsync() : query.ProjectTo<T>(configuration).CountAsync(expression));
@@ -31,6 +35,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<T> FirstAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             var projectedQuery = query.ProjectTo<T>(configuration);
@@ -39,6 +44,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<T> FirstOrDefaultAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             var projectedQuery = query.ProjectTo<T>(configuration);
@@ -47,6 +53,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<T> SingleAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             var projectedQuery = query.ProjectTo<T>(configuration);
@@ -55,6 +62,7 @@ namespace LinqBuilder.EF6.AutoMapper
 
         public static async Task<T> SingleOrDefaultAsync<TEntity, T>(this IQueryable<TEntity> query, ISpecification<T> specification, IConfigurationProvider configuration)
             where TEntity : class
+            where T : class
         {
             var expression = specification.Internal.QuerySpecification.AsExpression();
             var projectedQuery = query.ProjectTo<T>(configuration);

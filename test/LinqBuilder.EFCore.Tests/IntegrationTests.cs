@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using LinqBuilder.Core;
+using LinqBuilder.EFCore.Tests.Shared;
 using LinqBuilder.EFCore.Tests.TestHelpers;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -10,15 +11,15 @@ namespace LinqBuilder.EFCore.Tests
 {
     public class IntegrationTests : IDisposable
     {
-        private readonly DbFixture _dbFixture;
+        private readonly TestDb _testDb;
 
         public IntegrationTests()
         {
-            _dbFixture = new DbFixture();
-            _dbFixture.AddEntity(2, 1, 2);
-            _dbFixture.AddEntity(1, 2, 3);
-            _dbFixture.AddEntity(3, 1, 1);
-            _dbFixture.Context.SaveChanges();
+            _testDb = new TestDb();
+            _testDb.AddEntity(2, 1, 2);
+            _testDb.AddEntity(1, 2, 3);
+            _testDb.AddEntity(3, 1, 1);
+            _testDb.Context.SaveChanges();
         }
 
         [Fact]
@@ -27,7 +28,7 @@ namespace LinqBuilder.EFCore.Tests
             var specification = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));
 
-            var result = await _dbFixture.Context.Entities
+            var result = await _testDb.Context.Entities
                 .ExeSpec(specification)
                 .ToListAsync();
 
@@ -38,7 +39,7 @@ namespace LinqBuilder.EFCore.Tests
 
         public void Dispose()
         {
-            _dbFixture.Dispose();
+            _testDb.Dispose();
         }
     }
 }

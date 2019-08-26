@@ -1,19 +1,25 @@
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using LinqBuilder.Core;
+using LinqBuilder.EF6.AutoMapper.Tests.TestHelpers;
 using LinqBuilder.EF6.Tests.Shared;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.EF6.Tests
+namespace LinqBuilder.EF6.AutoMapper.Tests
 {
-    public class IntegrationTests : IDisposable
+    [Collection("AutoMapper collection")]
+    public class IntegrationTests : IClassFixture<AutoMapperFixture>, IDisposable
     {
+        private readonly IConfigurationProvider _mapperConfig;
         private readonly TestDb _testDb;
 
-        public IntegrationTests()
+        public IntegrationTests(AutoMapperFixture autoMapperFixture)
         {
+            _mapperConfig = autoMapperFixture.MapperConfig;
             _testDb = new TestDb();
             _testDb.AddEntity(2, 1, 2);
             _testDb.AddEntity(1, 2, 3);
@@ -24,11 +30,12 @@ namespace LinqBuilder.EF6.Tests
         [Fact]
         public async Task ExeSpecAsync_ChildSpecification_ShouldReturnCorrectResult()
         {
-            var specifiction = new ChildValueSpecification(1)
+            var specification = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));
 
             var result = await _testDb.Context.Entities
-                .ExeSpec(specifiction)
+                .ProjectTo<ProjectedEntity>(_mapperConfig)
+                .ExeSpec(specification)
                 .ToListAsync();
 
             result.Count.ShouldBe(2);

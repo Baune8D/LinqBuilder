@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LinqBuilder.Core;
 using LinqBuilder.EFCore.AutoMapper.Tests.TestHelpers;
+using LinqBuilder.EFCore.Tests.Shared;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
@@ -11,19 +12,19 @@ using Xunit;
 namespace LinqBuilder.EFCore.AutoMapper.Tests
 {
     [Collection("AutoMapper collection")]
-    public class IntegrationTests : IDisposable
+    public class IntegrationTests : IClassFixture<AutoMapperFixture>, IDisposable
     {
         private readonly IConfigurationProvider _mapperConfig;
-        private readonly DbFixture _dbFixture;
+        private readonly TestDb _testDb;
 
         public IntegrationTests(AutoMapperFixture autoMapperFixture)
         {
             _mapperConfig = autoMapperFixture.MapperConfig;
-            _dbFixture = new DbFixture();
-            _dbFixture.AddEntity(2, 1, 2);
-            _dbFixture.AddEntity(1, 2, 3);
-            _dbFixture.AddEntity(3, 1, 1);
-            _dbFixture.Context.SaveChanges();
+            _testDb = new TestDb();
+            _testDb.AddEntity(2, 1, 2);
+            _testDb.AddEntity(1, 2, 3);
+            _testDb.AddEntity(3, 1, 1);
+            _testDb.Context.SaveChanges();
         }
 
         [Fact]
@@ -32,7 +33,7 @@ namespace LinqBuilder.EFCore.AutoMapper.Tests
             var specification = new ChildValueSpecification(1)
                 .Or(new ChildValueSpecification(2));
 
-            var result = await _dbFixture.Context.Entities
+            var result = await _testDb.Context.Entities
                 .ProjectTo<ProjectedEntity>(_mapperConfig)
                 .ExeSpec(specification)
                 .ToListAsync();
@@ -44,7 +45,7 @@ namespace LinqBuilder.EFCore.AutoMapper.Tests
 
         public void Dispose()
         {
-            _dbFixture.Dispose();
+            _testDb.Dispose();
         }
     }
 }

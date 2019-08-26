@@ -1,7 +1,7 @@
 using AutoMapper;
-using LinqBuilder.EFCore.Tests.Shared;
+using LinqBuilder.EF6.Tests.Shared;
 
-namespace LinqBuilder.EFCore.AutoMapper.Tests.TestHelpers
+namespace LinqBuilder.EF6.AutoMapper.Tests.TestHelpers
 {
     public class EntityProfile : Profile
     {

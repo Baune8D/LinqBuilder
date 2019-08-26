@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace LinqBuilder.EF6.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.Shared
 {
     public class Entity
     {

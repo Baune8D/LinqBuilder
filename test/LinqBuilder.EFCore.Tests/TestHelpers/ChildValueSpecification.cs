@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
+using LinqBuilder.EFCore.Tests.Shared;
 
 namespace LinqBuilder.EFCore.Tests.TestHelpers
 {

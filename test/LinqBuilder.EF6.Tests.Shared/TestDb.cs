@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
-namespace LinqBuilder.EF6.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.Shared
 {
-    public class DbFixture : IDisposable
+    public class TestDb : IDisposable
     {
-        public DbFixture()
+        public TestDb()
         {
             Context = CreateContext();
         }

@@ -13,17 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.OrderBy.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9CE7133-E0CC-469B-81F9-529EE0AE003D}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
 		build.ps1 = build.ps1
 		build.sh = build.sh
+		Directory.Build.props = Directory.Build.props
 		GitVersion.yml = GitVersion.yml
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
 		shared.ruleset = shared.ruleset
 		stylecop.json = stylecop.json
 	EndProjectSection
@@ -56,11 +56,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Core", "src\Lin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.Core.Tests", "test\LinqBuilder.Core.Tests\LinqBuilder.Core.Tests.csproj", "{BD477BA0-C409-4345-B35C-EE3F5FD3AC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EFCore.AutoMapper", "src\LinqBuilder.EFCore.AutoMapper\LinqBuilder.EFCore.AutoMapper.csproj", "{3092A43C-6617-4982-9657-31B25B9BDC70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.EFCore.AutoMapper", "src\LinqBuilder.EFCore.AutoMapper\LinqBuilder.EFCore.AutoMapper.csproj", "{3092A43C-6617-4982-9657-31B25B9BDC70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EFCore.AutoMapper.Tests", "test\LinqBuilder.EFCore.AutoMapper.Tests\LinqBuilder.EFCore.AutoMapper.Tests.csproj", "{52F42E3B-58BE-4DA0-A585-392E1B80D1BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.EFCore.AutoMapper.Tests", "test\LinqBuilder.EFCore.AutoMapper.Tests\LinqBuilder.EFCore.AutoMapper.Tests.csproj", "{52F42E3B-58BE-4DA0-A585-392E1B80D1BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EF6.AutoMapper", "src\LinqBuilder.EF6.AutoMapper\LinqBuilder.EF6.AutoMapper.csproj", "{7A828DE3-5E37-4447-8B6E-6DFEF04E9487}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqBuilder.EF6.AutoMapper", "src\LinqBuilder.EF6.AutoMapper\LinqBuilder.EF6.AutoMapper.csproj", "{7A828DE3-5E37-4447-8B6E-6DFEF04E9487}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EF6.AutoMapper.Tests", "test\LinqBuilder.EF6.AutoMapper.Tests\LinqBuilder.EF6.AutoMapper.Tests.csproj", "{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EF6.Tests.Shared", "test\LinqBuilder.EF6.Tests.Shared\LinqBuilder.EF6.Tests.Shared.csproj", "{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EFCore.Tests.Shared", "test\LinqBuilder.EFCore.Tests.Shared\LinqBuilder.EFCore.Tests.Shared.csproj", "{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +126,18 @@ Global
 		{7A828DE3-5E37-4447-8B6E-6DFEF04E9487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A828DE3-5E37-4447-8B6E-6DFEF04E9487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A828DE3-5E37-4447-8B6E-6DFEF04E9487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,6 +158,9 @@ Global
 		{3092A43C-6617-4982-9657-31B25B9BDC70} = {DAB01770-8D12-4638-9BBA-ABC31C2A2D6E}
 		{52F42E3B-58BE-4DA0-A585-392E1B80D1BF} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
 		{7A828DE3-5E37-4447-8B6E-6DFEF04E9487} = {DAB01770-8D12-4638-9BBA-ABC31C2A2D6E}
+		{055E2FD4-047D-46C0-B7AA-6A1FAC3DD551} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
+		{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
+		{B3877216-1AD6-49DF-9B54-5C3D1EAFC83F} = {C9B69233-2086-42C0-BE0E-A7B7EA1934EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4029E7C4-F013-4A5C-A3A7-9BD01FA6ED4A}

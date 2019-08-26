@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using LinqBuilder.EF6.Tests.Shared;
 
-namespace LinqBuilder.EFCore.AutoMapper.Tests.TestHelpers
+namespace LinqBuilder.EF6.AutoMapper.Tests.TestHelpers
 {
-    public class Entity
+    public class ProjectedEntity
     {
         public int Id { get; set; }
 

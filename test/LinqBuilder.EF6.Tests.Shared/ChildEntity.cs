@@ -1,4 +1,4 @@
-﻿namespace LinqBuilder.EF6.Tests.TestHelpers
+namespace LinqBuilder.EF6.Tests.Shared
 {
     public class ChildEntity
     {

@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace LinqBuilder.EFCore.AutoMapper.Tests.TestHelpers
+namespace LinqBuilder.EFCore.Tests.Shared
 {
     public class TestDbContext : DbContext
     {

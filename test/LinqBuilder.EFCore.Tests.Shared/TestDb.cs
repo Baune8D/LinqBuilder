@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace LinqBuilder.EFCore.Tests.TestHelpers
+namespace LinqBuilder.EFCore.Tests.Shared
 {
-    public class DbFixture : IDisposable
+    public class TestDb : IDisposable
     {
         private SqliteConnection _connection;
 
-        public DbFixture()
+        public TestDb()
         {
             // We need to hold the SQLite connection open to force the in-memory database not to reset.
             _connection = CreateSqliteConnection();

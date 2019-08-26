@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using LinqBuilder.EF6.Tests.Shared;
 
-namespace LinqBuilder.EF6.Tests
+namespace LinqBuilder.EF6.AutoMapper.Tests.TestHelpers
 {
-    public class ChildValueSpecification : Specification<Entity>
+    public class ChildValueSpecification : Specification<ProjectedEntity>
     {
         private readonly int _value;
 
@@ -14,7 +13,7 @@ namespace LinqBuilder.EF6.Tests
             _value = value;
         }
 
-        public override Expression<Func<Entity, bool>> AsExpression()
+        public override Expression<Func<ProjectedEntity, bool>> AsExpression()
         {
             return entity => entity.ChildEntities.Any(x => x.Value == _value);
         }
