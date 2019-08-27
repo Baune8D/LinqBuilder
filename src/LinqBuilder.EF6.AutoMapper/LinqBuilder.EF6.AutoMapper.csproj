@@ -5,9 +5,7 @@
     <Version>1.0.0</Version>
     <Authors>Morten Larsen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Entity Framework 6 extensions.
-      Enables most async methods to use ISpecification.
-      An implementation of ISpecification is still required, see LinqBuilder.</Description>
+    <Description>Extensions for querying EF 6 with AutoMapper projections.</Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Baune8D/linqbuilder.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Baune8D/linqbuilder</PackageProjectUrl>

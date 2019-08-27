@@ -5,9 +5,7 @@
     <Version>1.0.0</Version>
     <Authors>Morten Larsen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Core package for LinqBuilder.
-      Contains the basic configuration object and interfaces.
-      Should in most cases not be used on its own.</Description>
+    <Description>Extensions for querying EF Core with AutoMapper projections.</Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Baune8D/linqbuilder.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Baune8D/linqbuilder</PackageProjectUrl>
