@@ -12,7 +12,8 @@ LinqBuilder is based on the specification pattern.
 1. [LinqBuilder](#linqbuilder)
 2. [LinqBuilder.OrderBy](#linqbuilder.orderby)
 3. [LinqBuilder.EF6](#linqbuilder.ef6)
-4. [LinqBuilder.EFCore](#linqbuilder.efcore)
+4. [LinqBuilder.EFCore / LinqBuilder.EF6](#linqbuilderefcore--linqbuilderef6)
+4. [LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper](#linqbuilderefcoreautomapper--linqbuilderef6automapper)
 4. [Full Example](#full-example)
 
 ## LinqBuilder
@@ -270,10 +271,10 @@ ISpecification<Person> specification = specification.Take(10);
 specification.HasTake(); // Returns true
 ```
 
-## LinqBuilder.EF6
+## LinqBuilder.EFCore / LinqBuilder.EF6
 
 ### Extensions
-**LinqBuilder.EF6** extends the following extensions to support ```ISpecification```.
+**LinqBuilder.EF** packages extends the following extensions to support ```ISpecification```.
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification);
 bool result = await _sampleContext.Entities.AllAsync(specification);
@@ -284,17 +285,38 @@ Entity result = await _sampleContext.Entities.SingleAsync(specification);
 Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
 
-## LinqBuilder.EFCore
-**LinqBuilder.EFCore** extends the following extensions to support ```ISpecification```.
+## LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper
+**LinqBuilder.EF.AutoMapper** contains extensions that will project
 ```csharp
-bool result = await _sampleContext.Entities.AnyAsync(specification);
-bool result = await _sampleContext.Entities.AllAsync(specification);
-int result = await _sampleContext.Entities.CountAsync(specification);
-Entity result = await _sampleContext.Entities.FirstAsync(specification);
-Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification);
-Entity result = await _sampleContext.Entities.SingleAsync(specification);
-Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
+public class Entity
+{
+    public int Id { get; set; }
+}
+
+[AutoMap(typeof(Entity))]
+public class ProjectedEntity
+{
+    public int Id { get; set; }
+}
+
+public class Repository
+{
+    private readonly DbSet<Entity> _dbSet;
+    private readonly IConfigurationProvider _mapperConfig;
+
+    public DbService(SampleDbContext context, IMapper mapper)
+    {
+        _dbSet = context.Set<Entity>();
+        _mapperConfig = mapper.ConfigurationProvider;
+    }
+
+    public List<ProjectedEntity> Get(ISpecification<ProjectedEntity> specification)
+    {
+        return _dbSet.First(specification, _mapperConfig);
+    }
+}
 ```
+
 
 ## Full example
 
