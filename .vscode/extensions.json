@@ -1,5 +1,6 @@
 {
-	"recommendations": [
-		"ms-vscode.csharp"
-	]
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "editorconfig.editorconfig"
+  ]
 }
