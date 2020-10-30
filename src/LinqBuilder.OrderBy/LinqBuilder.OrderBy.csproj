@@ -15,7 +15,7 @@ Also extends regular specifications from the LinqBuilder package.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.Core\LinqBuilder.Core.csproj" />
+    <ProjectReference Include="..\LinqBuilder\LinqBuilder.csproj" />
   </ItemGroup>
 
 </Project>

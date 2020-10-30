@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using LinqBuilder.Core;
 using LinqBuilder.EF6.Tests.Shared;
+using LinqBuilder.EF6.Tests.TestHelpers;
 using Shouldly;
 using Xunit;
 

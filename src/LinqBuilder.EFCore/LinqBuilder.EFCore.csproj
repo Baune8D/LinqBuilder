@@ -19,7 +19,7 @@ An implementation of ISpecification is still required, see LinqBuilder.</Descrip
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.Core\LinqBuilder.Core.csproj" />
+    <ProjectReference Include="..\LinqBuilder\LinqBuilder.csproj" />
   </ItemGroup>
 
 </Project>
