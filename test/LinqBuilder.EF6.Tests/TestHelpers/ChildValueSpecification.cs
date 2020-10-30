@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 using LinqBuilder.EF6.Tests.Shared;
 
 namespace LinqBuilder.EF6.Tests.TestHelpers

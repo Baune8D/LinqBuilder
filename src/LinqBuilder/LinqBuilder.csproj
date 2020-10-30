@@ -17,8 +17,4 @@ Made for use with IEnumerable and IQueryable.</Description>
     <PackageReference Include="LinqKit.Core" Version="1.1.16" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.Core\LinqBuilder.Core.csproj" />
-  </ItemGroup>
-
 </Project>
