@@ -15,7 +15,7 @@ configuration:
   - Release
 
 build_script:
-  - ps: .\build.ps1
+  - cmd: dotnet tool restore && dotnet cake --bootstrap && dotnet cake
 
 after_build:
   - ps: |

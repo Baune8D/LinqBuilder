@@ -1,6 +1,14 @@
-#tool "GitVersion.CommandLine&version=5.0.1"
-#tool "OpenCover&version=4.7.922"
-#tool "ReportGenerator&version=4.2.15"
+// Install modules.
+#module nuget:?package=Cake.DotNetTool.Module&version=0.4.0
+
+// Install addins.
+#addin nuget:?package=Cake.Coverlet&version=2.5.1
+
+// Install tools.
+#tool nuget:?package=ReportGenerator&version=4.7.1
+
+// Install .NET Core Global tools.
+#tool dotnet:?package=GitVersion.Tool&version=5.5.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
