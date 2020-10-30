@@ -1,7 +1,6 @@
 # LinqBuilder
 [![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
 [![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
-[![Analytics](https://ga-beacon.appspot.com/UA-121440026-1/linqbuilder)](https://github.com/igrigorik/ga-beacon)
 
 **Available on NuGet:** [https://www.nuget.org/packages?q=linqbuilder](https://www.nuget.org/packages?q=linqbuilder)  
 **Dev build feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
@@ -286,7 +285,7 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ```
 
 ## LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper
-**LinqBuilder.EF.AutoMapper** contains extensions that will project
+**LinqBuilder.EF.AutoMapper** contains extensions that will automatically project to specification entity.
 ```csharp
 public class Entity
 {
