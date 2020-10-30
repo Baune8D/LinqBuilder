@@ -22,7 +22,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 var solutionFile = File("./LinqBuilder.sln");
-var coverageResult = File("./coverage.xml");
+var coverageFilename = "coverage";
 
 var artifactsFolder = Directory("./artifacts");
 var coverageFolder = Directory("./coverage");
@@ -47,16 +47,18 @@ Task("Version")
 
     if (AppVeyor.IsRunningOnAppVeyor)
     {
-		GitVersion(new GitVersionSettings
-		{
-			OutputType = GitVersionOutput.BuildServer,
-			UpdateAssemblyInfo = true
-		});
-	}
+        GitVersion(new GitVersionSettings
+        {
+            OutputType = GitVersionOutput.BuildServer,
+            UpdateAssemblyInfo = true,
+            NoFetch = true
+        });
+    }
 
     var result = GitVersion(new GitVersionSettings
 	{
-		OutputType = GitVersionOutput.Json
+		OutputType = GitVersionOutput.Json,
+		NoFetch = true
     });
 
 	semVersion = result.NuGetVersionV2;
@@ -83,59 +85,47 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
+    Information("Removing old coverage");
+    DeleteDirectoryIfExists(coverageFolder);
+
+    Information("Running tests and generating coverage");
+
     var testSettings = new DotNetCoreTestSettings
     {
         Configuration = configuration,
-        NoBuild = true,
-        NoRestore = true
+        NoRestore = true,
+        NoBuild = true
     };
 
-    if (IsRunningOnWindows())
-    {
-    	Information("Removing old coverage.xml");
-
-    	DeleteFileIfExists(coverageResult);
-
-    	Information("Running tests and generating coverage");
-
-    	string[] coverageFilters =
-    	{
-    		"+[LinqBuilder*]*",
-    		"-[LinqBuilder.*Tests]*"
-    	};
-
-    	var coverageSettings = new OpenCoverSettings
-    	{
-    		OldStyle = true,
-    		MergeOutput = true,
-    		ReturnTargetCodeOffset = 0
-    	}
-    	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*");
-
-    	foreach (var filter in coverageFilters)
-    	{
-    		coverageSettings.WithFilter(filter);
-    	}
-
-    	foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
-    	{
-    		coverageSettings.WorkingDirectory = file.GetDirectory();
-
-    		OpenCover(tool =>
-    		{
-    			tool.DotNetCoreTest(file.FullPath, testSettings);
-    		},
-    		coverageResult, coverageSettings);
-    	}
+    var coverageSettings = new CoverletSettings {
+        CollectCoverage = true,
+        MergeWithFile = coverageFolder + File($"{coverageFilename}.json"),
+        CoverletOutputDirectory = coverageFolder,
+        CoverletOutputName = coverageFilename,
+        CoverletOutputFormat = CoverletOutputFormat.json | CoverletOutputFormat.opencover,
     }
-    else
-    {
-        Information("Skipping coverage and running tests");
+    .WithAttributeExclusion("*.ExcludeFromCodeCoverage*");
 
-        foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
-        {
-            DotNetCoreTest(file.FullPath, testSettings);
-        }
+    string[] coverageFilters =
+    {
+        "+[LinqBuilder*]*",
+        "-[LinqBuilder.*Tests]*"
+    };
+
+    foreach (var filter in coverageFilters)
+    {
+        coverageSettings.WithFilter(filter);
+    }
+
+    foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
+    {
+        DotNetCoreTest(file.FullPath, testSettings, coverageSettings);
+    }
+
+    if (!AppVeyor.IsRunningOnAppVeyor)
+    {
+        Information("Generating coverage report");
+        //ReportGenerator(coverageResult, coverageFolder);
     }
 });
 
@@ -243,16 +233,6 @@ Task("NuGet-Push")
 	{
 		Information("Nothing to do");
 	}
-});
-
-Task("Coverage-Report")
-	.IsDependentOn("Test")
-    .Does(() =>
-{
-	Information("Generating coverage report");
-
-	DeleteDirectoryIfExists(coverageFolder);
-	ReportGenerator(coverageResult, coverageFolder);
 });
 
 //////////////////////////////////////////////////////////////////////
