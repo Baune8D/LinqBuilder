@@ -6,9 +6,10 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
+end_of_line = lf
 
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{cs,cake,ps1}]
+[*.{cs,cake}]
 indent_size = 4
