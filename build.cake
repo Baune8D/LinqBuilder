@@ -144,17 +144,15 @@ Task("Package")
 
 	Information("Packaging libraries to artifacts directory");
 
-	foreach (var file in GetFiles("./src/*/*.csproj", excludeFolders))
-	{
-		DotNetCorePack(file.FullPath, new DotNetCorePackSettings
-		{
-			Configuration = configuration,
-			IncludeSymbols = true,
-			IncludeSource = true,
-			MSBuildSettings = new DotNetCoreMSBuildSettings()
-				.SetVersion(semVersion)
-		});
-	}
+    DotNetCorePack(solutionFile, new DotNetCorePackSettings
+    {
+        Configuration = configuration,
+        IncludeSymbols = true,
+        IncludeSource = true,
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+            .SetVersion(semVersion)
+            .WithProperty("SymbolPackageFormat", "snupkg")
+    });
 
 	CreateDirectoryIfNotExists(artifactsFolder);
 	MoveFiles(nupkgGlob, artifactsFolder);
@@ -211,7 +209,7 @@ Task("NuGet-Push")
 				{
 					NuGetPush(file, new NuGetPushSettings
 					{
-						Source = "https://www.myget.org/F/baunegaard/symbols/api/v2/package",
+						Source = "https://www.myget.org/F/baunegaard/api/v3/index.json",
 						ApiKey = EnvironmentVariable("MYGET_API_KEY")
 					});
 				}
