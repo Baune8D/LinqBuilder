@@ -1,9 +1,10 @@
 # LinqBuilder
 [![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
 [![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
+[![NuGet Badge](https://buildstats.info/nuget/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder)
 
-**Available on NuGet:** [https://www.nuget.org/packages?q=linqbuilder](https://www.nuget.org/packages?q=linqbuilder)  
-**Dev build feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
+**Available on NuGet:** [https://www.nuget.org/packages/LinqBuilder/](https://www.nuget.org/packages/LinqBuilder/)  
+**MyGet development feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
 
 LinqBuilder is based on the specification pattern.
 
