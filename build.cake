@@ -108,7 +108,7 @@ Task("Test")
         }
     };
 
-    foreach (var file in GetFiles("./src/*.Tests/*.csproj", excludeFolders))
+    foreach (var file in GetFiles("./src/**/*.Tests/*.csproj", excludeFolders))
     {
         DotNetCoreTest(file.FullPath, testSettings, coverageSettings);
     }

@@ -12,7 +12,7 @@
             Set(value);
         }
 
-        public TValue Value { get; private set; }
+        public TValue Value { get; private set; } = default!;
 
         public IDynamicSpecification<TEntity, TValue> Set(TValue value)
         {

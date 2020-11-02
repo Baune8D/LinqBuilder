@@ -8,7 +8,7 @@ namespace LinqBuilder
         where TEntity1 : class
         where TEntity2 : class
     {
-        public Configuration<TEntity1> Internal => new Configuration<TEntity1>(For<TEntity1>());
+        public InternalConfiguration<TEntity1> Internal => new InternalConfiguration<TEntity1>(For<TEntity1>());
 
         public abstract Expression<Func<TEntity1, bool>> AsExpressionForEntity1();
 
@@ -26,10 +26,10 @@ namespace LinqBuilder
             return result;
         }
 
-        protected virtual Specification<TEntity> Transform<TEntity>()
+        protected virtual Specification<TEntity>? Transform<TEntity>()
             where TEntity : class
         {
-            object specification = null;
+            object? specification = null;
 
             if (typeof(TEntity) == typeof(TEntity1))
             {
@@ -40,7 +40,7 @@ namespace LinqBuilder
                 specification = new Specification<TEntity2>(AsExpressionForEntity2());
             }
 
-            return (Specification<TEntity>)specification;
+            return (Specification<TEntity>?)specification;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LinqBuilder
             Value4 = value4;
         }
 
-        public TValue4 Value4 { get; private set; }
+        public TValue4 Value4 { get; private set; } = default!;
 
         public IDynamicSpecification<TEntity, TValue1, TValue2, TValue3, TValue4> Set(TValue1 value1, TValue2 value2, TValue3 value3, TValue4 value4)
         {

@@ -10,6 +10,16 @@ namespace LinqBuilder
         public static ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
+            if (left == null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
             var compositeSpecification = And(left.Internal.QuerySpecification.AsExpression(), right.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
@@ -17,6 +27,16 @@ namespace LinqBuilder
         public static ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right)
             where TEntity : class
         {
+            if (left == null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
             var compositeSpecification = Or(left.Internal.QuerySpecification.AsExpression(), right.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(left, compositeSpecification);
         }
@@ -24,6 +44,11 @@ namespace LinqBuilder
         public static ISpecification<TEntity> Not<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
+            if (specification == null)
+            {
+                throw new ArgumentNullException(nameof(specification));
+            }
+
             var compositeSpecification = Not(specification.Internal.QuerySpecification.AsExpression());
             return SetQuerySpecification(specification, compositeSpecification);
         }
@@ -31,19 +56,23 @@ namespace LinqBuilder
         public static bool IsSatisfiedBy<TEntity>(this ISpecification<TEntity> specification, TEntity entity)
             where TEntity : class
         {
-            var querySpecification = specification.Internal.QuerySpecification;
-            if (querySpecification.AsExpression() == null)
+            if (specification == null)
             {
-                return true;
+                throw new ArgumentNullException(nameof(specification));
             }
 
-            var predicate = querySpecification.AsFunc();
-            return predicate(entity);
+            var predicate = specification.Internal.QuerySpecification.AsFunc();
+            return predicate == null || predicate(entity);
         }
 
         public static ISpecification<TEntity> Clone<TEntity>(this ISpecification<TEntity> specification)
             where TEntity : class
         {
+            if (specification == null)
+            {
+                throw new ArgumentNullException(nameof(specification));
+            }
+
             return specification.Internal.Clone();
         }
 
@@ -55,7 +84,7 @@ namespace LinqBuilder
             return configuration;
         }
 
-        private static Specification<TEntity> And<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)
+        private static Specification<TEntity> And<TEntity>(Expression<Func<TEntity, bool>>? leftExpression, Expression<Func<TEntity, bool>>? rightExpression)
             where TEntity : class
         {
             if (leftExpression != null && rightExpression != null)
@@ -72,7 +101,7 @@ namespace LinqBuilder
             return leftExpression != null ? new Specification<TEntity>(leftExpression) : new Specification<TEntity>();
         }
 
-        private static Specification<TEntity> Or<TEntity>(Expression<Func<TEntity, bool>> leftExpression, Expression<Func<TEntity, bool>> rightExpression)
+        private static Specification<TEntity> Or<TEntity>(Expression<Func<TEntity, bool>>? leftExpression, Expression<Func<TEntity, bool>>? rightExpression)
             where TEntity : class
         {
             if (leftExpression != null && rightExpression != null)
@@ -89,7 +118,7 @@ namespace LinqBuilder
             return leftExpression != null ? new Specification<TEntity>(leftExpression) : new Specification<TEntity>();
         }
 
-        private static Specification<TEntity> Not<TEntity>(Expression<Func<TEntity, bool>> specificationExpression)
+        private static Specification<TEntity> Not<TEntity>(Expression<Func<TEntity, bool>>? specificationExpression)
             where TEntity : class
         {
             if (specificationExpression == null)

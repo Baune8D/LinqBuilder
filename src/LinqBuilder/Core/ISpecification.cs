@@ -3,6 +3,6 @@
     public interface ISpecification<TEntity>
         where TEntity : class
     {
-        Configuration<TEntity> Internal { get; }
+        InternalConfiguration<TEntity> Internal { get; }
     }
 }

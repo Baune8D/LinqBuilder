@@ -1,10 +1,11 @@
 ﻿using System.Linq;
-using LinqBuilder.Core.Tests.TestHelpers;
+using LinqBuilder.Core;
 using LinqBuilder.OrderBy;
+using LinqBuilder.Tests.Core.Internal;
 using Shouldly;
 using Xunit;
 
-namespace LinqBuilder.Core.Tests
+namespace LinqBuilder.Tests.Core
 {
     public class LinqExtensionsTests
     {
@@ -17,10 +18,10 @@ namespace LinqBuilder.Core.Tests
         public LinqExtensionsTests()
         {
             _fixture = new Fixture();
-            _fixture.AddToCollection(3, 1, 1);
-            _fixture.AddToCollection(1, 1, 1);
-            _fixture.AddToCollection(2, 2, 1);
-            _fixture.AddToCollection(2, 1, 1);
+            _fixture.AddToCollection(3, 1);
+            _fixture.AddToCollection(1, 1);
+            _fixture.AddToCollection(2, 2);
+            _fixture.AddToCollection(2, 1);
         }
 
         [Fact]

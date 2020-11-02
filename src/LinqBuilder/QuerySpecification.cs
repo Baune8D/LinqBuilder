@@ -7,8 +7,8 @@ namespace LinqBuilder
     public abstract class QuerySpecification<TEntity> : IQuerySpecification<TEntity>
         where TEntity : class
     {
-        private readonly Expression<Func<TEntity, bool>> _expression;
-        private Func<TEntity, bool> _func;
+        private readonly Expression<Func<TEntity, bool>>? _expression;
+        private Func<TEntity, bool>? _func;
 
         protected QuerySpecification()
         {
@@ -19,14 +19,14 @@ namespace LinqBuilder
             _expression = expression;
         }
 
-        public Configuration<TEntity> Internal => new Configuration<TEntity>(this);
+        public InternalConfiguration<TEntity> Internal => new InternalConfiguration<TEntity>(this);
 
-        public virtual Expression<Func<TEntity, bool>> AsExpression()
+        public virtual Expression<Func<TEntity, bool>>? AsExpression()
         {
             return _expression;
         }
 
-        public Func<TEntity, bool> AsFunc()
+        public Func<TEntity, bool>? AsFunc()
         {
             var expression = AsExpression();
             if (expression == null)
@@ -34,7 +34,7 @@ namespace LinqBuilder
                 return null;
             }
 
-            return _func ?? (_func = expression.Compile());
+            return _func ??= expression.Compile();
         }
     }
 }

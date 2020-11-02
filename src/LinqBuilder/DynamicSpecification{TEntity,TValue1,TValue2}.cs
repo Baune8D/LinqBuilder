@@ -12,9 +12,9 @@ namespace LinqBuilder
             Set(value1, value2);
         }
 
-        public TValue1 Value1 { get; private set; }
+        public TValue1 Value1 { get; private set; } = default!;
 
-        public TValue2 Value2 { get; private set; }
+        public TValue2 Value2 { get; private set; } = default!;
 
         public IDynamicSpecification<TEntity, TValue1, TValue2> Set(TValue1 value1, TValue2 value2)
         {

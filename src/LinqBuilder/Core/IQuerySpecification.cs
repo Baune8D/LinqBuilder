@@ -6,8 +6,8 @@ namespace LinqBuilder.Core
     public interface IQuerySpecification<TEntity> : ISpecification<TEntity>
         where TEntity : class
     {
-        Expression<Func<TEntity, bool>> AsExpression();
+        Expression<Func<TEntity, bool>>? AsExpression();
 
-        Func<TEntity, bool> AsFunc();
+        Func<TEntity, bool>? AsFunc();
     }
 }

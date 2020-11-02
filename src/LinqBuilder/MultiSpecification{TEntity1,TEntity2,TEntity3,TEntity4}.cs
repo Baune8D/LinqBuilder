@@ -11,16 +11,16 @@ namespace LinqBuilder
     {
         public abstract Expression<Func<TEntity4, bool>> AsExpressionForEntity4();
 
-        protected override Specification<TEntity> Transform<TEntity>()
+        protected override Specification<TEntity>? Transform<TEntity>()
         {
-            object specification = base.Transform<TEntity>();
+            object? specification = base.Transform<TEntity>();
 
             if (specification == null && typeof(TEntity) == typeof(TEntity4))
             {
                 specification = new Specification<TEntity4>(AsExpressionForEntity4());
             }
 
-            return (Specification<TEntity>)specification;
+            return (Specification<TEntity>?)specification;
         }
     }
 }
