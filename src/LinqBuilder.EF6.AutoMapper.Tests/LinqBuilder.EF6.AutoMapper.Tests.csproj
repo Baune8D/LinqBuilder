@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -14,9 +14,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -25,9 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LinqBuilder.EFCore.AutoMapper\LinqBuilder.EFCore.AutoMapper.csproj" />
-    <ProjectReference Include="..\..\src\LinqBuilder\LinqBuilder.csproj" />
-    <ProjectReference Include="..\LinqBuilder.EFCore.Tests.Shared\LinqBuilder.EFCore.Tests.Shared.csproj" />
+    <ProjectReference Include="..\LinqBuilder.EF6.AutoMapper\LinqBuilder.EF6.AutoMapper.csproj" />
+    <ProjectReference Include="..\LinqBuilder.EF6.Tests.Shared\LinqBuilder.EF6.Tests.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

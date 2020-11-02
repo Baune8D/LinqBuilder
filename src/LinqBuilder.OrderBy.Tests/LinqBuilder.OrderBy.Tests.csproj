@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LinqBuilder.OrderBy\LinqBuilder.OrderBy.csproj" />
+    <ProjectReference Include="..\LinqBuilder.OrderBy\LinqBuilder.OrderBy.csproj" />
   </ItemGroup>
 
   <ItemGroup>

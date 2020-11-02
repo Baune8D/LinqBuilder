@@ -25,9 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LinqBuilder.EF6\LinqBuilder.EF6.csproj" />
-    <ProjectReference Include="..\..\src\LinqBuilder\LinqBuilder.csproj" />
     <ProjectReference Include="..\LinqBuilder.EF6.Tests.Shared\LinqBuilder.EF6.Tests.Shared.csproj" />
+    <ProjectReference Include="..\LinqBuilder.EF6\LinqBuilder.EF6.csproj" />
   </ItemGroup>
 
   <ItemGroup>
