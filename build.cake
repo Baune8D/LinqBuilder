@@ -103,22 +103,12 @@ Task("Test")
         CoverletOutputDirectory = coverageFolder,
         CoverletOutputName = coverageFilename,
         CoverletOutputFormat = CoverletOutputFormat.json | CoverletOutputFormat.opencover,
-    }
-    .WithAttributeExclusion("*.ExcludeFromCodeCoverage*");
-
-    string[] coverageFilters =
-    {
-        "+[LinqBuilder*]*",
-        "-[LinqBuilder.*Tests]*",
-        "-[LinqBuilder.*Tests.Shared]*"
+        Exclude = {
+            "[LinqBuilder.*Tests.Shared]*"
+        }
     };
 
-    foreach (var filter in coverageFilters)
-    {
-        coverageSettings.WithFilter(filter);
-    }
-
-    foreach (var file in GetFiles("./test/*.Tests/*.csproj", excludeFolders))
+    foreach (var file in GetFiles("./src/*.Tests/*.csproj", excludeFolders))
     {
         DotNetCoreTest(file.FullPath, testSettings, coverageSettings);
     }
@@ -135,12 +125,8 @@ Task("Package")
 	.IsDependentOn("Test")
     .Does(() =>
 {
-	var nupkgGlob = "./src/*/bin/*/*.nupkg";
-
 	Information("Cleaning artifacts");
-
 	DeleteDirectoryIfExists(artifactsFolder);
-	DeleteFiles(nupkgGlob);
 
 	Information("Packaging libraries to artifacts directory");
 
@@ -149,13 +135,11 @@ Task("Package")
         Configuration = configuration,
         IncludeSymbols = true,
         IncludeSource = true,
+        OutputDirectory = artifactsFolder,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .SetVersion(semVersion)
             .WithProperty("SymbolPackageFormat", "snupkg")
     });
-
-	CreateDirectoryIfNotExists(artifactsFolder);
-	MoveFiles(nupkgGlob, artifactsFolder);
 });
 
 Task("Upload-Artifacts")
@@ -189,14 +173,11 @@ Task("NuGet-Push")
 
 			foreach (var file in GetFiles(artifactsFolder.Path + "/*.nupkg"))
 			{
-				if (!file.ToString().EndsWith(".symbols.nupkg"))
-				{
-					NuGetPush(file, new NuGetPushSettings
-					{
-						Source = "https://api.nuget.org/v3/index.json",
-						ApiKey = EnvironmentVariable("NUGET_API_KEY")
-					});
-				}
+                NuGetPush(file, new NuGetPushSettings
+                {
+                    Source = "https://api.nuget.org/v3/index.json",
+                    ApiKey = EnvironmentVariable("NUGET_API_KEY")
+                });
 			}
 		}
 		else if (EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
@@ -238,14 +219,6 @@ Task("NuGet-Push")
 // HELPERS
 //////////////////////////////////////////////////////////////////////
 
-void CreateDirectoryIfNotExists(ConvertableDirectoryPath path)
-{
-	if (!DirectoryExists(path))
-	{
-		CreateDirectory(path);
-	}
-}
-
 void DeleteDirectoryIfExists(ConvertableDirectoryPath path)
 {
 	if (DirectoryExists(path))
@@ -255,14 +228,6 @@ void DeleteDirectoryIfExists(ConvertableDirectoryPath path)
 			Recursive = true,
 			Force = true
 		});
-	}
-}
-
-void DeleteFileIfExists(ConvertableFilePath path)
-{
-	if (FileExists(path))
-	{
-		DeleteFile(path);
 	}
 }
 
