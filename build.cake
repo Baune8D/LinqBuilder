@@ -109,7 +109,8 @@ Task("Test")
     string[] coverageFilters =
     {
         "+[LinqBuilder*]*",
-        "-[LinqBuilder.*Tests]*"
+        "-[LinqBuilder.*Tests]*",
+        "-[LinqBuilder.*Tests.Shared]*"
     };
 
     foreach (var filter in coverageFilters)
@@ -117,7 +118,7 @@ Task("Test")
         coverageSettings.WithFilter(filter);
     }
 
-    foreach (var file in GetFiles("./test/*/*.csproj", excludeFolders))
+    foreach (var file in GetFiles("./test/*.Tests/*.csproj", excludeFolders))
     {
         DotNetCoreTest(file.FullPath, testSettings, coverageSettings);
     }
@@ -125,7 +126,7 @@ Task("Test")
     if (!AppVeyor.IsRunningOnAppVeyor)
     {
         Information("Generating coverage report");
-        //ReportGenerator(coverageResult, coverageFolder);
+        ReportGenerator(coverageFolder + File($"{coverageFilename}.opencover.xml"), coverageFolder);
     }
 });
 
