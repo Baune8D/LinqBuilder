@@ -14,7 +14,7 @@ Made for use with IEnumerable and IQueryable.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LinqKit.Core" Version="1.1.16" />
+    <PackageReference Include="LinqKit.Core" Version="1.1.20" />
   </ItemGroup>
 
 </Project>

@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="SQLite.CodeFirst" Version="1.5.2.28" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="SQLite.CodeFirst" Version="1.6.0.30" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.5" />
   </ItemGroup>
 
 </Project>

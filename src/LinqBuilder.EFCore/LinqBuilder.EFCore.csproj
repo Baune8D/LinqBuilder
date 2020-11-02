@@ -15,7 +15,7 @@ An implementation of ISpecification is still required, see LinqBuilder.</Descrip
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
   </ItemGroup>
 
   <ItemGroup>
