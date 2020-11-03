@@ -9,14 +9,13 @@
 LinqBuilder is based on the specification pattern.
 
 ## Table of Contents
-1. [LinqBuilder](#linqbuilder)
-2. [LinqBuilder.OrderBy](#linqbuilder.orderby)
-3. [LinqBuilder.EF6](#linqbuilder.ef6)
-4. [LinqBuilder.EFCore / LinqBuilder.EF6](#linqbuilderefcore--linqbuilderef6)
+1. [LinqBuilder Specifications](#linqbuilder-specifications)
+2. [LinqBuilder OrderSpecifications](#linqbuilder-orderspecifications)
+3. [LinqBuilder.EFCore / LinqBuilder.EF6](#linqbuilderefcore--linqbuilderef6)
 4. [LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper](#linqbuilderefcoreautomapper--linqbuilderef6automapper)
-4. [Full Example](#full-example)
+5. [Full Example](#full-example)
 
-## LinqBuilder
+## LinqBuilder Specifications
 
 ### Usage
 Specifications can be constructed in three different ways.
@@ -88,25 +87,6 @@ var result = collection.ExeSpec(specification).ToList();
 ```
 The extension ```ExeSpec``` allows all types of ```ISpecification``` to be executed on ```IQueryable``` and ```IEnumerable```.
 
-### Interfaces
-```csharp
-// All types of specifications implements this interface
-public interface ISpecification<TEntity>
-    where TEntity : class
-{
-    Configuration<TEntity> Internal { get; } // Returns the internal configuration object
-}
-```
-```csharp
-// Specification and DynamicSpecification implements this interface
-public interface IQuerySpecification<TEntity> : ISpecification<TEntity>
-    where TEntity : class
-{
-    Expression<Func<TEntity, bool>> AsExpression();
-    Func<TEntity, bool> AsFunc();
-}
-```
-
 ### Methods
 ```csharp
 ISpecification<Entity> specification = Spec<Entity>.All(
@@ -149,7 +129,7 @@ Entity result = collection.Single(specification);
 Entity result = collection.SingleOrDefault(specification);
 ```
 
-## LinqBuilder.OrderBy
+## LinqBuilder OrderSpecifications
 
 ### Usage
 Order specifications can be constructed in almost the same way as regular specifications.
@@ -176,7 +156,7 @@ ISpecification<Person> firstnameDescending = OrderSpecification<Person, string>.
 ISpecification<Person> firstnameDescending = OrderSpec<Person, string>.New(p => p.Firstname, Sort.Descending);
 ```
 
-## Example
+### Example
 ```csharp
 var collection = new List<Person>() { ... };
 
@@ -187,24 +167,6 @@ ISpecification<Person> specification = firstnameDescending.ThenBy(lastnameDescen
 
 var result = collection.ExeSpec(specification).ToList();
 // result = Collection ordered by descending number, then by other number
-```
-
-### Interfaces
-```csharp
-// OrderSpecification implements this interface
-public interface IOrderSpecification<TEntity> : ISpecification<TEntity>
-    where TEntity : class
-{
-    IOrderedQueryable<TEntity> InvokeSort(IQueryable<TEntity> query);
-    IOrderedEnumerable<TEntity> InvokeSort(IEnumerable<TEntity> collection);
-    IOrderedQueryable<TEntity> InvokeSort(IOrderedQueryable<TEntity> query);
-    IOrderedEnumerable<TEntity> InvokeSort(IOrderedEnumerable<TEntity> collection);
-}
-```
-```csharp
-// Is used to properly specify when to allow ThenBy
-public interface IOrderedSpecification<TEntity> : ISpecification<TEntity>
-    where TEntity : class { }
 ```
 
 ### Methods
@@ -272,6 +234,10 @@ specification.HasTake(); // Returns true
 ```
 
 ## LinqBuilder.EFCore / LinqBuilder.EF6
+| Package            | Version                                                                                                               |
+| -------------------|:---------------------------------------------------------------------------------------------------------------------:|
+| LinqBuilder.EFCore | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EFCore)](https://www.nuget.org/packages/LinqBuilder.EFCore) |
+| LinqBuilder.EF6    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6)](https://www.nuget.org/packages/LinqBuilder.EF6)       |
 
 ### Extensions
 **LinqBuilder.EF** packages extends the following extensions to support ```ISpecification```.
@@ -286,7 +252,24 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 ```
 
 ## LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper
-**LinqBuilder.EF.AutoMapper** contains extensions that will automatically project to specification entity.
+| Package                       | Version                                                                                                                                     |
+| ------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------:|
+| LinqBuilder.EFCore.AutoMapper | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EFCore.AutoMapper)](https://www.nuget.org/packages/LinqBuilder.EFCore.AutoMapper) |
+| LinqBuilder.EF6.AutoMapper    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6.AutoMapper)](https://www.nuget.org/packages/LinqBuilder.EF6.AutoMapper)       |
+
+### Extensions
+**LinqBuilder.EF.AutoMapper** packages extends the following extensions to support projected ```ISpecification```.
+```csharp
+bool result = await _sampleContext.Entities.AnyAsync(specification, _mapperConfig);
+bool result = await _sampleContext.Entities.AllAsync(specification, _mapperConfig);
+int result = await _sampleContext.Entities.CountAsync(specification, _mapperConfig);
+ProjectedEntity result = await _sampleContext.Entities.FirstAsync(specification, _mapperConfig);
+ProjectedEntity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification, _mapperConfig);
+ProjectedEntity result = await _sampleContext.Entities.SingleAsync(specification, _mapperConfig);
+ProjectedEntity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification, _mapperConfig);
+```
+
+### Example
 ```csharp
 public class Entity
 {
@@ -312,11 +295,10 @@ public class Repository
 
     public List<ProjectedEntity> Get(ISpecification<ProjectedEntity> specification)
     {
-        return _dbSet.First(specification, _mapperConfig);
+        return _dbSet.ExeSpec(specification, _mapperConfig).ToList();
     }
 }
 ```
-
 
 ## Full example
 
