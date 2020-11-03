@@ -187,23 +187,21 @@ Task("NuGet-Push")
 
 			foreach (var file in GetFiles(artifactsFolder.Path + "/*.nupkg"))
 			{
-				if (file.ToString().EndsWith(".symbols.nupkg"))
-				{
-					NuGetPush(file, new NuGetPushSettings
-					{
-						Source = "https://www.myget.org/F/baunegaard/api/v3/index.json",
-						ApiKey = EnvironmentVariable("MYGET_API_KEY")
-					});
-				}
-				else
-				{
-					NuGetPush(file, new NuGetPushSettings
-					{
-						Source = "https://www.myget.org/F/baunegaard/api/v2/package",
-						ApiKey = EnvironmentVariable("MYGET_API_KEY")
-					});
-				}
+                NuGetPush(file, new NuGetPushSettings
+                {
+                    Source = "https://www.myget.org/F/baunegaard/api/v2/package",
+                    ApiKey = EnvironmentVariable("MYGET_API_KEY")
+                });
 			}
+
+            foreach (var file in GetFiles(artifactsFolder.Path + "/*.snupkg"))
+            {
+                NuGetPush(file, new NuGetPushSettings
+                {
+                    Source = "https://www.myget.org/F/baunegaard/api/v3/index.json",
+                    ApiKey = EnvironmentVariable("MYGET_API_KEY")
+                });
+            }
 		}
 		else
 		{
