@@ -1,6 +1,6 @@
 {
     "version": "2.0.0",
-    "tasks": 
+    "tasks":
     [
         {
             "label": "Build Solution",
@@ -22,17 +22,6 @@
                 "command": "./build.ps1 -Target Test"
             },
             "group": "test",
-            "presentation": {
-                "panel": "shared"
-            }
-        },
-        {
-            "label": "Generate Coverage Report",
-            "type": "shell",
-            "command": "./build.sh --target Coverage-Report",
-            "windows": {
-                "command": "./build.ps1 -Target Coverage-Report"
-            },
             "presentation": {
                 "panel": "shared"
             }
