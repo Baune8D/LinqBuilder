@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Unit Testing Rules" ToolsVersion="15.0">
-  <Include Path="shared.ruleset" Action="Default" />
+  <Include Path="testing.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
-    <Rule Id="CA1062" Action="None" />
     <Rule Id="CA1707" Action="None" />
-    <Rule Id="CA1802" Action="None" />
     <Rule Id="CA1812" Action="None" />
     <Rule Id="CA2007" Action="None" />
   </Rules>

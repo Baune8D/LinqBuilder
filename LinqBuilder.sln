@@ -59,6 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rulesets", "rulesets", "{2E
 ProjectSection(SolutionItems) = preProject
 	rulesets\shared.ruleset = rulesets\shared.ruleset
 	rulesets\tests.ruleset = rulesets\tests.ruleset
+	rulesets\testing.ruleset = rulesets\testing.ruleset
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EF6", "EF6", "{BAF26E71-25FB-4E1C-ADF2-E9F8C2E78661}"

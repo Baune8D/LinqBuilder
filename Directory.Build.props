@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Tests'))">true</IsTestProject>
+    <IsTestingProject Condition="$(MSBuildProjectName.EndsWith('.Testing'))">true</IsTestingProject>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -30,6 +31,11 @@
     <When Condition="'$(IsTestProject)' == 'true'">
       <PropertyGroup>
         <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/tests.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(IsTestingProject)' == 'true'">
+      <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/testing.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
     <Otherwise>
