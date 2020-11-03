@@ -133,6 +133,8 @@ Task("Package")
     DotNetCorePack(solutionFile, new DotNetCorePackSettings
     {
         Configuration = configuration,
+        NoRestore = true,
+        NoBuild = true,
         IncludeSymbols = true,
         IncludeSource = true,
         OutputDirectory = artifactsFolder,
