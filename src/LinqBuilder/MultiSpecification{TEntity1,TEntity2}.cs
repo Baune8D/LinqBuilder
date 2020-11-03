@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq.Expressions;
-using LinqBuilder.Core;
+using LinqBuilder.Internal;
 
 namespace LinqBuilder
 {
-    public abstract class MultiSpecification<TEntity1, TEntity2> : ISpecification<TEntity1>
+    public abstract class MultiSpecification<TEntity1, TEntity2>
+        : ISpecification<TEntity1>
         where TEntity1 : class
         where TEntity2 : class
     {
-        public InternalConfiguration<TEntity1> Internal => new InternalConfiguration<TEntity1>(For<TEntity1>());
+        public SpecificationBase<TEntity1> Internal => new SpecificationBase<TEntity1>(For<TEntity1>());
 
         public abstract Expression<Func<TEntity1, bool>> AsExpressionForEntity1();
 

@@ -1,5 +1,6 @@
 ﻿using System;
-using LinqBuilder.Tests.Internal;
+using LinqBuilder.Testing;
+using LinqBuilder.Testing.Specifications;
 using Shouldly;
 using Xunit;
 

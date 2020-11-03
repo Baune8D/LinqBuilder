@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
-using LinqBuilder.Core;
-using LinqBuilder.Tests.Internal;
+using LinqBuilder.Testing;
 using Shouldly;
 using Xunit;
 

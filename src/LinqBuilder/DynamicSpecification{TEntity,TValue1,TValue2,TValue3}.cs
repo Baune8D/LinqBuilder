@@ -1,6 +1,7 @@
 namespace LinqBuilder
 {
-    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3> : DynamicSpecification<TEntity, TValue1, TValue2>, IDynamicSpecification<TEntity, TValue1, TValue2, TValue3>
+    public abstract class DynamicSpecification<TEntity, TValue1, TValue2, TValue3>
+        : DynamicSpecification<TEntity, TValue1, TValue2>, IDynamicSpecification<TEntity, TValue1, TValue2, TValue3>
         where TEntity : class
     {
         protected DynamicSpecification()

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
-using LinqBuilder.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinqBuilder.EFCore.AutoMapper

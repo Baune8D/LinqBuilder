@@ -11,4 +11,8 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.113.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqBuilder\LinqBuilder.csproj" />
+  </ItemGroup>
+
 </Project>

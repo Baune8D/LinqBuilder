@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using LinqBuilder.Core;
+using LinqBuilder.Internal;
 using LinqKit;
 
 namespace LinqBuilder

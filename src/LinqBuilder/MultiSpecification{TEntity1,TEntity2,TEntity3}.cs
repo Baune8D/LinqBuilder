@@ -3,7 +3,8 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder
 {
-    public abstract class MultiSpecification<TEntity1, TEntity2, TEntity3> : MultiSpecification<TEntity1, TEntity2>
+    public abstract class MultiSpecification<TEntity1, TEntity2, TEntity3>
+        : MultiSpecification<TEntity1, TEntity2>
         where TEntity1 : class
         where TEntity2 : class
         where TEntity3 : class

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFramework;
-using LinqBuilder.Core;
 
 namespace LinqBuilder.EF6.AutoMapper
 {

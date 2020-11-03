@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using LinqBuilder.Core;
+using LinqBuilder.Internal;
 
 namespace LinqBuilder
 {
@@ -278,7 +278,7 @@ namespace LinqBuilder
             return SkipTake(ordered ?? collection, configuration);
         }
 
-        private static IQueryable<TEntity> SkipTake<TEntity>(IQueryable<TEntity> query, InternalConfiguration<TEntity> configuration)
+        private static IQueryable<TEntity> SkipTake<TEntity>(IQueryable<TEntity> query, SpecificationBase<TEntity> configuration)
             where TEntity : class
         {
             if (configuration.Skip.HasValue)
@@ -294,7 +294,7 @@ namespace LinqBuilder
             return query;
         }
 
-        private static IEnumerable<TEntity> SkipTake<TEntity>(IEnumerable<TEntity> collection, InternalConfiguration<TEntity> configuration)
+        private static IEnumerable<TEntity> SkipTake<TEntity>(IEnumerable<TEntity> collection, SpecificationBase<TEntity> configuration)
             where TEntity : class
         {
             if (configuration.Skip.HasValue)

@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using LinqBuilder.Core;
 using LinqBuilder.EFCore.Testing;
-using LinqBuilder.EFCore.Tests.Internal;
+using LinqBuilder.EFCore.Testing.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;

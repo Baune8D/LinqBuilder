@@ -1,9 +1,8 @@
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using LinqBuilder.Core;
 using LinqBuilder.EF6.Testing;
-using LinqBuilder.EF6.Tests.Internal;
+using LinqBuilder.EF6.Testing.Specifications;
 using Shouldly;
 using Xunit;
 

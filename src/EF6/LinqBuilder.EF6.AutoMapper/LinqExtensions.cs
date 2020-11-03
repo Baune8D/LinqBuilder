@@ -1,7 +1,6 @@
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using LinqBuilder.Core;
 
 namespace LinqBuilder.EF6.AutoMapper
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using LinqBuilder.Core;
+using LinqBuilder.Internal;
 
 namespace LinqBuilder
 {

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LinqBuilder.EF6.AutoMapper.Testing\LinqBuilder.EF6.AutoMapper.Testing.csproj" />
     <ProjectReference Include="..\LinqBuilder.EF6.AutoMapper\LinqBuilder.EF6.AutoMapper.csproj" />
     <ProjectReference Include="..\LinqBuilder.EF6.Testing\LinqBuilder.EF6.Testing.csproj" />
   </ItemGroup>

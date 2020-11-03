@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using LinqBuilder.Core;
 using LinqBuilder.EFCore.Testing;
 using Shouldly;
 using Xunit;

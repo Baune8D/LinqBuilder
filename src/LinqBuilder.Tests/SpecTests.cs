@@ -1,4 +1,4 @@
-﻿using LinqBuilder.Tests.Internal;
+﻿using LinqBuilder.Testing;
 using Shouldly;
 using Xunit;
 
