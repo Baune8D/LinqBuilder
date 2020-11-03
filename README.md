@@ -258,7 +258,7 @@ Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification
 | LinqBuilder.EF6.AutoMapper    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6.AutoMapper)](https://www.nuget.org/packages/LinqBuilder.EF6.AutoMapper)       |
 
 ### Extensions
-**LinqBuilder.EF.AutoMapper** packages extends the following extensions to support projected ```ISpecification```.
+These packages extends the following extensions to support projected ```ISpecification```.
 ```csharp
 bool result = await _sampleContext.Entities.AnyAsync(specification, _mapperConfig);
 bool result = await _sampleContext.Entities.AllAsync(specification, _mapperConfig);
@@ -267,6 +267,7 @@ ProjectedEntity result = await _sampleContext.Entities.FirstAsync(specification,
 ProjectedEntity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification, _mapperConfig);
 ProjectedEntity result = await _sampleContext.Entities.SingleAsync(specification, _mapperConfig);
 ProjectedEntity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification, _mapperConfig);
+IQueryable<ProjectedEntity> result = await _sampleContext.Entities.ExeSpec(specification, _mapperConfig);
 ```
 
 ### Example
