@@ -180,7 +180,8 @@ Task("NuGet-Push")
                 });
 			}
 		}
-		else if (EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
+
+		if (EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
 		{
 			Information("Pushing artifacts to MyGet repository");
 
