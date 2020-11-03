@@ -2,16 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <Version>1.0.0</Version>
     <Authors>Morten Larsen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Entity Framework 6 extensions.
-Enables most async methods to use ISpecification.
-An implementation of ISpecification is still required, see LinqBuilder.</Description>
+Enables most async methods to use ISpecification.</Description>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Baune8D/linqbuilder.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Baune8D/linqbuilder</PackageProjectUrl>
-    <Product>LinqBuilder.EF6</Product>
+    <RepositoryUrl>https://github.com/Baune8D/LinqBuilder</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Baune8D/LinqBuilder</PackageProjectUrl>
+    <PackageTags>Specification, Linq, EntityFramework</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

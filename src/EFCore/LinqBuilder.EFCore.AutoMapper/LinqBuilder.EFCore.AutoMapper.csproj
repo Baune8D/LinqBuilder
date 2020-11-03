@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0</Version>
     <Authors>Morten Larsen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Extensions for querying EF Core with AutoMapper projections.</Description>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Baune8D/linqbuilder.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Baune8D/linqbuilder</PackageProjectUrl>
-    <Product>LinqBuilder.EFCore.AutoMapper</Product>
+    <RepositoryUrl>https://github.com/Baune8D/LinqBuilder</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Baune8D/LinqBuilder</PackageProjectUrl>
+    <PackageTags>Specification, Linq, EntityFrameworkCore, AutoMapper</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
