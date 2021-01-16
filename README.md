@@ -251,56 +251,6 @@ Entity result = await _sampleContext.Entities.SingleAsync(specification);
 Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
 ```
 
-## LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper
-| Package                       | Version                                                                                                                                     |
-| ------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------:|
-| LinqBuilder.EFCore.AutoMapper | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EFCore.AutoMapper)](https://www.nuget.org/packages/LinqBuilder.EFCore.AutoMapper) |
-| LinqBuilder.EF6.AutoMapper    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6.AutoMapper)](https://www.nuget.org/packages/LinqBuilder.EF6.AutoMapper)       |
-
-### Extensions
-These packages extends the following extensions to support projected ```ISpecification```.
-```csharp
-bool result = await _sampleContext.Entities.AnyAsync(specification, _mapperConfig);
-bool result = await _sampleContext.Entities.AllAsync(specification, _mapperConfig);
-int result = await _sampleContext.Entities.CountAsync(specification, _mapperConfig);
-ProjectedEntity result = await _sampleContext.Entities.FirstAsync(specification, _mapperConfig);
-ProjectedEntity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification, _mapperConfig);
-ProjectedEntity result = await _sampleContext.Entities.SingleAsync(specification, _mapperConfig);
-ProjectedEntity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification, _mapperConfig);
-IQueryable<ProjectedEntity> result = await _sampleContext.Entities.ExeSpec(specification, _mapperConfig);
-```
-
-### Example
-```csharp
-public class Entity
-{
-    public int Id { get; set; }
-}
-
-[AutoMap(typeof(Entity))]
-public class ProjectedEntity
-{
-    public int Id { get; set; }
-}
-
-public class Repository
-{
-    private readonly DbSet<Entity> _dbSet;
-    private readonly IConfigurationProvider _mapperConfig;
-
-    public DbService(SampleDbContext context, IMapper mapper)
-    {
-        _dbSet = context.Set<Entity>();
-        _mapperConfig = mapper.ConfigurationProvider;
-    }
-
-    public List<ProjectedEntity> Get(ISpecification<ProjectedEntity> specification)
-    {
-        return _dbSet.ExeSpec(specification, _mapperConfig).ToList();
-    }
-}
-```
-
 ## Full example
 
 ```csharp
