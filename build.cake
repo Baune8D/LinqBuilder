@@ -5,10 +5,10 @@
 #addin nuget:?package=Cake.Coverlet&version=2.5.1
 
 // Install tools.
-#tool nuget:?package=ReportGenerator&version=4.7.1
+#tool nuget:?package=ReportGenerator&version=4.8.4
 
 // Install .NET Core Global tools.
-#tool dotnet:?package=GitVersion.Tool&version=5.5.0
+#tool dotnet:?package=GitVersion.Tool&version=5.6.3
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
