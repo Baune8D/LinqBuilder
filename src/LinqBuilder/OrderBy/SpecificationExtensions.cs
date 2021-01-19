@@ -53,7 +53,7 @@ namespace LinqBuilder.OrderBy
 
             var configuration = specification.Internal;
             var orderedConfiguration = orderedSpecification.Internal;
-            configuration.OrderSpecifications.AddRange(orderedConfiguration.OrderSpecifications);
+            configuration.AddOrderSpecifications(orderedConfiguration.OrderSpecifications.ToArray());
             configuration.Skip = orderedConfiguration.Skip;
             configuration.Take = orderedConfiguration.Take;
             return configuration;
@@ -146,7 +146,7 @@ namespace LinqBuilder.OrderBy
             where TEntity : class
         {
             var configuration = specification.Internal.Clone().Internal;
-            configuration.OrderSpecifications.Add(orderSpecification);
+            configuration.AddOrderSpecifications(orderSpecification);
             return configuration;
         }
     }
