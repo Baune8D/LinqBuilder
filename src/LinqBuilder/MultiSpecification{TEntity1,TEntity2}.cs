@@ -21,7 +21,7 @@ namespace LinqBuilder
             var result = Transform<TEntity>();
             if (result == null)
             {
-                throw new Exception("Type is not defined in specification!");
+                throw new InvalidOperationException("Type is not defined in specification!");
             }
 
             return result;

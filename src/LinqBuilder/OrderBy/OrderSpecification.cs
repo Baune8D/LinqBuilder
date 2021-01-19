@@ -52,7 +52,7 @@ namespace LinqBuilder.OrderBy
             var expression = AsExpression();
             if (expression == null)
             {
-                throw new NullReferenceException("AsExpression returns null");
+                throw new InvalidOperationException("AsExpression returns null");
             }
 
             return _sort == Sort.Descending
@@ -65,7 +65,7 @@ namespace LinqBuilder.OrderBy
             var func = AsFunc();
             if (func == null)
             {
-                throw new NullReferenceException("AsExpression returns null");
+                throw new InvalidOperationException("AsExpression returns null");
             }
 
             return _sort == Sort.Descending
@@ -78,7 +78,7 @@ namespace LinqBuilder.OrderBy
             var expression = AsExpression();
             if (expression == null)
             {
-                throw new NullReferenceException("AsExpression returns null");
+                throw new InvalidOperationException("AsExpression returns null");
             }
 
             return _sort == Sort.Descending
@@ -91,7 +91,7 @@ namespace LinqBuilder.OrderBy
             var func = AsFunc();
             if (func == null)
             {
-                throw new NullReferenceException("AsExpression returns null");
+                throw new InvalidOperationException("AsExpression returns null");
             }
 
             return _sort == Sort.Descending
