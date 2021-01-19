@@ -35,7 +35,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{9D48
 	ProjectSection(SolutionItems) = preProject
 		.vscode\extensions.json = .vscode\extensions.json
 		.vscode\settings.json = .vscode\settings.json
-		.vscode\tasks.json = .vscode\tasks.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqBuilder.EF6.Testing", "src\EF6\LinqBuilder.EF6.Testing\LinqBuilder.EF6.Testing.csproj", "{DA986177-A823-4CAC-8BC6-5A6E6F0D78BD}"
