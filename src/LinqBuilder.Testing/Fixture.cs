@@ -5,16 +5,18 @@ namespace LinqBuilder.Testing
 {
     public class Fixture
     {
+        private readonly List<Entity> _store;
+
         public Fixture()
         {
-            Store = new List<Entity>();
+            _store = new List<Entity>();
         }
 
-        public List<Entity> Store { get; }
+        public IReadOnlyList<Entity> Store => _store;
 
-        public IEnumerable<Entity> Collection => Store.AsEnumerable();
+        public IEnumerable<Entity> Collection => _store.AsEnumerable();
 
-        public IQueryable<Entity> Query => Store.AsQueryable();
+        public IQueryable<Entity> Query => _store.AsQueryable();
 
         public void AddToCollection(int value1, int value2, int? value3 = null, int? value4 = null)
         {
@@ -34,7 +36,7 @@ namespace LinqBuilder.Testing
                 entity.Value4 = value4.Value;
             }
 
-            Store.Add(entity);
+            _store.Add(entity);
         }
     }
 }
