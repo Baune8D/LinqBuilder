@@ -181,14 +181,13 @@ ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firs
 ```
 
 ### Extensions
-**LinqBuilder.OrderBy** extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
 ```csharp
 IOrderedEnumerable<Entity> collection = collection
     .OrderBy(specification);
     .ThenBy(otherSpecification);
 ```
 
-It also extends regular LinqBuilder specifications to support chaining with ```OrderSpecification```'s.
+Order specifications can also be chained with regular LinqBuilder specifications.
 ```csharp
 ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
 ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
