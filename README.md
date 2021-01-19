@@ -12,7 +12,6 @@ LinqBuilder is based on the specification pattern.
 1. [LinqBuilder Specifications](#linqbuilder-specifications)
 2. [LinqBuilder OrderSpecifications](#linqbuilder-orderspecifications)
 3. [LinqBuilder.EFCore / LinqBuilder.EF6](#linqbuilderefcore--linqbuilderef6)
-4. [LinqBuilder.EFCore.AutoMapper / LinqBuilder.EF6.AutoMapper](#linqbuilderefcoreautomapper--linqbuilderef6automapper)
 5. [Full Example](#full-example)
 
 ## LinqBuilder Specifications
