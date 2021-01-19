@@ -1,4 +1,5 @@
-﻿namespace LinqBuilder.Testing
+﻿// ReSharper disable PropertyCanBeMadeInitOnly.Global
+namespace LinqBuilder.Testing
 {
     public class Entity2
     {

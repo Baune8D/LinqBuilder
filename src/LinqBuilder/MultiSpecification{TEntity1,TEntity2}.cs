@@ -11,8 +11,10 @@ namespace LinqBuilder
     {
         public SpecificationBase<TEntity1> Internal => new(For<TEntity1>());
 
+        // ReSharper disable once MemberCanBeProtected.Global
         public abstract Expression<Func<TEntity1, bool>> AsExpressionForEntity1();
 
+        // ReSharper disable once MemberCanBeProtected.Global
         public abstract Expression<Func<TEntity2, bool>> AsExpressionForEntity2();
 
         public Specification<TEntity> For<TEntity>()

@@ -31,11 +31,13 @@ namespace LinqBuilder.OrderBy
             return new OrderSpecification<TEntity, TResult>(expression, sort);
         }
 
+        // ReSharper disable once MemberCanBeProtected.Global
         public virtual Expression<Func<TEntity, TResult>>? AsExpression()
         {
             return _expression;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public Func<TEntity, TResult>? AsFunc()
         {
             var expression = AsExpression();

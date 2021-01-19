@@ -9,6 +9,7 @@ namespace LinqBuilder
         where TEntity2 : class
         where TEntity3 : class
     {
+        // ReSharper disable once MemberCanBeProtected.Global
         public abstract Expression<Func<TEntity3, bool>> AsExpressionForEntity3();
 
         protected override Specification<TEntity>? Transform<TEntity>()
