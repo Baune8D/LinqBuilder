@@ -18,7 +18,7 @@ namespace LinqBuilder.Internal
             _expression = expression;
         }
 
-        public SpecificationBase<TEntity> Internal => new SpecificationBase<TEntity>(this);
+        public SpecificationBase<TEntity> Internal => new(this);
 
         public virtual Expression<Func<TEntity, bool>>? AsExpression()
         {
