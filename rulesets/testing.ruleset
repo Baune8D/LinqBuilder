@@ -2,6 +2,8 @@
 <RuleSet Name="Test Setup Rules" ToolsVersion="15.0">
   <Include Path="shared.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1014" Action="None" />
     <Rule Id="CA1062" Action="None" />
+    <Rule Id="CA2227" Action="None" />
   </Rules>
 </RuleSet>
