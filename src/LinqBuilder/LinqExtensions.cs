@@ -228,12 +228,9 @@ namespace LinqBuilder
             IOrderedQueryable<TEntity>? ordered = null;
             foreach (var orderSpecification in orderSpecifications)
             {
-                if (orderSpecification != null)
-                {
-                    ordered = ordered == null
-                        ? orderSpecification.InvokeSort(query)
-                        : orderSpecification.InvokeSort(ordered);
-                }
+                ordered = ordered == null
+                    ? orderSpecification.InvokeSort(query)
+                    : orderSpecification.InvokeSort(ordered);
             }
 
             return SkipTake(ordered ?? query, configuration);
@@ -267,12 +264,9 @@ namespace LinqBuilder
             IOrderedEnumerable<TEntity>? ordered = null;
             foreach (var orderSpecification in orderSpecifications)
             {
-                if (orderSpecification != null)
-                {
-                    ordered = ordered == null
-                        ? orderSpecification.InvokeSort(list)
-                        : orderSpecification.InvokeSort(ordered);
-                }
+                ordered = ordered == null
+                    ? orderSpecification.InvokeSort(list)
+                    : orderSpecification.InvokeSort(ordered);
             }
 
             return SkipTake(ordered ?? collection, configuration);
