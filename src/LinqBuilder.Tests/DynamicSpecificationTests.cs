@@ -1,6 +1,6 @@
-﻿using LinqBuilder.Testing;
+﻿using FluentAssertions;
+using LinqBuilder.Testing;
 using LinqBuilder.Testing.Specifications;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests
@@ -13,75 +13,75 @@ namespace LinqBuilder.Tests
         {
             new MultipleValueSpecification4(3, 5, 4, 2)
                 .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
+                .Should().Be(expected);
         }
 
         [Fact]
         public void Constructor_MultipleValueSpecification1_ShouldHaveCorrectValue()
         {
             var specification = new MultipleValueSpecification1(1);
-            specification.Value.ShouldBe(1);
+            specification.Value.Should().Be(1);
         }
 
         [Fact]
         public void Constructor_MultipleValueSpecification2_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification2(1, 2);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
         }
 
         [Fact]
         public void Constructor_MultipleValueSpecification3_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification3(1, 2, 3);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
-            specification.Value3.ShouldBe(3);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
+            specification.Value3.Should().Be(3);
         }
 
         [Fact]
         public void Constructor_MultipleValueSpecification4_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification4(1, 2, 3, 4);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
-            specification.Value3.ShouldBe(3);
-            specification.Value4.ShouldBe(4);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
+            specification.Value3.Should().Be(3);
+            specification.Value4.Should().Be(4);
         }
 
         [Fact]
         public void Set_MultipleValueSpecification1_ShouldHaveCorrectValue()
         {
             var specification = new MultipleValueSpecification1().Set(1);
-            specification.Value.ShouldBe(1);
+            specification.Value.Should().Be(1);
         }
 
         [Fact]
         public void Set_MultipleValueSpecification2_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification2().Set(1, 2);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
         }
 
         [Fact]
         public void Set_MultipleValueSpecification3_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification3().Set(1, 2, 3);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
-            specification.Value3.ShouldBe(3);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
+            specification.Value3.Should().Be(3);
         }
 
         [Fact]
         public void Set_MultipleValueSpecification4_ShouldHaveCorrectValues()
         {
             var specification = new MultipleValueSpecification4().Set(1, 2, 3, 4);
-            specification.Value1.ShouldBe(1);
-            specification.Value2.ShouldBe(2);
-            specification.Value3.ShouldBe(3);
-            specification.Value4.ShouldBe(4);
+            specification.Value1.Should().Be(1);
+            specification.Value2.Should().Be(2);
+            specification.Value3.Should().Be(3);
+            specification.Value4.Should().Be(4);
         }
 
         private class TestData : EntityTheoryData

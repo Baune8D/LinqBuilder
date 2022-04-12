@@ -1,5 +1,5 @@
-﻿using LinqBuilder.Testing;
-using Shouldly;
+﻿using FluentAssertions;
+using LinqBuilder.Testing;
 using Xunit;
 
 namespace LinqBuilder.Tests.Internal
@@ -9,7 +9,7 @@ namespace LinqBuilder.Tests.Internal
         [Fact]
         public void AsFunc_NoExpression_ShouldBeNull()
         {
-            new Specification<Entity>().AsFunc().ShouldBeNull();
+            new Specification<Entity>().AsFunc().Should().BeNull();
         }
     }
 }

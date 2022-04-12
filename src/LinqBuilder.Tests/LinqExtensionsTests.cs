@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
+using FluentAssertions;
 using LinqBuilder.Testing;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests
@@ -28,32 +28,32 @@ namespace LinqBuilder.Tests
         public void Where_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query.Where(_value1ShouldBe3);
-            result.ShouldBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == 3);
+            result.Should().BeAssignableTo<IQueryable<Entity>>();
+            result.Should().AllSatisfy(e => e.Value1.Should().Be(3));
         }
 
         [Fact]
         public void Where_IEnumerable_ShouldReturnCorrectResult()
         {
-            var result = _fixture.Collection.Where(_value1ShouldBe3);
-            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldAllBe(e => e.Value1 == 3);
+            var result = _fixture.Collection.Where(_value1ShouldBe3).ToList();
+            result.Should().NotBeAssignableTo<IQueryable<Entity>>();
+            result.Should().AllSatisfy(e => e.Value1.Should().Be(3));
         }
 
         [Fact]
         public void WhereEmpty_IQueryable_ShouldReturnEqualQuery()
         {
             var result = _fixture.Query.Where(_emptySpecification);
-            result.ShouldBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldBe(_fixture.Query);
+            result.Should().BeAssignableTo<IQueryable<Entity>>();
+            result.Should().Equal(_fixture.Query);
         }
 
         [Fact]
         public void WhereEmpty_IEnumerable_ShouldReturnEqualCollection()
         {
-            var result = _fixture.Collection.Where(_emptySpecification);
-            result.ShouldNotBeAssignableTo<IQueryable<Entity>>();
-            result.ShouldBe(_fixture.Collection);
+            var result = _fixture.Collection.Where(_emptySpecification).ToList();
+            result.Should().NotBeAssignableTo<IQueryable<Entity>>();
+            result.Should().Equal(_fixture.Collection);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Any(_value1ShouldBe3)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Any(_value1ShouldBe4)
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Any(_value1ShouldBe3)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Any(_value1ShouldBe4)
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Any(_emptySpecification)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Any(_emptySpecification)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .All(_value2ShouldBe1)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .All(_value1ShouldBe3)
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .All(_value2ShouldBe1)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -133,7 +133,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .All(_value1ShouldBe3)
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .All(_emptySpecification)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .All(_emptySpecification)
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Count(_value1ShouldBe3)
-                .ShouldBe(2);
+                .Should().Be(2);
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Count(_emptySpecification)
-                .ShouldBe(_fixture.Collection.Count());
+                .Should().Be(_fixture.Collection.Count());
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Count(_value1ShouldBe3)
-                .ShouldBe(2);
+                .Should().Be(2);
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Count(_emptySpecification)
-                .ShouldBe(_fixture.Collection.Count());
+                .Should().Be(_fixture.Collection.Count());
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .First(_value1ShouldBe3)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -197,7 +197,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .First(_emptySpecification)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -205,7 +205,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .First(_value1ShouldBe3)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -213,7 +213,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .First(_emptySpecification)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -221,7 +221,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .FirstOrDefault(_value1ShouldBe3)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -229,7 +229,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .FirstOrDefault(_emptySpecification)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -237,7 +237,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .FirstOrDefault(_value1ShouldBe3)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -245,7 +245,7 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .FirstOrDefault(_emptySpecification)
-                .ShouldBe(_fixture.Store[0]);
+                .Should().Be(_fixture.Store[0]);
         }
 
         [Fact]
@@ -253,13 +253,15 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .Single(_value1ShouldBe1)
-                .ShouldBe(_fixture.Store[2]);
+                .Should().Be(_fixture.Store[2]);
         }
 
         [Fact]
         public void SingleEmpty_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<InvalidOperationException>(() => _fixture.Query.Single(_emptySpecification));
+            Action act = () => _fixture.Query.Single(_emptySpecification);
+
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -267,13 +269,15 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .Single(_value1ShouldBe1)
-                .ShouldBe(_fixture.Store[2]);
+                .Should().Be(_fixture.Store[2]);
         }
 
         [Fact]
         public void SingleEmpty_IEnumerable_ShouldReturnCorrectResult()
         {
-            Should.Throw<InvalidOperationException>(() => _fixture.Collection.Single(_emptySpecification));
+            Action act = () => _fixture.Collection.Single(_emptySpecification);
+
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -281,13 +285,15 @@ namespace LinqBuilder.Tests
         {
             _fixture.Query
                 .SingleOrDefault(_value1ShouldBe1)
-                .ShouldBe(_fixture.Store[2]);
+                .Should().Be(_fixture.Store[2]);
         }
 
         [Fact]
         public void SingleOrDefaultEmpty_IQueryable_ShouldReturnCorrectResult()
         {
-            Should.Throw<InvalidOperationException>(() => _fixture.Query.SingleOrDefault(_emptySpecification));
+            Action act = () => _fixture.Query.SingleOrDefault(_emptySpecification);
+
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -295,13 +301,15 @@ namespace LinqBuilder.Tests
         {
             _fixture.Collection
                 .SingleOrDefault(_value1ShouldBe1)
-                .ShouldBe(_fixture.Store[2]);
+                .Should().Be(_fixture.Store[2]);
         }
 
         [Fact]
         public void SingleOrDefaultEmpty_IEnumerable_ShouldReturnCorrectResult()
         {
-            Should.Throw<InvalidOperationException>(() => _fixture.Collection.SingleOrDefault(_emptySpecification));
+            Action act = () => _fixture.Collection.SingleOrDefault(_emptySpecification);
+
+            act.Should().Throw<InvalidOperationException>();
         }
     }
 }

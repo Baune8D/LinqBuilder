@@ -1,5 +1,5 @@
-﻿using LinqBuilder.Testing;
-using Shouldly;
+﻿using FluentAssertions;
+using LinqBuilder.Testing;
 using Xunit;
 
 namespace LinqBuilder.Tests
@@ -15,7 +15,7 @@ namespace LinqBuilder.Tests
         {
             _emptySpecification
                 .IsSatisfiedBy(new Entity())
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace LinqBuilder.Tests
         {
             _value1ShouldBe1
                 .IsSatisfiedBy(new Entity { Value1 = 1 })
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace LinqBuilder.Tests
         {
             _value1ShouldBe1
                 .IsSatisfiedBy(new Entity { Value1 = 2 })
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace LinqBuilder.Tests
         {
             _emptySpecification
                 .IsSatisfiedBy(new Entity())
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace LinqBuilder.Tests
         {
             _value1ShouldBe1
                 .IsSatisfiedBy(new Entity { Value1 = 1 })
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace LinqBuilder.Tests
         {
             _value1ShouldBe1
                 .IsSatisfiedBy(new Entity { Value1 = 2 })
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]

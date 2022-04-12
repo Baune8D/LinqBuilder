@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Testing;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests.OrderBy
@@ -30,11 +30,11 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _emptySpecification.OrderBy(_orderValue1Asc);
             var result = _fixture.Query.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -42,11 +42,11 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _emptySpecification.OrderBy(_orderValue1Asc);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -54,13 +54,13 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
             var result = _fixture.Query.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -68,13 +68,12 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -82,13 +81,13 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
             var result = _fixture.Query.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -96,13 +95,13 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -111,8 +110,8 @@ namespace LinqBuilder.Tests.OrderBy
             var ordering = _orderValue1Asc.Skip(1).Take(1);
             var specification = _emptySpecification.UseOrdering(ordering);
             var result = _fixture.Query.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(1);
-            result[0].Value1.ShouldBe(2);
+            result.Count.Should().Be(1);
+            result[0].Value1.Should().Be(2);
         }
 
         [Fact]
@@ -121,67 +120,71 @@ namespace LinqBuilder.Tests.OrderBy
             var ordering = _orderValue1Asc.Skip(1).Take(1);
             var specification = _emptySpecification.UseOrdering(ordering);
             var result = _fixture.Collection.ExeSpec(specification).ToList();
-            result.Count.ShouldBe(1);
-            result[0].Value1.ShouldBe(2);
+            result.Count.Should().Be(1);
+            result[0].Value1.Should().Be(2);
         }
 
         [Fact]
         public void Skip_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
-            result.Count.ShouldBe(3);
-            result[0].Value1.ShouldBe(2);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result.Count.Should().Be(3);
+            result[0].Value1.Should().Be(2);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(3);
         }
 
         [Fact]
         public void Skip_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
-            result.Count.ShouldBe(3);
-            result[0].Value1.ShouldBe(2);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result.Count.Should().Be(3);
+            result[0].Value1.Should().Be(2);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(3);
         }
 
         [Fact]
         public void Take_IQueryable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Query.ExeSpec(_orderValue1Asc.Take(2)).ToList();
-            result.Count.ShouldBe(2);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
+            result.Count.Should().Be(2);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
         }
 
         [Fact]
         public void Take_IEnumerable_ShouldReturnCorrectResult()
         {
             var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Take(2)).ToList();
-            result.Count.ShouldBe(2);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
+            result.Count.Should().Be(2);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
         }
 
         [Fact]
         public void Paginate_PageNoAndSize_ShouldHaveCorrectValues()
         {
             var configuration = _orderValue1Asc.Paginate(2, 5).Internal;
-            configuration.OrderSpecifications.Count.ShouldBe(1);
-            configuration.Skip.ShouldBe(5);
-            configuration.Take.ShouldBe(5);
+            configuration.OrderSpecifications.Count.Should().Be(1);
+            configuration.Skip.Should().Be(5);
+            configuration.Take.Should().Be(5);
         }
 
         [Fact]
         public void Paginate_InvalidPageNo_ShouldThrowArgumentException()
         {
-            Should.Throw<ArgumentException>(() => _orderValue1Asc.Paginate(0, 5));
+            Action act = () => _orderValue1Asc.Paginate(0, 5);
+
+            act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void Paginate_InvalidPageSize_ShouldThrowArgumentException()
         {
-            Should.Throw<ArgumentException>(() => _orderValue1Asc.Paginate(1, 0));
+            Action act = () => _orderValue1Asc.Paginate(1, 0);
+
+            act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -190,7 +193,7 @@ namespace LinqBuilder.Tests.OrderBy
             ISpecification<Entity> specification = _value1ShouldBe1.OrderBy(_orderValue1Asc);
             specification
                 .IsOrdered()
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -198,7 +201,7 @@ namespace LinqBuilder.Tests.OrderBy
         {
             _orderValue1Asc
                 .IsOrdered()
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -206,7 +209,7 @@ namespace LinqBuilder.Tests.OrderBy
         {
             _value1ShouldBe1
                 .IsOrdered()
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -215,7 +218,7 @@ namespace LinqBuilder.Tests.OrderBy
             _value1ShouldBe1
                 .Skip(10)
                 .HasSkip()
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -223,7 +226,7 @@ namespace LinqBuilder.Tests.OrderBy
         {
             _value1ShouldBe1
                 .HasSkip()
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -232,7 +235,7 @@ namespace LinqBuilder.Tests.OrderBy
             _value1ShouldBe1
                 .Take(10)
                 .HasTake()
-                .ShouldBeTrue();
+                .Should().BeTrue();
         }
 
         [Fact]
@@ -240,7 +243,7 @@ namespace LinqBuilder.Tests.OrderBy
         {
             _value1ShouldBe1
                 .HasTake()
-                .ShouldBeFalse();
+                .Should().BeFalse();
         }
 
         [Fact]
@@ -248,11 +251,11 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var spec1 = _orderValue1Asc.Paginate(2, 10);
             var spec2 = spec1.Clone();
-            spec1.ShouldNotBe(spec2);
-            spec1.Internal.QuerySpecification.ShouldBe(spec2.Internal.QuerySpecification);
-            spec1.Internal.OrderSpecifications.ShouldBe(spec2.Internal.OrderSpecifications);
-            spec1.Internal.Skip.ShouldBe(spec2.Internal.Skip);
-            spec1.Internal.Take.ShouldBe(spec2.Internal.Take);
+            spec1.Should().NotBe(spec2);
+            spec1.Internal.QuerySpecification.Should().Be(spec2.Internal.QuerySpecification);
+            spec1.Internal.OrderSpecifications.Should().Equal(spec2.Internal.OrderSpecifications);
+            spec1.Internal.Skip.Should().Be(spec2.Internal.Skip);
+            spec1.Internal.Take.Should().Be(spec2.Internal.Take);
         }
     }
 }

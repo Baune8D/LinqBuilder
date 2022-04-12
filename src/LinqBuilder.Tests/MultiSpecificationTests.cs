@@ -1,7 +1,7 @@
 ﻿using System;
+using FluentAssertions;
 using LinqBuilder.Testing;
 using LinqBuilder.Testing.Specifications;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests
@@ -34,9 +34,11 @@ namespace LinqBuilder.Tests
         [Fact]
         public void IsSatisfiedBy_MultiEntitySpecification2_ShouldThrowException()
         {
-            Should.Throw<Exception>(() => new MultiEntitySpecification2()
+            Action act = () => new MultiEntitySpecification2()
                 .For<Entity3>()
-                .IsSatisfiedBy(new Entity3()));
+                .IsSatisfiedBy(new Entity3());
+
+            act.Should().Throw<Exception>();
         }
 
         [Fact]
@@ -73,9 +75,11 @@ namespace LinqBuilder.Tests
         [Fact]
         public void IsSatisfiedBy_MultiEntitySpecification3_ShouldThrowException()
         {
-            Should.Throw<Exception>(() => new MultiEntitySpecification3()
+            Action act = () => new MultiEntitySpecification3()
                 .For<Entity4>()
-                .IsSatisfiedBy(new Entity4()));
+                .IsSatisfiedBy(new Entity4());
+
+            act.Should().Throw<Exception>();
         }
 
         [Fact]
@@ -120,9 +124,11 @@ namespace LinqBuilder.Tests
         [Fact]
         public void IsSatisfiedBy_MultiEntitySpecification4_ShouldThrowException()
         {
-            Should.Throw<Exception>(() => new MultiEntitySpecification4()
+            Action act = () => new MultiEntitySpecification4()
                 .For<Entity5>()
-                .IsSatisfiedBy(new Entity5()));
+                .IsSatisfiedBy(new Entity5());
+
+            act.Should().Throw<Exception>();
         }
     }
 }

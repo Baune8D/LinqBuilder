@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
 using LinqBuilder.EFCore.Testing;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.EFCore.Tests
@@ -37,7 +37,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AnyAsync(_value1ShouldBe1);
 
-            result.ShouldBeTrue();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AnyAsync(_value1ShouldBe4);
 
-            result.ShouldBeFalse();
+            result.Should().BeFalse();
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AnyAsync(_emptySpecification);
 
-            result.ShouldBeTrue();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AllAsync(_value2ShouldBe3);
 
-            result.ShouldBeTrue();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AllAsync(_value1ShouldBe1);
 
-            result.ShouldBeFalse();
+            result.Should().BeFalse();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .AllAsync(_emptySpecification);
 
-            result.ShouldBeTrue();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .CountAsync(_value1ShouldBe1);
 
-            result.ShouldBe(2);
+            result.Should().Be(2);
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .CountAsync(_emptySpecification);
 
-            result.ShouldBe(_testDb.Context.Entities.Count());
+            result.Should().Be(_testDb.Context.Entities.Count());
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .FirstAsync(_value1ShouldBe1);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(2));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(2));
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .FirstAsync(_emptySpecification);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(1));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .FirstOrDefaultAsync(_value1ShouldBe1);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(2));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(2));
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .FirstOrDefaultAsync(_emptySpecification);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(1));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
         }
 
         [Fact]
@@ -145,13 +145,15 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .SingleAsync(_value1ShouldBe2);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(1));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
         }
 
         [Fact]
         public async Task SingleAsync_EmptySpecification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<InvalidOperationException>(() => _testDb.Context.Entities.SingleAsync(_emptySpecification));
+            Func<Task> act = () => _testDb.Context.Entities.SingleAsync(_emptySpecification);
+
+            await act.Should().ThrowAsync<InvalidOperationException>();
         }
 
         [Fact]
@@ -160,13 +162,15 @@ namespace LinqBuilder.EFCore.Tests
             var result = await _testDb.Context.Entities
                 .SingleOrDefaultAsync(_value1ShouldBe2);
 
-            result.ShouldBe(await _testDb.Context.Entities.FindAsync(1));
+            result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
         }
 
         [Fact]
         public async Task SingleOrDefaultAsync_EmptySpecification_ShouldReturnCorrectResult()
         {
-            await Should.ThrowAsync<InvalidOperationException>(() => _testDb.Context.Entities.SingleOrDefaultAsync(_emptySpecification));
+            Func<Task> act = () => _testDb.Context.Entities.SingleOrDefaultAsync(_emptySpecification);
+
+            await act.Should().ThrowAsync<InvalidOperationException>();
         }
     }
 }

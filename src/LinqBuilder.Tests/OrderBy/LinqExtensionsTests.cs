@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using FluentAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Testing;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests.OrderBy
@@ -29,13 +29,13 @@ namespace LinqBuilder.Tests.OrderBy
                 .OrderBy(_orderValue1Asc)
                 .ToList();
 
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(2);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(1);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(2);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(1);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -45,13 +45,13 @@ namespace LinqBuilder.Tests.OrderBy
                 .OrderBy(_orderValue1Asc)
                 .ToList();
 
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(2);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(1);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(2);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(1);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -62,13 +62,13 @@ namespace LinqBuilder.Tests.OrderBy
                 .ThenBy(_orderValue2Asc)
                 .ToList();
 
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -79,13 +79,13 @@ namespace LinqBuilder.Tests.OrderBy
                 .ThenBy(_orderValue2Asc)
                 .ToList();
 
-            result.Count.ShouldBe(4);
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[1].Value2.ShouldBe(1);
-            result[2].Value1.ShouldBe(2);
-            result[2].Value2.ShouldBe(2);
-            result[3].Value1.ShouldBe(3);
+            result.Count.Should().Be(4);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[1].Value2.Should().Be(1);
+            result[2].Value1.Should().Be(2);
+            result[2].Value2.Should().Be(2);
+            result[3].Value1.Should().Be(3);
         }
     }
 }

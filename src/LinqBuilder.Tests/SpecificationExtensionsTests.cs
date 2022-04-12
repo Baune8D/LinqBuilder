@@ -1,5 +1,5 @@
-﻿using LinqBuilder.Testing;
-using Shouldly;
+﻿using FluentAssertions;
+using LinqBuilder.Testing;
 using Xunit;
 
 namespace LinqBuilder.Tests
@@ -17,7 +17,7 @@ namespace LinqBuilder.Tests
         {
             _value1ShouldBe3
                 .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
+                .Should().Be(expected);
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe3
                 .And(_value2ShouldBe5)
                 .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
+                .Should().Be(expected);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe3
                 .And(_emptySpecification)
                 .IsSatisfiedBy(new Entity { Value1 = 3 })
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace LinqBuilder.Tests
             _emptySpecification
                 .And(_value2ShouldBe5)
                 .IsSatisfiedBy(new Entity { Value2 = 5 })
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace LinqBuilder.Tests
             _emptySpecification
                 .And(_emptySpecification)
                 .IsSatisfiedBy(new Entity())
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Theory]
@@ -64,7 +64,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe3
                 .Or(_value1ShouldBe5)
                 .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
+                .Should().Be(expected);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe3
                 .Or(_emptySpecification)
                 .IsSatisfiedBy(new Entity { Value1 = 3 })
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace LinqBuilder.Tests
             _emptySpecification
                 .Or(_value1ShouldBe5)
                 .IsSatisfiedBy(new Entity { Value1 = 5 })
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace LinqBuilder.Tests
             _emptySpecification
                 .Or(_emptySpecification)
                 .IsSatisfiedBy(new Entity())
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Theory]
@@ -101,7 +101,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe5
                 .Not()
                 .IsSatisfiedBy(entity)
-                .ShouldBe(expected);
+                .Should().Be(expected);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace LinqBuilder.Tests
             _emptySpecification
                 .Not()
                 .IsSatisfiedBy(new Entity())
-                .ShouldBe(true);
+                .Should().Be(true);
         }
 
         [Fact]
@@ -118,11 +118,11 @@ namespace LinqBuilder.Tests
         {
             var spec1 = _value1ShouldBe3;
             var spec2 = spec1.Clone();
-            spec1.ShouldNotBe(spec2);
-            spec1.Internal.QuerySpecification.ShouldBe(spec2.Internal.QuerySpecification);
-            spec1.Internal.OrderSpecifications.ShouldBe(spec2.Internal.OrderSpecifications);
-            spec1.Internal.Skip.ShouldBe(spec2.Internal.Skip);
-            spec1.Internal.Take.ShouldBe(spec2.Internal.Take);
+            spec1.Should().NotBe(spec2);
+            spec1.Internal.QuerySpecification.Should().Be(spec2.Internal.QuerySpecification);
+            spec1.Internal.OrderSpecifications.Should().Equal(spec2.Internal.OrderSpecifications);
+            spec1.Internal.Skip.Should().Be(spec2.Internal.Skip);
+            spec1.Internal.Take.Should().Be(spec2.Internal.Take);
         }
 
         private class TestData : EntityTheoryData

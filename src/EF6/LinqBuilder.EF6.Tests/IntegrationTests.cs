@@ -1,9 +1,9 @@
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using FluentAssertions;
 using LinqBuilder.EF6.Testing;
 using LinqBuilder.EF6.Testing.Specifications;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.EF6.Tests
@@ -36,9 +36,9 @@ namespace LinqBuilder.EF6.Tests
                 .ExeSpec(specification)
                 .ToListAsync();
 
-            result.Count.ShouldBe(2);
-            result[0].Id.ShouldBe(1);
-            result[1].Id.ShouldBe(3);
+            result.Count.Should().Be(2);
+            result[0].Id.Should().Be(1);
+            result[1].Id.Should().Be(3);
         }
     }
 }

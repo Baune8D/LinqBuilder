@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using FluentAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Testing;
-using Shouldly;
 using Xunit;
 
 namespace LinqBuilder.Tests.OrderBy
@@ -23,9 +23,9 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = new OrderSpec<Entity, int>(entity => entity.Value1);
             var result = _fixture.Query.OrderBy(specification).ToList();
-            result[0].Value1.ShouldBe(1);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(3);
+            result[0].Value1.Should().Be(1);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(3);
         }
 
         [Fact]
@@ -33,9 +33,9 @@ namespace LinqBuilder.Tests.OrderBy
         {
             var specification = new OrderSpec<Entity, int>(entity => entity.Value1, Sort.Descending);
             var result = _fixture.Query.OrderBy(specification).ToList();
-            result[0].Value1.ShouldBe(3);
-            result[1].Value1.ShouldBe(2);
-            result[2].Value1.ShouldBe(1);
+            result[0].Value1.Should().Be(3);
+            result[1].Value1.Should().Be(2);
+            result[2].Value1.Should().Be(1);
         }
     }
 }
