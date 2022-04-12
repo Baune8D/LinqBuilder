@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using LinqBuilder.EF6.Testing;
 using LinqBuilder.EF6.Testing.Specifications;
+using LinqBuilder.OrderBy;
 using Xunit;
 
 namespace LinqBuilder.EF6.Tests
@@ -30,7 +31,8 @@ namespace LinqBuilder.EF6.Tests
         public async Task ExeSpecAsync_ChildSpecification_ShouldReturnCorrectResult()
         {
             var specification = new ChildValueSpecification(1)
-                .Or(new ChildValueSpecification(2));
+                .Or(new ChildValueSpecification(2))
+                .OrderBy(new OrderSpecification());
 
             var result = await _testDb.Context.Entities
                 .ExeSpec(specification)
