@@ -116,13 +116,12 @@ namespace LinqBuilder.Tests
         [Fact]
         public void Clone_Specifications_ShouldNotBeEqual()
         {
-            var spec1 = _value1ShouldBe3;
-            var spec2 = spec1.Clone();
-            spec1.Should().NotBe(spec2);
-            spec1.Internal.QuerySpecification.Should().Be(spec2.Internal.QuerySpecification);
-            spec1.Internal.OrderSpecifications.Should().Equal(spec2.Internal.OrderSpecifications);
-            spec1.Internal.Skip.Should().Be(spec2.Internal.Skip);
-            spec1.Internal.Take.Should().Be(spec2.Internal.Take);
+            var specClone = _value1ShouldBe3.Clone();
+            _value1ShouldBe3.Should().NotBe(specClone);
+            _value1ShouldBe3.Internal.QuerySpecification.Should().Be(specClone.Internal.QuerySpecification);
+            _value1ShouldBe3.Internal.OrderSpecifications.Should().Equal(specClone.Internal.OrderSpecifications);
+            _value1ShouldBe3.Internal.Skip.Should().Be(specClone.Internal.Skip);
+            _value1ShouldBe3.Internal.Take.Should().Be(specClone.Internal.Take);
         }
 
         private class TestData : EntityTheoryData

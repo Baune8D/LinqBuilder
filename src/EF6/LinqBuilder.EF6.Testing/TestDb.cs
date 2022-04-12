@@ -36,7 +36,7 @@ namespace LinqBuilder.EF6.Testing
             {
                 entity.ChildEntities = new List<SomeChildEntity>
                 {
-                    new SomeChildEntity
+                    new()
                     {
                         Value = childValue.Value,
                     },
