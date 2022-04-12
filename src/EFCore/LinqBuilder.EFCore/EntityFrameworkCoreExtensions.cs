@@ -55,7 +55,7 @@ namespace LinqBuilder.EFCore
             return await (expression == null ? query.FirstAsync() : query.FirstAsync(expression)).ConfigureAwait(false);
         }
 
-        public static async Task<TEntity> FirstOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
+        public static async Task<TEntity?> FirstOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
             if (specification == null)
@@ -79,7 +79,7 @@ namespace LinqBuilder.EFCore
             return await (expression == null ? query.SingleAsync() : query.SingleAsync(expression)).ConfigureAwait(false);
         }
 
-        public static async Task<TEntity> SingleOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
+        public static async Task<TEntity?> SingleOrDefaultAsync<TEntity>(this IQueryable<TEntity> query, ISpecification<TEntity> specification)
             where TEntity : class
         {
             if (specification == null)
