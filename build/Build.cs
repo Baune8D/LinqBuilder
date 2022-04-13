@@ -32,7 +32,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
         nameof(PushMyGet),
     })]
 [AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
-[AppVeyorSecret("NUGET_API_KEY", "2sTihXEDFVEQkGFRwSmYMvweUKW2Qphic3dqNJcdh8GZV5OHdDhIrbaVvlGEHLFS")]
+[AppVeyorSecret("NUGET_API_KEY", "IvV8EXsJ4sMQb+AxZ983lPt5fwCDlhux8IM+1hUKOO9uRh5Y757KpXcCNqwjqunL")]
 [AppVeyorSecret("CODECOV_TOKEN", "EHy2Ls7M8sCfmxReWmbRxdkNkA/AqTTgg+6SCc1ww1JgHXCFmS/bpHJOzGt1VYAm")]
 class Build : NukeBuild
 {
