@@ -55,7 +55,7 @@ class Build : NukeBuild
     static AbsolutePath CoverageDirectory => RootDirectory / "coverage";
     static AbsolutePath CoverageResults => CoverageDirectory / "results";
 
-    static IReadOnlyCollection<AbsolutePath> Artifacts => ArtifactsDirectory.GlobFiles("*.nupkg");
+    static IEnumerable<AbsolutePath> Artifacts => ArtifactsDirectory.GlobFiles("*.nupkg");
 
     Target Clean => _ => _
         .Before(Compile)
@@ -133,10 +133,18 @@ class Build : NukeBuild
         {
             NuGetPush(s => s
                 .SetSource("https://www.myget.org/F/baunegaard/api/v2/package")
-                .SetSymbolSource("https://www.myget.org/F/baunegaard/api/v3/index.json")
                 .SetApiKey(MyGetApiKey)
                 .CombineWith(Artifacts, (ss, artifact) => ss
                     .SetTargetPath(artifact)),
+                degreeOfParallelism: Environment.ProcessorCount);
+
+            var symbolArtifacts = ArtifactsDirectory.GlobFiles("*.snupkg");
+
+            NuGetPush(s => s
+                    .SetSource("https://www.myget.org/F/baunegaard/api/v3/index.json")
+                    .SetApiKey(MyGetApiKey)
+                    .CombineWith(symbolArtifacts, (ss, symbolArtifact) => ss
+                        .SetTargetPath(symbolArtifact)),
                 degreeOfParallelism: Environment.ProcessorCount);
         });
 
