@@ -128,7 +128,7 @@ class Build : NukeBuild
 
     Target PushMyGet => _ => _
         .DependsOn(Package)
-        .OnlyWhenStatic(() => IsServerBuild && AppVeyor.BranchIsMaster())
+        .OnlyWhenStatic(() => IsServerBuild && AppVeyor.BranchIsMain())
         .Executes(() =>
         {
             NuGetPush(s => s

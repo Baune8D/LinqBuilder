@@ -1,6 +1,6 @@
 next-version: 2.1.0
 branches:
-  master:
+  main:
     mode: ContinuousDeployment
     tag: build
 ignore:

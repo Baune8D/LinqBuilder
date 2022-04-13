@@ -1,6 +1,6 @@
 # LinqBuilder
 [![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
-[![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
+[![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
 [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder)
 
 **Available on NuGet:** [https://www.nuget.org/packages/LinqBuilder/](https://www.nuget.org/packages/LinqBuilder/)  

@@ -2,8 +2,8 @@ using Nuke.Common.CI.AppVeyor;
 
 public static class AppVeyorExtensions
 {
-    public static bool BranchIsMaster(this AppVeyor appVeyor)
+    public static bool BranchIsMain(this AppVeyor appVeyor)
     {
-        return appVeyor.RepositoryBranch == "master";
+        return appVeyor.RepositoryBranch == "main";
     }
 }

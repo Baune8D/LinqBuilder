@@ -485,7 +485,7 @@ fabric.properties
 
 ## Visual Studio Code
 ##
-## Get latest from https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+## Get latest from https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
 
 .vscode/*
 !.vscode/settings.json
@@ -504,7 +504,7 @@ fabric.properties
 
 ## Windows
 ##
-## Get latest from https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
+## Get latest from https://github.com/github/gitignore/blob/main/Global/Windows.gitignore
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -535,7 +535,7 @@ $RECYCLE.BIN/
 
 ## macOS
 ##
-## Get latest from https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+## Get latest from https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
 
 # General
 .DS_Store
