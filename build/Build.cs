@@ -41,9 +41,9 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] [Secret] string MyGetApiKey { get; set; }
-    [Parameter] [Secret] string NuGetApiKey { get; set; }
-    [Parameter] [Secret] string CodecovToken { get; set; }
+    [Parameter(Name = "MYGET_API_KEY")] [Secret] string MyGetApiKey { get; set; }
+    [Parameter(Name = "NUGET_API_KEY")] [Secret] string NuGetApiKey { get; set; }
+    [Parameter(Name = "CODECOV_TOKEN")] [Secret] string CodecovToken { get; set; }
 
     [Solution] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;

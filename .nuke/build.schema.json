@@ -6,7 +6,7 @@
     "build": {
       "type": "object",
       "properties": {
-        "CodecovToken": {
+        "CODECOV_TOKEN": {
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
@@ -46,7 +46,7 @@
             "VSCode"
           ]
         },
-        "MyGetApiKey": {
+        "MYGET_API_KEY": {
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
@@ -54,7 +54,7 @@
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
         },
-        "NuGetApiKey": {
+        "NUGET_API_KEY": {
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
