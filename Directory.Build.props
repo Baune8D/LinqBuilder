@@ -38,11 +38,6 @@
         <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/testing.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
-    <Otherwise>
-      <PropertyGroup>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/shared.ruleset</CodeAnalysisRuleSet>
-      </PropertyGroup>
-    </Otherwise>
   </Choose>
 
 </Project>

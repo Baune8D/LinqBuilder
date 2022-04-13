@@ -1,0 +1,14 @@
+is_global = true
+
+# Microsoft.CodeQuality.Analyzers
+dotnet_diagnostic.CA1000.severity = none
+
+# Microsoft.CodeAnalysis.CSharp
+dotnet_diagnostic.CS1591.severity = none
+
+# StyleCop.Analyzers
+dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.SA1309.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1602.severity = none
+dotnet_diagnostic.SA1633.severity = none
