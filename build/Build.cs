@@ -33,7 +33,6 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     })]
 [AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
 [AppVeyorSecret("NUGET_API_KEY", "IvV8EXsJ4sMQb+AxZ983lPt5fwCDlhux8IM+1hUKOO9uRh5Y757KpXcCNqwjqunL")]
-[AppVeyorSecret("CODECOV_TOKEN", "EHy2Ls7M8sCfmxReWmbRxdkNkA/AqTTgg+6SCc1ww1JgHXCFmS/bpHJOzGt1VYAm")]
 class Build : NukeBuild
 {
     public static int Main () => Execute<Build>(x => x.Compile);
@@ -43,7 +42,6 @@ class Build : NukeBuild
 
     [Parameter(Name = "MYGET_API_KEY")] [Secret] string MyGetApiKey { get; set; }
     [Parameter(Name = "NUGET_API_KEY")] [Secret] string NuGetApiKey { get; set; }
-    [Parameter(Name = "CODECOV_TOKEN")] [Secret] string CodecovToken { get; set; }
 
     [Solution] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;
@@ -172,7 +170,6 @@ class Build : NukeBuild
 
             Codecov(s => s
                 .SetFramework("net5.0")
-                .SetFiles(files)
-                .SetToken(CodecovToken));
+                .SetFiles(files));
         });
 }

@@ -6,10 +6,6 @@
     "build": {
       "type": "object",
       "properties": {
-        "CODECOV_TOKEN": {
-          "type": "string",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
-        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
