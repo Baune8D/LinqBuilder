@@ -9,7 +9,7 @@ namespace LinqBuilder
         where TEntity1 : class
         where TEntity2 : class
     {
-        public SpecificationBase<TEntity1> Internal => new(For<TEntity1>());
+        public SpecificationBase<TEntity1> Internal => new SpecificationBase<TEntity1>(For<TEntity1>());
 
         // ReSharper disable once MemberCanBeProtected.Global
         public abstract Expression<Func<TEntity1, bool>> AsExpressionForEntity1();

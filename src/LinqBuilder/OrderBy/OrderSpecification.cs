@@ -24,7 +24,7 @@ namespace LinqBuilder.OrderBy
             _sort = sort;
         }
 
-        public SpecificationBase<TEntity> Internal => new(this);
+        public SpecificationBase<TEntity> Internal => new SpecificationBase<TEntity>(this);
 
         public static IOrderSpecification<TEntity> New(Expression<Func<TEntity, TResult>> expression, Sort sort = Sort.Ascending)
         {
