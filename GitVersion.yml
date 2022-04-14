@@ -2,6 +2,8 @@ next-version: 2.1.0
 branches:
   main:
     mode: ContinuousDeployment
-    tag: build
+    tag: beta
+  develop:
+    increment: patch
 ignore:
   sha: []
