@@ -15,7 +15,7 @@
     <PackageVersion Include="FluentAssertions" Version="6.6.0" />
     <PackageVersion Include="LinqKit.Core" Version="1.2.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageVersion Include="Nuke.Common" Version="6.0.2" />
+    <PackageVersion Include="Nuke.Common" Version="7.0.6" />
     <PackageVersion Include="SQLite.CodeFirst" Version="1.7.0.34" />
     <PackageVersion Include="System.Data.SQLite" Version="1.0.115.5" />
     <PackageVersion Include="xunit" Version="2.4.1" />
