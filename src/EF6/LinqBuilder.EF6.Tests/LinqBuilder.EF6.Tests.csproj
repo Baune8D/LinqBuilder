@@ -14,14 +14,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="EntityFramework" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="SQLite.CodeFirst" />
     <PackageReference Include="System.Data.SQLite" />
     <PackageReference Include="xunit" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.EF6.Testing\LinqBuilder.EF6.Testing.csproj" />
     <ProjectReference Include="..\LinqBuilder.EF6\LinqBuilder.EF6.csproj" />
   </ItemGroup>
 

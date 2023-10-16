@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.Testing\LinqBuilder.Testing.csproj" />
+    <ProjectReference Include="..\LinqBuilder\LinqBuilder.csproj" />
   </ItemGroup>
 
 </Project>

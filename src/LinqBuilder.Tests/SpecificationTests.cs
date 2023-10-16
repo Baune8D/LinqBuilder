@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using LinqBuilder.Testing;
+using LinqBuilder.Tests.Data;
 using Xunit;
 
 namespace LinqBuilder.Tests

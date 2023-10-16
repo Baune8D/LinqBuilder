@@ -2,7 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using LinqBuilder.OrderBy;
-using LinqBuilder.Testing;
+using LinqBuilder.Tests.Data;
 using Xunit;
 
 namespace LinqBuilder.Tests.OrderBy

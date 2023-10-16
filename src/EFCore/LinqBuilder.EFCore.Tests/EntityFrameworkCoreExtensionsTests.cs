@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using LinqBuilder.EFCore.Testing;
+using LinqBuilder.EFCore.Tests.Data;
 using Xunit;
 
 namespace LinqBuilder.EFCore.Tests

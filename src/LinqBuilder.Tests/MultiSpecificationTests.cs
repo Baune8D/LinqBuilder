@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
-using LinqBuilder.Testing;
-using LinqBuilder.Testing.Specifications;
+using LinqBuilder.Tests.Data;
+using LinqBuilder.Tests.Data.Specifications;
 using Xunit;
 
 namespace LinqBuilder.Tests

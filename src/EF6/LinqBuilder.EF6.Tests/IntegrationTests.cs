@@ -2,8 +2,8 @@ using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using FluentAssertions;
-using LinqBuilder.EF6.Testing;
-using LinqBuilder.EF6.Testing.Specifications;
+using LinqBuilder.EF6.Tests.Data;
+using LinqBuilder.EF6.Tests.Data.Specifications;
 using LinqBuilder.OrderBy;
 using Xunit;
 

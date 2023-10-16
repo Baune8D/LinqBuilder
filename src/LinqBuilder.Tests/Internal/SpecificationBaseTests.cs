@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using LinqBuilder.Internal;
 using LinqBuilder.OrderBy;
-using LinqBuilder.Testing;
+using LinqBuilder.Tests.Data;
 using Xunit;
 
 namespace LinqBuilder.Tests.Internal

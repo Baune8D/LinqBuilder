@@ -15,12 +15,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqBuilder.EFCore.Testing\LinqBuilder.EFCore.Testing.csproj" />
     <ProjectReference Include="..\LinqBuilder.EFCore\LinqBuilder.EFCore.csproj" />
   </ItemGroup>
 

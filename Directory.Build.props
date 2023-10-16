@@ -1,11 +1,6 @@
 <Project>
 
   <PropertyGroup>
-    <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Tests'))">true</IsTestProject>
-    <IsTestingProject Condition="$(MSBuildProjectName.EndsWith('.Testing'))">true</IsTestingProject>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Nullable>enable</Nullable>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -31,18 +26,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <Choose>
-    <When Condition="'$(IsTestProject)' == 'true'">
-      <PropertyGroup>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/tests.ruleset</CodeAnalysisRuleSet>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(IsTestingProject)' == 'true'">
-      <PropertyGroup>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)rulesets/testing.ruleset</CodeAnalysisRuleSet>
-      </PropertyGroup>
-    </When>
-  </Choose>
 
 </Project>
