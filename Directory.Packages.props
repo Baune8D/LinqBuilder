@@ -15,13 +15,13 @@
     <PackageVersion Include="SQLite.CodeFirst" Version="1.7.0.34" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="System.Data.SQLite" Version="1.0.118" />
     <PackageVersion Include="xunit" Version="2.5.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
