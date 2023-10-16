@@ -115,11 +115,8 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .EnableNoRestore()
                 .EnableNoBuild()
-                .EnableIncludeSymbols()
-                .EnableIncludeSource()
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetVersion(GitVersion.SemVer)
-                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg));
+                .SetVersion(GitVersion.SemVer));
         });
 
     Target PushMyGet => _ => _
@@ -132,15 +129,6 @@ class Build : NukeBuild
                 .SetApiKey(MyGetApiKey)
                 .CombineWith(Artifacts, (ss, artifact) => ss
                     .SetTargetPath(artifact)),
-                degreeOfParallelism: Environment.ProcessorCount);
-
-            var symbolArtifacts = ArtifactsDirectory.GlobFiles("*.snupkg");
-
-            NuGetPush(s => s
-                    .SetSource("https://www.myget.org/F/baunegaard/api/v3/index.json")
-                    .SetApiKey(MyGetApiKey)
-                    .CombineWith(symbolArtifacts, (ss, symbolArtifact) => ss
-                        .SetTargetPath(symbolArtifact)),
                 degreeOfParallelism: Environment.ProcessorCount);
         });
 
