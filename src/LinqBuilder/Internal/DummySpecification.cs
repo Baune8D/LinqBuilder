@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LinqBuilder.Internal
 {
-    internal class DummySpecification<TEntity> : IQuerySpecification<TEntity>
+    internal sealed class DummySpecification<TEntity> : IQuerySpecification<TEntity>
         where TEntity : class
     {
         public SpecificationBase<TEntity> Internal => new SpecificationBase<TEntity>(this);

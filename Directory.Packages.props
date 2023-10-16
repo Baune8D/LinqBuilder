@@ -17,6 +17,10 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageVersion Include="Nuke.Common" Version="7.0.6" />
     <PackageVersion Include="SQLite.CodeFirst" Version="1.7.0.34" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
     <PackageVersion Include="System.Data.SQLite" Version="1.0.118" />
     <PackageVersion Include="xunit" Version="2.5.2" />
   </ItemGroup>

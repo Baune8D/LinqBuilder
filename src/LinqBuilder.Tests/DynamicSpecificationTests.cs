@@ -84,7 +84,7 @@ namespace LinqBuilder.Tests
             specification.Value4.Should().Be(4);
         }
 
-        private class TestData : EntityTheoryData
+        private sealed class TestData : EntityTheoryData
         {
             public TestData()
             {

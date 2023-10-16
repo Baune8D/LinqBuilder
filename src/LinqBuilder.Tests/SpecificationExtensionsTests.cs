@@ -124,7 +124,7 @@ namespace LinqBuilder.Tests
             _value1ShouldBe3.Internal.Take.Should().Be(specClone.Internal.Take);
         }
 
-        private class TestData : EntityTheoryData
+        private sealed class TestData : EntityTheoryData
         {
             public TestData()
             {
@@ -133,7 +133,7 @@ namespace LinqBuilder.Tests
             }
         }
 
-        private class AndTestData : EntityTheoryData
+        private sealed class AndTestData : EntityTheoryData
         {
             public AndTestData()
             {
@@ -142,7 +142,7 @@ namespace LinqBuilder.Tests
             }
         }
 
-        private class OrTestData : EntityTheoryData
+        private sealed class OrTestData : EntityTheoryData
         {
             public OrTestData()
             {
@@ -152,7 +152,7 @@ namespace LinqBuilder.Tests
             }
         }
 
-        private class NotTestData : EntityTheoryData
+        private sealed class NotTestData : EntityTheoryData
         {
             public NotTestData()
             {
