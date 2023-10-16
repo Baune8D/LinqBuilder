@@ -16,6 +16,10 @@
     <PackageReference Include="SQLite.CodeFirst" />
     <PackageReference Include="System.Data.SQLite" />
     <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
