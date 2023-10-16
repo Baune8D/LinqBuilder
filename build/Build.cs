@@ -91,7 +91,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .EnableNoRestore()
                 .EnableNoBuild()
-                .EnableCollectCoverage()
+                .SetDataCollector("XPlat Code Coverage")
                 .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
                 .CombineWith(projects, (ss, project) => ss
                     .SetProjectFile(project)
