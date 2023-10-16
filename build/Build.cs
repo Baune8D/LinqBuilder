@@ -101,7 +101,6 @@ class Build : NukeBuild
             if (IsLocalBuild)
             {
                 ReportGenerator(s => s
-                    .SetFramework("net6.0")
                     .SetReports(CoverageResults / "*.cobertura.*.xml")
                     .SetTargetDirectory(CoverageDirectory / "report"));
             }
@@ -170,7 +169,6 @@ class Build : NukeBuild
                 .Select(file => file.ToString());
 
             Codecov(s => s
-                .SetFramework("net5.0")
                 .SetFiles(files));
         });
 }
