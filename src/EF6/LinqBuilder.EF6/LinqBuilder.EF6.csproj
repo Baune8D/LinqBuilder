@@ -13,7 +13,7 @@ Enables most async methods to use ISpecification.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="EntityFramework" />
   </ItemGroup>
 
   <ItemGroup>

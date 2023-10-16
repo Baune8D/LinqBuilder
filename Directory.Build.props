@@ -13,6 +13,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 defaults to C# 7.3 which does not support nullable types -->
