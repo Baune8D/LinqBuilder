@@ -52,7 +52,6 @@ class Build : NukeBuild
     static AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     static AbsolutePath CoverageDirectory => RootDirectory / "coverage";
-    static AbsolutePath CoverageResults => CoverageDirectory / "results";
 
     static IEnumerable<AbsolutePath> Artifacts => ArtifactsDirectory.GlobFiles("*.nupkg");
 
@@ -94,14 +93,13 @@ class Build : NukeBuild
                 .SetDataCollector("XPlat Code Coverage")
                 .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
                 .CombineWith(projects, (ss, project) => ss
-                    .SetProjectFile(project)
-                    .SetCoverletOutput(CoverageResults / $"{project.Name}.cobertura.xml")),
+                    .SetProjectFile(project)),
                 degreeOfParallelism: Environment.ProcessorCount);
 
             if (IsLocalBuild)
             {
                 ReportGenerator(s => s
-                    .SetReports(CoverageResults / "*.cobertura.*.xml")
+                    .SetReports(GetCoverageFiles())
                     .SetTargetDirectory(CoverageDirectory / "report"));
             }
         });
@@ -164,11 +162,13 @@ class Build : NukeBuild
         .OnlyWhenStatic(() => IsServerBuild)
         .Executes(() =>
         {
-            var files = CoverageResults
-                .GlobFiles("*.cobertura.*.xml")
-                .Select(file => file.ToString());
-
             Codecov(s => s
-                .SetFiles(files));
+                .SetFiles(GetCoverageFiles()));
         });
+
+    IEnumerable<string> GetCoverageFiles() => Solution.GetAllProjects("*.Tests")
+        .SelectMany(project => project.Directory.GlobDirectories("TestResults"))
+        .SelectMany(testResults => testResults.GlobDirectories("*"))
+        .SelectMany(output => output.GlobFiles("coverage.cobertura.xml"))
+        .Select(file => file.ToString());
 }
