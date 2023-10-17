@@ -1,18 +1,8 @@
 # LinqBuilder
-[![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
-[![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
-[![NuGet Badge](https://buildstats.info/nuget/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder)
-
-**Available on NuGet:** [https://www.nuget.org/packages/LinqBuilder/](https://www.nuget.org/packages/LinqBuilder/)  
-**MyGet development feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
-
-LinqBuilder is based on the specification pattern.
 
 ## Table of Contents
 1. [LinqBuilder Specifications](#linqbuilder-specifications)
 2. [LinqBuilder OrderSpecifications](#linqbuilder-orderspecifications)
-3. [LinqBuilder.EFCore / LinqBuilder.EF6](#linqbuilderefcore--linqbuilderef6)
-4. [Full Example](#full-example)
 
 ## LinqBuilder Specifications
 
@@ -229,78 +219,4 @@ specification.HasTake(); // Returns false
 
 ISpecification<Person> specification = specification.Take(10);
 specification.HasTake(); // Returns true
-```
-
-## LinqBuilder.EFCore / LinqBuilder.EF6
-| Package            | Version                                                                                                               |
-| -------------------|:---------------------------------------------------------------------------------------------------------------------:|
-| LinqBuilder.EFCore | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EFCore)](https://www.nuget.org/packages/LinqBuilder.EFCore) |
-| LinqBuilder.EF6    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6)](https://www.nuget.org/packages/LinqBuilder.EF6)       |
-
-### Extensions
-**LinqBuilder.EF** packages extends the following extensions to support ```ISpecification```.
-```csharp
-bool result = await _sampleContext.Entities.AnyAsync(specification);
-bool result = await _sampleContext.Entities.AllAsync(specification);
-int result = await _sampleContext.Entities.CountAsync(specification);
-Entity result = await _sampleContext.Entities.FirstAsync(specification);
-Entity result = await _sampleContext.Entities.FirstOrDefaultAsync(specification);
-Entity result = await _sampleContext.Entities.SingleAsync(specification);
-Entity result = await _sampleContext.Entities.SingleOrDefaultAsync(specification);
-```
-
-## Full example
-
-```csharp
-public class Person
-{
-    public int Id { get; set; }
-    public string Firstname { get; set; }
-    public string Lastname { get; set; }
-}
-
-public class SampleDbContext : DbContext // Simplified DbContext
-{
-    public virtual DbSet<Person> Persons { get; set; }
-}
-
-public class DbService<TEntity> where TEntity : class
-{
-    private readonly DbSet<TEntity> _dbSet;
-
-    public DbService(SampleDbContext context)
-    {
-        _dbSet = context.Set<TEntity>();
-    }
-
-    public int Count(ISpecification<TEntity> specification)
-    {
-        return _dbSet.Count(specification);
-    }
-
-    public List<Entity> Get(ISpecification<TEntity> specification)
-    {
-        return _dbSet.ExeSpec(specification).ToList();
-    }
-
-    public (List<Person> items, int count) GetAndCount(ISpecification<TEntity> specification)
-    {
-        return (Get(specification), Count(specification));
-    }
-}
-
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-ISpecification<Person> lastnameIsBar = Spec<Person>.New(p => p.Lastname == "Bar");
-ISpecification<Person> idDescending = OrderSpec<Person, int>.New(p => p.Id, Sort.Descending);
-
-ISpecification<Person> specification = firstnameIsFoo.And(lastnameIsBar)
-    .OrderBy(idDescending)
-    .Paginate(1, 5); // pageNo = 1, pageSize = 5
-
-using (var context = new SampleDbContext())
-{
-    var result = new DbService<Person>(context).GetAndCount(specification);
-    // result.items = Paginated list of Person's with name: Foo Bar
-    // result.count = Total unpaginated result count
-}
 ```
