@@ -53,6 +53,8 @@ class Build : NukeBuild
 
     static AbsolutePath CoverageDirectory => RootDirectory / "coverage";
 
+    static AbsolutePath CoverageResult => CoverageDirectory / "Cobertura.xml";
+
     static IEnumerable<AbsolutePath> Artifacts => ArtifactsDirectory.GlobFiles("*.nupkg");
 
     Target Clean => _ => _
@@ -82,8 +84,8 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
-            GetTestResultFolders()
-                .ForEach(directory => directory.DeleteDirectory());
+            CoverageDirectory.CreateOrCleanDirectory();
+            TestResultFolders.ForEach(directory => directory.DeleteDirectory());
 
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
@@ -91,16 +93,19 @@ class Build : NukeBuild
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-                .CombineWith(GetTestProjects(), (ss, project) => ss
+                .CombineWith(TestProjects, (ss, project) => ss
                     .SetProjectFile(project)),
                 degreeOfParallelism: Environment.ProcessorCount);
 
+            ReportGenerator(s => s
+                .SetReports(CoverageResults)
+                .SetTargetDirectory(CoverageDirectory)
+                .SetReportTypes(ReportTypes.Cobertura));
+
             if (IsLocalBuild)
             {
-                CoverageDirectory.CreateOrCleanDirectory();
-
                 ReportGenerator(s => s
-                    .SetReports(GetCoverageFiles())
+                    .SetReports(CoverageResult)
                     .SetTargetDirectory(CoverageDirectory));
             }
         });
@@ -152,15 +157,15 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Codecov(s => s
-                .SetFiles(GetCoverageFiles()));
+                .SetFiles(CoverageResult));
         });
 
-    IEnumerable<Project> GetTestProjects() => Solution.GetAllProjects("*.Tests");
+    IEnumerable<Project> TestProjects => Solution.GetAllProjects("*.Tests");
 
-    IEnumerable<AbsolutePath> GetTestResultFolders() => GetTestProjects()
+    IEnumerable<AbsolutePath> TestResultFolders => TestProjects
         .SelectMany(project => project.Directory.GlobDirectories("TestResults"));
 
-    IEnumerable<string> GetCoverageFiles() => GetTestResultFolders()
+    IEnumerable<string> CoverageResults => TestResultFolders
         .SelectMany(testResults => testResults.GlobDirectories("*"))
         .SelectMany(output => output.GlobFiles("coverage.cobertura.xml"))
         .Select(file => file.ToString());
