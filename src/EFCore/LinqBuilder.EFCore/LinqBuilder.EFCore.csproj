@@ -10,6 +10,7 @@ Enables most async methods to use ISpecification.</Description>
     <RepositoryUrl>https://github.com/Baune8D/LinqBuilder</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Baune8D/LinqBuilder</PackageProjectUrl>
     <PackageTags>Specification, Linq, EntityFrameworkCore</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,10 @@ Enables most async methods to use ISpecification.</Description>
 
   <ItemGroup>
     <ProjectReference Include="..\..\LinqBuilder\LinqBuilder.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

@@ -10,10 +10,15 @@ Made for use with IEnumerable and IQueryable.</Description>
     <RepositoryUrl>https://github.com/Baune8D/LinqBuilder</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Baune8D/LinqBuilder</PackageProjectUrl>
     <PackageTags>Specification, Linq</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LinqKit.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
