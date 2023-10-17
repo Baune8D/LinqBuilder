@@ -82,9 +82,8 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
-            CoverageDirectory.CreateOrCleanDirectory();
-
-            var projects = Solution.GetAllProjects("*.Tests");
+            GetTestResultFolders()
+                .ForEach(directory => directory.DeleteDirectory());
 
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
@@ -92,15 +91,17 @@ class Build : NukeBuild
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-                .CombineWith(projects, (ss, project) => ss
+                .CombineWith(GetTestProjects(), (ss, project) => ss
                     .SetProjectFile(project)),
                 degreeOfParallelism: Environment.ProcessorCount);
 
             if (IsLocalBuild)
             {
+                CoverageDirectory.CreateOrCleanDirectory();
+
                 ReportGenerator(s => s
                     .SetReports(GetCoverageFiles())
-                    .SetTargetDirectory(CoverageDirectory / "report"));
+                    .SetTargetDirectory(CoverageDirectory));
             }
         });
 
@@ -154,8 +155,12 @@ class Build : NukeBuild
                 .SetFiles(GetCoverageFiles()));
         });
 
-    IEnumerable<string> GetCoverageFiles() => Solution.GetAllProjects("*.Tests")
-        .SelectMany(project => project.Directory.GlobDirectories("TestResults"))
+    IEnumerable<Project> GetTestProjects() => Solution.GetAllProjects("*.Tests");
+
+    IEnumerable<AbsolutePath> GetTestResultFolders() => GetTestProjects()
+        .SelectMany(project => project.Directory.GlobDirectories("TestResults"));
+
+    IEnumerable<string> GetCoverageFiles() => GetTestResultFolders()
         .SelectMany(testResults => testResults.GlobDirectories("*"))
         .SelectMany(output => output.GlobFiles("coverage.cobertura.xml"))
         .Select(file => file.ToString());
