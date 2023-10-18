@@ -30,11 +30,11 @@
     </PackageVersion>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.23" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.23" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="[6,7)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="[6,7)" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="[7,8)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="[7,8)" />
   </ItemGroup>
 </Project>
