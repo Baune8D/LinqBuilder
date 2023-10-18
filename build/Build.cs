@@ -24,7 +24,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
 [ShutdownDotNetAfterServerBuild]
 [AppVeyor(
-    AppVeyorImage.VisualStudio2022,
+    AppVeyorImage.UbuntuLatest,
     InvokedTargets = new[]
     {
         nameof(UploadCodecov),
@@ -32,7 +32,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
         nameof(PushMyGet),
     })]
 [AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
-[AppVeyorSecret("NUGET_API_KEY", "IvV8EXsJ4sMQb+AxZ983lPt5fwCDlhux8IM+1hUKOO9uRh5Y757KpXcCNqwjqunL")]
+[AppVeyorSecret("NUGET_API_KEY", "6MkPTvHJIpZhqOH9BCycM4BA++x1SYTINJQ04uR+BxZn2UaUmatB7NkwPCVGBviq")]
 class Build : NukeBuild
 {
     public static int Main () => Execute<Build>(x => x.Compile);
