@@ -1,9 +1,9 @@
+mode: ContinuousDeployment
 next-version: 3.1.0
 branches:
   main:
-    mode: ContinuousDeployment
-    tag: beta
+    label: beta
   develop:
-    increment: patch
+    increment: Patch
 ignore:
   sha: []
