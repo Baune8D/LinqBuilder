@@ -14,9 +14,9 @@
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="8.0.0" />
     <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
-    <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
-    <PackageDownload Include="NuGet.CommandLine" Version="[6.7.0]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.1.26]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.0.0-beta.7]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[6.9.1]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.2.5]" />
   </ItemGroup>
 
 </Project>
