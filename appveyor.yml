@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 image:
-  - Ubuntu2204
+  - Ubuntu2004
 
 build_script:
   - cmd: .\build.cmd UploadCodecov PushNuGet PushMyGet
