@@ -157,6 +157,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Codecov(s => s
+                .SetFramework("net8.0")
                 .SetFiles(CoverageResult));
         });
 
