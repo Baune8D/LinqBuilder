@@ -1,6 +1,8 @@
 is_global = true
 
 dotnet_diagnostic.CA1000.severity = none
+dotnet_diagnostic.CA1510.severity = none # Fix only works in .NET 8
+dotnet_diagnostic.CA1859.severity = none
 
 dotnet_diagnostic.CS1591.severity = none
 
