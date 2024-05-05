@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="coverlet.collector" Version="6.0.0">
+    <PackageVersion Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
@@ -13,17 +13,17 @@
     </PackageVersion>
     <PackageVersion Include="EntityFramework" Version="6.4.4" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="LinqKit.Core" Version="1.2.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-    <PackageVersion Include="SQLite.CodeFirst" Version="1.7.0.34" />
-    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
+    <PackageVersion Include="LinqKit.Core" Version="1.2.5" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageVersion Include="SQLite.CodeFirst" Version="1.7.0.36" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="System.Data.SQLite" Version="1.0.118" />
     <PackageVersion Include="System.Data.SQLite.EF6" Version="1.0.118" />
-    <PackageVersion Include="xunit" Version="2.5.2" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3">
+    <PackageVersion Include="xunit" Version="2.8.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
