@@ -23,14 +23,14 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 // ReSharper disable AllUnderscoreLocalParameterName
 
 [ShutdownDotNetAfterServerBuild]
-[AppVeyor(
-    AppVeyorImage.UbuntuLatest,
-    InvokedTargets = new[]
-    {
-        nameof(UploadCodecov),
-        nameof(PushNuGet),
-        nameof(PushMyGet),
-    })]
+// [AppVeyor(
+//     AppVeyorImage.UbuntuLatest,
+//     InvokedTargets =
+//     [
+//         nameof(UploadCodecov),
+//         nameof(PushNuGet),
+//         nameof(PushMyGet),
+//     ])]
 [AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
 [AppVeyorSecret("NUGET_API_KEY", "6MkPTvHJIpZhqOH9BCycM4BA++x1SYTINJQ04uR+BxZn2UaUmatB7NkwPCVGBviq")]
 class Build : NukeBuild

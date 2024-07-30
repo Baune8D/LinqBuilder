@@ -22,7 +22,7 @@ build_script:
   - sh: ./build.cmd UploadCodecov PushNuGet PushMyGet
 
 artifacts:
-  - path: artifacts/*.nupkg
+  - path: 'artifacts/*.nupkg'
 
 environment:
   MYGET_API_KEY:
