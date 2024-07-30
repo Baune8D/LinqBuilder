@@ -9,14 +9,15 @@
     <NukeScriptDirectory>..</NukeScriptDirectory>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
     <IsPackable>false</IsPackable>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="8.0.0" />
     <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
-    <PackageDownload Include="GitVersion.Tool" Version="[6.0.0-beta.7]" />
-    <PackageDownload Include="NuGet.CommandLine" Version="[6.9.1]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.2.5]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.0.0]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[6.10.1]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.3.8]" />
   </ItemGroup>
 
 </Project>
