@@ -29,3 +29,5 @@ environment:
     secure: 78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe
   NUGET_API_KEY:
     secure: 6MkPTvHJIpZhqOH9BCycM4BA++x1SYTINJQ04uR+BxZn2UaUmatB7NkwPCVGBviq
+  CODECOV_TOKEN:
+    secure: 3FxtGPNTgZyQGToJBaH68/oIjptV79CcViR9mHt2aOKGh3++oKTehBIuPSb7oYCE
