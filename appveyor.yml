@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 image:
-  - Ubuntu2004
+  - Visual Studio 2022
 
 build_script:
   - cmd: .\build.cmd UploadCodecov PushNuGet PushMyGet
