@@ -33,6 +33,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     ])]
 [AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
 [AppVeyorSecret("NUGET_API_KEY", "6MkPTvHJIpZhqOH9BCycM4BA++x1SYTINJQ04uR+BxZn2UaUmatB7NkwPCVGBviq")]
+[AppVeyorSecret("CODECOV_TOKEN", "3FxtGPNTgZyQGToJBaH68/oIjptV79CcViR9mHt2aOKGh3++oKTehBIuPSb7oYCE")]
 class Build : NukeBuild
 {
     public static int Main () => Execute<Build>(x => x.Compile);
@@ -42,6 +43,7 @@ class Build : NukeBuild
 
     [Parameter(Name = "MYGET_API_KEY")] [Secret] string MyGetApiKey { get; set; }
     [Parameter(Name = "NUGET_API_KEY")] [Secret] string NuGetApiKey { get; set; }
+    [Parameter(Name = "CODECOV_TOKEN")] [Secret] string CodecovToken { get; set; }
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -157,7 +159,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Codecov(s => s
-                .SetFiles(CoverageResult));
+                .SetFiles(CoverageResult)
+                .SetToken(CodecovToken));
         });
 
     IEnumerable<Project> TestProjects => Solution.GetAllProjects("*.Tests");
