@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="9.0.3" />
-    <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
+    <PackageDownload Include="CodecovUploader" Version="[0.8.0]" />
     <PackageDownload Include="GitVersion.Tool" Version="[6.1.0]" />
     <PackageDownload Include="NuGet.CommandLine" Version="[6.12.2]" />
     <PackageDownload Include="ReportGenerator" Version="[5.4.3]" />
