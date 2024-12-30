@@ -157,7 +157,6 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Codecov(s => s
-                .SetFramework("netcoreapp3.1")
                 .SetFiles(CoverageResult));
         });
 
