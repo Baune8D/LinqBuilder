@@ -2,14 +2,13 @@
 using LinqBuilder.Tests.Data;
 using Xunit;
 
-namespace LinqBuilder.Tests.Internal
+namespace LinqBuilder.Tests.Internal;
+
+public class QuerySpecificationTests
 {
-    public class QuerySpecificationTests
+    [Fact]
+    public void AsFunc_NoExpression_ShouldBeNull()
     {
-        [Fact]
-        public void AsFunc_NoExpression_ShouldBeNull()
-        {
-            new Specification<Entity>().AsFunc().Should().BeNull();
-        }
+        new Specification<Entity>().AsFunc().Should().BeNull();
     }
 }

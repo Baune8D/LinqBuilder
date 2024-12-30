@@ -6,44 +6,43 @@ using LinqBuilder.OrderBy;
 using LinqBuilder.Tests.Data;
 using Xunit;
 
-namespace LinqBuilder.Tests.Internal
+namespace LinqBuilder.Tests.Internal;
+
+public class SpecificationBaseTests
 {
-    public class SpecificationBaseTests
+    [Fact]
+    public void Configuration_NewOrderSpecification_ShouldBeCorrectlyConfigured()
     {
-        [Fact]
-        public void Configuration_NewOrderSpecification_ShouldBeCorrectlyConfigured()
-        {
-            var configuration = new SpecificationBase<Entity>(new OrderSpecification<Entity, int>(x => x.Value1));
-            configuration.QuerySpecification.Internal.Should().NotBeNull();
-            configuration.QuerySpecification.Should().NotBeNull();
-            configuration.QuerySpecification.AsExpression().Should().BeNull();
-            configuration.QuerySpecification.AsFunc().Should().BeNull();
-            configuration.OrderSpecifications.Count.Should().Be(1);
-        }
+        var configuration = new SpecificationBase<Entity>(new OrderSpecification<Entity, int>(x => x.Value1));
+        configuration.QuerySpecification.Internal.Should().NotBeNull();
+        configuration.QuerySpecification.Should().NotBeNull();
+        configuration.QuerySpecification.AsExpression().Should().BeNull();
+        configuration.QuerySpecification.AsFunc().Should().BeNull();
+        configuration.OrderSpecifications.Count.Should().Be(1);
+    }
 
-        [Fact]
-        public void Configuration_NewSpecification_ShouldBeCorrectlyConfigured()
-        {
-            var configuration = new SpecificationBase<Entity>(new Specification<Entity>());
-            configuration.QuerySpecification.Internal.Should().NotBeNull();
-            configuration.QuerySpecification.Should().NotBeNull();
-            configuration.QuerySpecification.AsExpression().Should().BeNull();
-            configuration.QuerySpecification.AsFunc().Should().BeNull();
-            configuration.OrderSpecifications.Any().Should().BeFalse();
-        }
+    [Fact]
+    public void Configuration_NewSpecification_ShouldBeCorrectlyConfigured()
+    {
+        var configuration = new SpecificationBase<Entity>(new Specification<Entity>());
+        configuration.QuerySpecification.Internal.Should().NotBeNull();
+        configuration.QuerySpecification.Should().NotBeNull();
+        configuration.QuerySpecification.AsExpression().Should().BeNull();
+        configuration.QuerySpecification.AsFunc().Should().BeNull();
+        configuration.OrderSpecifications.Any().Should().BeFalse();
+    }
 
-        [Fact]
-        public void Configuration_NewOrderSpecificationAndNewSpecification_ShouldBeCorrectlyConfigured()
+    [Fact]
+    public void Configuration_NewOrderSpecificationAndNewSpecification_ShouldBeCorrectlyConfigured()
+    {
+        var configuration = new SpecificationBase<Entity>(new Specification<Entity>(), new List<IOrderSpecification<Entity>>
         {
-            var configuration = new SpecificationBase<Entity>(new Specification<Entity>(), new List<IOrderSpecification<Entity>>
-            {
-                new OrderSpecification<Entity, int>(x => x.Value1),
-            });
-            configuration.QuerySpecification.Internal.Should().NotBeNull();
-            configuration.QuerySpecification.Should().NotBeNull();
-            configuration.QuerySpecification.AsExpression().Should().BeNull();
-            configuration.QuerySpecification.AsFunc().Should().BeNull();
-            configuration.OrderSpecifications.Count.Should().Be(1);
-        }
+            new OrderSpecification<Entity, int>(x => x.Value1),
+        });
+        configuration.QuerySpecification.Internal.Should().NotBeNull();
+        configuration.QuerySpecification.Should().NotBeNull();
+        configuration.QuerySpecification.AsExpression().Should().BeNull();
+        configuration.QuerySpecification.AsFunc().Should().BeNull();
+        configuration.OrderSpecifications.Count.Should().Be(1);
     }
 }
