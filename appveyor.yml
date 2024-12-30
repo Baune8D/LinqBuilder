@@ -28,6 +28,6 @@ environment:
   MYGET_API_KEY:
     secure: 78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe
   NUGET_API_KEY:
-    secure: 6MkPTvHJIpZhqOH9BCycM4BA++x1SYTINJQ04uR+BxZn2UaUmatB7NkwPCVGBviq
+    secure: aMbj+EdePo74elFCi6lrQZcO81mru5j8cqD5FxGoDBWgXFFHwok/z4B+BtS4H1Sw
   CODECOV_TOKEN:
     secure: 3FxtGPNTgZyQGToJBaH68/oIjptV79CcViR9mHt2aOKGh3++oKTehBIuPSb7oYCE
