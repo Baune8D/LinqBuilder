@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
@@ -20,8 +21,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
-// ReSharper disable AllUnderscoreLocalParameterName
-
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 [ShutdownDotNetAfterServerBuild]
 [AppVeyor(
     AppVeyorImage.VisualStudio2022,
