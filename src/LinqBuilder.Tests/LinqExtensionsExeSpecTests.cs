@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Tests.Data;
 using Xunit;
@@ -30,7 +30,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2)
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);
@@ -44,7 +44,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2)
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);
@@ -58,7 +58,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc))
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(1);
         result[1].Value1.Should().Be(2);
@@ -72,7 +72,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc))
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(1);
         result[1].Value1.Should().Be(2);
@@ -86,7 +86,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);
@@ -100,7 +100,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_value1ShouldBe2.OrderBy(_orderValue2Asc), true)
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);
@@ -114,7 +114,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(2);
@@ -130,7 +130,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(2);
@@ -146,7 +146,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc.ThenBy(_orderValue2Asc))
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -162,7 +162,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc.ThenBy(_orderValue2Asc))
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -178,7 +178,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc.Skip(1).Take(2))
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);
@@ -192,7 +192,7 @@ public class LinqExtensionsExeSpecTests
             .ExeSpec(_orderValue1Asc.Skip(1).Take(2))
             .ToList();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(2);
         result[0].Value2.Should().Be(2);
         result[1].Value1.Should().Be(2);

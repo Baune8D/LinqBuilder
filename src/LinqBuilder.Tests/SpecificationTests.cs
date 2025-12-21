@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using LinqBuilder.Tests.Data;
 using Xunit;
 

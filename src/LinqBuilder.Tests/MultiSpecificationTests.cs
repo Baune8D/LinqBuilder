@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.Tests.Data;
 using LinqBuilder.Tests.Data.Specifications;
 using Xunit;
