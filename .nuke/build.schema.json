@@ -29,6 +29,7 @@
         "Package",
         "PushMyGet",
         "PushNuGet",
+        "Restore",
         "Test",
         "UploadCodecov"
       ]

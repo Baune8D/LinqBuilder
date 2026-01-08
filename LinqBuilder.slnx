@@ -1,0 +1,38 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path=".globalconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="GitVersion.yml" />
+    <File Path="LICENSE.txt" />
+    <File Path="NuGet.Config" />
+    <File Path="README.md" />
+    <File Path="stylecop.json" />
+  </Folder>
+  <Folder Name="/Solution Items/.github/" />
+  <Folder Name="/Solution Items/.github/workflows/">
+    <File Path=".github/workflows/pipeline.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/.vscode/">
+    <File Path=".vscode/extensions.json" />
+    <File Path=".vscode/settings.json" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/LinqBuilder.Tests/LinqBuilder.Tests.csproj" />
+    <Project Path="src/LinqBuilder/LinqBuilder.csproj" />
+  </Folder>
+  <Folder Name="/src/EF6/">
+    <Project Path="src/EF6/LinqBuilder.EF6.Tests/LinqBuilder.EF6.Tests.csproj" />
+    <Project Path="src/EF6/LinqBuilder.EF6/LinqBuilder.EF6.csproj" />
+  </Folder>
+  <Folder Name="/src/EFCore/">
+    <Project Path="src/EFCore/LinqBuilder.EFCore.Tests/LinqBuilder.EFCore.Tests.csproj" />
+    <Project Path="src/EFCore/LinqBuilder.EFCore/LinqBuilder.EFCore.csproj" />
+  </Folder>
+  <Project Path="build/_build.csproj">
+    <Build Project="false" />
+  </Project>
+</Solution>
