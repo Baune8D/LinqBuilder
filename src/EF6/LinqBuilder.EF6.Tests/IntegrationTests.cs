@@ -1,7 +1,7 @@
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.EF6.Tests.Data;
 using LinqBuilder.EF6.Tests.Data.Specifications;
 using LinqBuilder.OrderBy;
@@ -38,7 +38,7 @@ public sealed class IntegrationTests : IDisposable
             .ExeSpec(specification)
             .ToListAsync();
 
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Id.Should().Be(1);
         result[1].Id.Should().Be(3);
     }

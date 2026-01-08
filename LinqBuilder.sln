@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		appveyor.yml = appveyor.yml
 		Directory.Build.props = Directory.Build.props
 		GitVersion.yml = GitVersion.yml
 		LICENSE.txt = LICENSE.txt
@@ -44,6 +43,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFCore", "EFCore", "{865F6FAD-36D3-4675-9191-3AEBF9E717B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{11A7E48F-5E13-4957-B055-8A6EB24FE6C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8CEF6E2B-5E8D-4507-87FE-99E6947A4F00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{08A85FAA-0A55-4B84-A4ED-7447B6AB85A3}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\pipeline.yml = .github\workflows\pipeline.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +97,8 @@ Global
 		{318A1093-3885-4E30-BF3D-F7D331F4A626} = {BAF26E71-25FB-4E1C-ADF2-E9F8C2E78661}
 		{C496F944-92FD-410D-ABB1-019F640D6C79} = {865F6FAD-36D3-4675-9191-3AEBF9E717B2}
 		{3E0B788B-2B01-4F27-B2FD-12FAEDD8C88A} = {865F6FAD-36D3-4675-9191-3AEBF9E717B2}
+		{8CEF6E2B-5E8D-4507-87FE-99E6947A4F00} = {E9CE7133-E0CC-469B-81F9-529EE0AE003D}
+		{08A85FAA-0A55-4B84-A4ED-7447B6AB85A3} = {8CEF6E2B-5E8D-4507-87FE-99E6947A4F00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4029E7C4-F013-4A5C-A3A7-9BD01FA6ED4A}

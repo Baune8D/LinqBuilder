@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
-using Nuke.Common.CI.AppVeyor;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -20,20 +21,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
-// ReSharper disable AllUnderscoreLocalParameterName
-
-[ShutdownDotNetAfterServerBuild]
-[AppVeyor(
-    AppVeyorImage.VisualStudio2022,
-    InvokedTargets =
-    [
-        nameof(UploadCodecov),
-        nameof(PushNuGet),
-        nameof(PushMyGet),
-    ])]
-[AppVeyorSecret("MYGET_API_KEY", "78qy8e6pKfJlQV7RAG5tJOWegzXpjASkUs3aFdVBoPYA5gi6+mWdjbuAmNa5OQPe")]
-[AppVeyorSecret("NUGET_API_KEY", "aMbj+EdePo74elFCi6lrQZcO81mru5j8cqD5FxGoDBWgXFFHwok/z4B+BtS4H1Sw")]
-[AppVeyorSecret("CODECOV_TOKEN", "3FxtGPNTgZyQGToJBaH68/oIjptV79CcViR9mHt2aOKGh3++oKTehBIuPSb7oYCE")]
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 class Build : NukeBuild
 {
     public static int Main () => Execute<Build>(x => x.Compile);
@@ -48,7 +36,7 @@ class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
-    [CI] readonly AppVeyor AppVeyor;
+    [CI] readonly GitHubActions GitHubActions;
 
     static AbsolutePath SourceDirectory => RootDirectory / "src";
     static AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -70,7 +58,16 @@ class Build : NukeBuild
             ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
+    Target Restore => _ => _
+        .Executes(() =>
+        {
+            DotNetRestore(s => s
+                .SetProjectFile(Solution)
+                .EnableLockedMode());
+        });
+
     Target Compile => _ => _
+        .DependsOn(Restore)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -79,7 +76,8 @@ class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableTreatWarningsAsErrors());
+                .EnableTreatWarningsAsErrors()
+                .EnableNoRestore());
         });
 
     Target Test => _ => _
@@ -142,7 +140,7 @@ class Build : NukeBuild
 
     Target PushNuGet => _ => _
         .DependsOn(Package)
-        .OnlyWhenStatic(() => IsServerBuild && AppVeyor.RepositoryTag)
+        .OnlyWhenStatic(() => IsServerBuild && GitHubActions.RefType == "tag")
         .Executes(() =>
         {
             NuGetPush(s => s

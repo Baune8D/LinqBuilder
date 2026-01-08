@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <Authors>Morten Larsen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Entity Framework Core extensions.
@@ -15,6 +15,7 @@ Enables most async methods to use ISpecification.</Description>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
   </ItemGroup>
 
   <ItemGroup>

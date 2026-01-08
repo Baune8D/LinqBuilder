@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.EFCore.Tests.Data;
 using Xunit;
 
@@ -109,7 +109,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .FirstAsync(_value1ShouldBe1);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(2));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([2], TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .FirstAsync(_emptySpecification);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([1], TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .FirstOrDefaultAsync(_value1ShouldBe1);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(2));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([2], TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .FirstOrDefaultAsync(_emptySpecification);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([1], TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -145,7 +145,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .SingleAsync(_value1ShouldBe2);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([1], TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -162,7 +162,7 @@ public sealed class EntityFrameworkCoreExtensionsTests : IDisposable
         var result = await _testDb.Context.Entities
             .SingleOrDefaultAsync(_value1ShouldBe2);
 
-        result.Should().Be(await _testDb.Context.Entities.FindAsync(1));
+        result.Should().Be(await _testDb.Context.Entities.FindAsync([1], TestContext.Current.CancellationToken));
     }
 
     [Fact]

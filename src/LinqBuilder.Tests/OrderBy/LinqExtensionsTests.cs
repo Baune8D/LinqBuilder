@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Tests.Data;
 using Xunit;
@@ -29,7 +29,7 @@ public class LinqExtensionsTests
             .OrderBy(_orderValue1Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(2);
@@ -45,7 +45,7 @@ public class LinqExtensionsTests
             .OrderBy(_orderValue1Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(2);
@@ -62,7 +62,7 @@ public class LinqExtensionsTests
             .ThenBy(_orderValue2Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -79,7 +79,7 @@ public class LinqExtensionsTests
             .ThenBy(_orderValue2Asc)
             .ToList();
 
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);

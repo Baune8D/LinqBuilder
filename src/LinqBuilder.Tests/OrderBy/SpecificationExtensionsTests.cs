@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FluentAssertions;
+using AwesomeAssertions;
 using LinqBuilder.OrderBy;
 using LinqBuilder.Tests.Data;
 using Xunit;
@@ -30,7 +30,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _emptySpecification.OrderBy(_orderValue1Asc);
         var result = _fixture.Query.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[2].Value1.Should().Be(2);
@@ -42,7 +42,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _emptySpecification.OrderBy(_orderValue1Asc);
         var result = _fixture.Collection.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[2].Value1.Should().Be(2);
@@ -54,7 +54,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
         var result = _fixture.Query.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -68,7 +68,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _emptySpecification.OrderBy(_orderValue1Asc).ThenBy(_orderValue2Asc);
         var result = _fixture.Collection.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value2.Should().Be(1);
         result[2].Value1.Should().Be(2);
@@ -81,7 +81,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
         var result = _fixture.Query.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -95,7 +95,7 @@ public class SpecificationExtensionsTests
     {
         var specification = _orderValue1Asc.ThenBy(_orderValue2Asc);
         var result = _fixture.Collection.ExeSpec(specification).ToList();
-        result.Count.Should().Be(4);
+        result.Should().HaveCount(4);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
         result[1].Value2.Should().Be(1);
@@ -110,7 +110,7 @@ public class SpecificationExtensionsTests
         var ordering = _orderValue1Asc.Skip(1).Take(1);
         var specification = _emptySpecification.UseOrdering(ordering);
         var result = _fixture.Query.ExeSpec(specification).ToList();
-        result.Count.Should().Be(1);
+        result.Should().ContainSingle();
         result[0].Value1.Should().Be(2);
     }
 
@@ -120,7 +120,7 @@ public class SpecificationExtensionsTests
         var ordering = _orderValue1Asc.Skip(1).Take(1);
         var specification = _emptySpecification.UseOrdering(ordering);
         var result = _fixture.Collection.ExeSpec(specification).ToList();
-        result.Count.Should().Be(1);
+        result.Should().ContainSingle();
         result[0].Value1.Should().Be(2);
     }
 
@@ -128,7 +128,7 @@ public class SpecificationExtensionsTests
     public void Skip_IQueryable_ShouldReturnCorrectResult()
     {
         var result = _fixture.Query.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
-        result.Count.Should().Be(3);
+        result.Should().HaveCount(3);
         result[0].Value1.Should().Be(2);
         result[1].Value1.Should().Be(2);
         result[2].Value1.Should().Be(3);
@@ -138,7 +138,7 @@ public class SpecificationExtensionsTests
     public void Skip_IEnumerable_ShouldReturnCorrectResult()
     {
         var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Skip(1)).ToList();
-        result.Count.Should().Be(3);
+        result.Should().HaveCount(3);
         result[0].Value1.Should().Be(2);
         result[1].Value1.Should().Be(2);
         result[2].Value1.Should().Be(3);
@@ -148,7 +148,7 @@ public class SpecificationExtensionsTests
     public void Take_IQueryable_ShouldReturnCorrectResult()
     {
         var result = _fixture.Query.ExeSpec(_orderValue1Asc.Take(2)).ToList();
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
     }
@@ -157,7 +157,7 @@ public class SpecificationExtensionsTests
     public void Take_IEnumerable_ShouldReturnCorrectResult()
     {
         var result = _fixture.Collection.ExeSpec(_orderValue1Asc.Take(2)).ToList();
-        result.Count.Should().Be(2);
+        result.Should().HaveCount(2);
         result[0].Value1.Should().Be(1);
         result[1].Value1.Should().Be(2);
     }
