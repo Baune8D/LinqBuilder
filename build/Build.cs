@@ -12,6 +12,7 @@ using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
+using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.Tools.Codecov.CodecovTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -91,7 +92,9 @@ class Build : NukeBuild
                     .SetDataCollector("XPlat Code Coverage")
                     .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
                     .EnableNoRestore()
-                    .EnableNoBuild());
+                    .EnableNoBuild()
+                    .When(GitHubActions != null, ss => ss
+                        .SetLoggers("GitHubActions")));
             }
 
             ReportGenerator(s => s
