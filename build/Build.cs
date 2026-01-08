@@ -11,12 +11,10 @@ using Nuke.Common.Tools.Codecov;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.Tools.Codecov.CodecovTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
 [SuppressMessage("ReSharper", "UnusedMember.Local")]
@@ -131,7 +129,7 @@ class Build : NukeBuild
         {
             foreach (var artifact in Artifacts)
             {
-                NuGetPush(s => s
+                DotNetNuGetPush(s => s
                     .SetTargetPath(artifact)
                     .SetSource("https://www.myget.org/F/baunegaard/api/v2/package")
                     .SetApiKey(MyGetApiKey));
@@ -145,7 +143,7 @@ class Build : NukeBuild
         {
             foreach (var artifact in Artifacts)
             {
-                NuGetPush(s => s
+                DotNetNuGetPush(s => s
                     .SetTargetPath(artifact)
                     .SetSource("https://api.nuget.org/v3/index.json")
                     .SetApiKey(NuGetApiKey));
