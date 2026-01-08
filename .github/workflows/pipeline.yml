@@ -1,0 +1,32 @@
+name: Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+
+  pipeline:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - name: Execute NUKE
+        run: ./build.cmd UploadCodecov PushNuGet PushMyGet
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
