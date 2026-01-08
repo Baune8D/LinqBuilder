@@ -58,7 +58,16 @@ class Build : NukeBuild
             ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
+    Target Restore => _ => _
+        .Executes(() =>
+        {
+            DotNetRestore(s => s
+                .SetProjectFile(Solution)
+                .EnableLockedMode());
+        });
+
     Target Compile => _ => _
+        .DependsOn(Restore)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -67,8 +76,8 @@ class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableLockedMode()
-                .EnableTreatWarningsAsErrors());
+                .EnableTreatWarningsAsErrors()
+                .EnableNoRestore());
         });
 
     Target Test => _ => _
