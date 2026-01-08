@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -8,7 +7,6 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Codecov;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
@@ -51,11 +49,11 @@ class Build : NukeBuild
         .Before(Compile)
         .Executes(() =>
         {
+            ArtifactsDirectory.CreateOrCleanDirectory();
+
             SourceDirectory
                 .GlobDirectories("**/bin", "**/obj")
                 .ForEach(path => path.DeleteDirectory());
-
-            ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -87,15 +85,16 @@ class Build : NukeBuild
             CoverageDirectory.CreateOrCleanDirectory();
             TestResultFolders.ForEach(directory => directory.DeleteDirectory());
 
-            DotNetTest(s => s
-                .SetConfiguration(Configuration)
-                .EnableNoRestore()
-                .EnableNoBuild()
-                .SetDataCollector("XPlat Code Coverage")
-                .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-                .CombineWith(TestProjects, (ss, project) => ss
-                    .SetProjectFile(project)),
-                degreeOfParallelism: Environment.ProcessorCount);
+            foreach (var project in TestProjects)
+            {
+                DotNetTest(s => s
+                    .SetProjectFile(project)
+                    .SetConfiguration(Configuration)
+                    .SetDataCollector("XPlat Code Coverage")
+                    .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
+                    .EnableNoRestore()
+                    .EnableNoBuild());
+            }
 
             ReportGenerator(s => s
                 .SetReports(CoverageResults)
@@ -119,10 +118,10 @@ class Build : NukeBuild
 
             DotNetPack(s => s
                 .SetConfiguration(Configuration)
-                .EnableNoRestore()
-                .EnableNoBuild()
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetVersion(GitVersion.SemVer));
+                .SetVersion(GitVersion.SemVer)
+                .EnableNoRestore()
+                .EnableNoBuild());
         });
 
     Target PushMyGet => _ => _
@@ -130,12 +129,13 @@ class Build : NukeBuild
         .OnlyWhenStatic(() => IsServerBuild && GitRepository.IsOnMainBranch())
         .Executes(() =>
         {
-            NuGetPush(s => s
-                .SetSource("https://www.myget.org/F/baunegaard/api/v2/package")
-                .SetApiKey(MyGetApiKey)
-                .CombineWith(Artifacts, (ss, artifact) => ss
-                    .SetTargetPath(artifact)),
-                degreeOfParallelism: Environment.ProcessorCount);
+            foreach (var artifact in Artifacts)
+            {
+                NuGetPush(s => s
+                    .SetTargetPath(artifact)
+                    .SetSource("https://www.myget.org/F/baunegaard/api/v2/package")
+                    .SetApiKey(MyGetApiKey));
+            }
         });
 
     Target PushNuGet => _ => _
@@ -143,12 +143,13 @@ class Build : NukeBuild
         .OnlyWhenStatic(() => IsServerBuild && GitHubActions.RefType == "tag")
         .Executes(() =>
         {
-            NuGetPush(s => s
-                .SetSource("https://api.nuget.org/v3/index.json")
-                .SetApiKey(NuGetApiKey)
-                .CombineWith(Artifacts, (ss, artifact) => ss
-                    .SetTargetPath(artifact)),
-                degreeOfParallelism: Environment.ProcessorCount);
+            foreach (var artifact in Artifacts)
+            {
+                NuGetPush(s => s
+                    .SetTargetPath(artifact)
+                    .SetSource("https://api.nuget.org/v3/index.json")
+                    .SetApiKey(NuGetApiKey));
+            }
         });
 
     Target UploadCodecov => _ => _
