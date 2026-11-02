@@ -39,9 +39,11 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- '*packages.lock.json'
-          git commit -m 'chore(deps): regenerate NuGet lock files'
+          # [skip ci]: without it, this push starts pull_request runs that wait for approval,
+          # because github-actions[bot] counts as a first-time contributor
+          git commit -m 'chore(deps): regenerate NuGet lock files [skip ci]'
           git push
-      # A push with GITHUB_TOKEN doesn't start workflows, but workflow_dispatch does
+      # The lock file commit skips CI, so start the pipeline on the branch
       - name: Run pipeline
         run: gh workflow run pipeline.yml --ref "$GITHUB_HEAD_REF"
         env:
