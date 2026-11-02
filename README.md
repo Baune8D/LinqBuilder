@@ -214,7 +214,7 @@ var smithEmployees = employees.Where(nameIsSmith.For<Employee>());
 | `a.Not()` | Entities that don't match `a` |
 | `Spec<T>.All(a, b, c)` | Entities that match all of them, like `a.And(b).And(c)` |
 | `Spec<T>.Any(a, b, c)` | Entities that match at least one of them, like `a.Or(b).Or(c)` |
-| `Spec<T>.None(a, b, c)` | Entities that don't match all of them, like `a.And(b).And(c).Not()`. For entities that match none of them, use `Spec<T>.Any(a, b, c).Not()`. |
+| `Spec<T>.None(a, b, c)` | Entities that match none of them, like `a.Or(b).Or(c).Not()` |
 
 - Each method returns a new specification. `a` and `b` are not changed.
 - `And`, `Or` and `Not` keep the ordering, `Skip` and `Take` of `a`. Those of `b` are dropped. `All`, `Any` and `None` keep only the filters of their arguments.

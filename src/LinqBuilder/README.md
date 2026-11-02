@@ -111,7 +111,7 @@ Namespace `LinqBuilder`.
 | `a.And(b)`, `a.Or(b)`, `a.Not()` | Combine filters. The result keeps the ordering, `Skip` and `Take` of `a`. |
 | `Spec<T>.All(a, b, ...)` | Matches entities that match all of them. |
 | `Spec<T>.Any(a, b, ...)` | Matches entities that match at least one of them. |
-| `Spec<T>.None(a, b, ...)` | Same as `Spec<T>.All(a, b, ...).Not()`: matches entities that don't match all of them. For "matches none of them", use `Spec<T>.Any(a, b, ...).Not()`. |
+| `Spec<T>.None(a, b, ...)` | Same as `Spec<T>.Any(a, b, ...).Not()`: matches entities that match none of them. |
 
 `All`, `Any` and `None` keep only the filters of their arguments. See [Specifications](https://github.com/Baune8D/LinqBuilder#specifications) for dynamic (`DynamicSpecification`) and multi-entity (`MultiSpecification`) specifications.
 

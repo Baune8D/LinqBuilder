@@ -34,7 +34,7 @@ namespace LinqBuilder
 
         public static ISpecification<TEntity> None(params ISpecification<TEntity>[] specifications)
         {
-            return specifications.Aggregate(New(), (current, specification) => current.And(specification)).Not();
+            return Any(specifications).Not();
         }
 
         public static ISpecification<TEntity> Any(params ISpecification<TEntity>[] specifications)

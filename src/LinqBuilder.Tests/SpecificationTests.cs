@@ -91,6 +91,14 @@ public class SpecificationTests
     }
 
     [Fact]
+    public void None_OneSpecificationMatches_ShouldBeFalse()
+    {
+        Specification<Entity>.None(_value1ShouldBe1, _value2ShouldBe2)
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 })
+            .Should().BeFalse();
+    }
+
+    [Fact]
     public void Any_Specifications_ShouldBeTrue()
     {
         Specification<Entity>.Any(_value1ShouldBe1, _value2ShouldBe2)
