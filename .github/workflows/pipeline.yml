@@ -15,6 +15,9 @@ jobs:
 
   pipeline:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write # NuGet trusted publishing
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -26,9 +29,17 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           cache: true
           cache-dependency-path: '**/packages.lock.json'
+      # Trusted publishing: exchanges the job's OIDC token for an API key
+      # that is valid for 1 hour. PushNuGet only runs on tags.
+      - name: NuGet login
+        id: nuget-login
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: NuGet/login@v1
+        with:
+          user: Baune8D
       - name: Execute NUKE
         run: ./build.cmd UploadCodecov PushNuGet PushMyGet
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
