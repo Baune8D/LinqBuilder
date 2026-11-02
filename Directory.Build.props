@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <!-- No ImplicitUsings: global usings need C# 10, and netstandard2.0 builds with C# 8 (see below) -->
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <AnalysisMode>All</AnalysisMode>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
