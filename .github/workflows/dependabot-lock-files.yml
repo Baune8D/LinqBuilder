@@ -8,9 +8,6 @@ name: Dependabot lock files
 on:
   pull_request:
 
-env:
-  DOTNET_VERSION: '10.0.x'
-
 jobs:
 
   lock-files:
@@ -24,10 +21,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
-      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+      - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
       - name: Regenerate lock files
         run: dotnet restore LinqBuilder.slnx --force-evaluate
       - name: Push lock files

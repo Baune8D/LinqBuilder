@@ -9,9 +9,6 @@ on:
       - 'v*'
   workflow_dispatch: # started by dependabot-lock-files.yml
 
-env:
-  DOTNET_VERSION: '10.0.x'
-
 jobs:
 
   pipeline:
@@ -38,10 +35,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+      - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
           cache: true
           cache-dependency-path: '**/packages.lock.json'
       # Trusted publishing: exchanges the job's OIDC token for an API key
