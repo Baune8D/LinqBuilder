@@ -62,41 +62,47 @@ public class SpecificationTests
     public void All_Specifications_ShouldBeTrue()
     {
         Specification<Entity>.All(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 })
+            .Should().BeTrue();
     }
 
     [Fact]
     public void All_Specifications_ShouldBeFalse()
     {
         Specification<Entity>.All(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 })
+            .Should().BeFalse();
     }
 
     [Fact]
     public void None_Specifications_ShouldBeTrue()
     {
         Specification<Entity>.None(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
     public void None_Specifications_ShouldBeFalse()
     {
         Specification<Entity>.None(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 });
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 2 })
+            .Should().BeFalse();
     }
 
     [Fact]
     public void Any_Specifications_ShouldBeTrue()
     {
         Specification<Entity>.Any(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1, Value2 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
     public void Any_Specifications_ShouldBeFalse()
     {
         Specification<Entity>.Any(_value1ShouldBe1, _value2ShouldBe2)
-            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 2, Value2 = 1 })
+            .Should().BeFalse();
     }
 }

@@ -12,7 +12,8 @@ public class MultiSpecificationTests
     public void IsSatisfiedBy_MultiEntitySpecification2_Default()
     {
         new MultiEntitySpecification2()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -20,7 +21,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification2()
             .For<Entity>()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -28,7 +30,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification2()
             .For<Entity2>()
-            .IsSatisfiedBy(new Entity2 { Value2 = 2 });
+            .IsSatisfiedBy(new Entity2 { Value2 = 2 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -45,7 +48,8 @@ public class MultiSpecificationTests
     public void IsSatisfiedBy_MultiEntitySpecification3_Default()
     {
         new MultiEntitySpecification3()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -53,7 +57,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification3()
             .For<Entity>()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -61,7 +66,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification3()
             .For<Entity2>()
-            .IsSatisfiedBy(new Entity2 { Value2 = 2 });
+            .IsSatisfiedBy(new Entity2 { Value2 = 2 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -69,7 +75,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification3()
             .For<Entity3>()
-            .IsSatisfiedBy(new Entity3 { Value3 = 3 });
+            .IsSatisfiedBy(new Entity3 { Value3 = 3 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -86,7 +93,8 @@ public class MultiSpecificationTests
     public void IsSatisfiedBy_MultiEntitySpecification4_Default()
     {
         new MultiEntitySpecification4()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -94,7 +102,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification4()
             .For<Entity>()
-            .IsSatisfiedBy(new Entity { Value1 = 1 });
+            .IsSatisfiedBy(new Entity { Value1 = 1 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -102,7 +111,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification4()
             .For<Entity2>()
-            .IsSatisfiedBy(new Entity2 { Value2 = 2 });
+            .IsSatisfiedBy(new Entity2 { Value2 = 2 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -110,7 +120,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification4()
             .For<Entity3>()
-            .IsSatisfiedBy(new Entity3 { Value3 = 3 });
+            .IsSatisfiedBy(new Entity3 { Value3 = 3 })
+            .Should().BeTrue();
     }
 
     [Fact]
@@ -118,7 +129,8 @@ public class MultiSpecificationTests
     {
         new MultiEntitySpecification4()
             .For<Entity4>()
-            .IsSatisfiedBy(new Entity4 { Value4 = 4 });
+            .IsSatisfiedBy(new Entity4 { Value4 = 4 })
+            .Should().BeTrue();
     }
 
     [Fact]
