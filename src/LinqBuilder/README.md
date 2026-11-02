@@ -1,222 +1,146 @@
 # LinqBuilder
 
-## Table of Contents
-1. [LinqBuilder Specifications](#linqbuilder-specifications)
-2. [LinqBuilder OrderSpecifications](#linqbuilder-orderspecifications)
+**The specification pattern for LINQ.** LinqBuilder lets you write a filter once, as a specification, combine it with other specifications, add ordering and paging, and run it on any `IQueryable<T>` or `IEnumerable<T>`. Specifications are expression trees, so Entity Framework Core, Entity Framework 6 and other LINQ providers translate them to SQL.
 
-## LinqBuilder Specifications
-
-### Usage
-Specifications can be constructed in three different ways.
-
-**By extending Specification:**
 ```csharp
-public class FirstnameIsFoo : Specification<Person>
+var spec = new IsAdult()
+    .And(new LastNameIs("Smith"))
+    .OrderBy(OrderSpec<Person, string>.New(p => p.FirstName))
+    .Paginate(pageNo: 1, pageSize: 20);
+
+List<Person> page = await db.People.ExeSpec(spec).ToListAsync();
+```
+
+Full documentation: [github.com/Baune8D/LinqBuilder](https://github.com/Baune8D/LinqBuilder#readme)
+
+## Features
+
+- **Reusable filters:** write a specification as a class (`Specification<T>`) or inline from a lambda (`Spec<T>.New(...)`).
+- **Parameters:** `DynamicSpecification<T, TValue>` passes up to four values into the filter, e.g. `new LastNameIs("Smith")`.
+- **Composition:** `And`, `Or` and `Not`, plus `Spec<T>.All(...)`, `Spec<T>.Any(...)` and `Spec<T>.None(...)`.
+- **Ordering and paging:** `OrderBy`, `ThenBy`, `Skip`, `Take` and `Paginate` are stored in the specification and applied by `ExeSpec`.
+- **`IQueryable<T>` and `IEnumerable<T>`:** a query gets the filter as an expression tree, an in-memory collection as a compiled delegate.
+- **LINQ overloads:** `Where`, `Any`, `All`, `Count`, `First`, `FirstOrDefault`, `Single` and `SingleOrDefault` take a specification.
+- **In-memory checks:** `spec.IsSatisfiedBy(entity)`.
+- **One specification for several entity types:** `MultiSpecification<T1, T2>`, up to four types.
+- **Targets .NET Standard 2.0 and .NET 8, 9 and 10.**
+
+For async Entity Framework methods that take a specification (`AnyAsync`, `CountAsync`, `FirstOrDefaultAsync`, ...), install [LinqBuilder.EFCore](https://www.nuget.org/packages/LinqBuilder.EFCore) or [LinqBuilder.EF6](https://www.nuget.org/packages/LinqBuilder.EF6) instead. Both depend on this package.
+
+## Getting started
+
+### 1. Install
+
+```bash
+dotnet add package LinqBuilder
+```
+
+### 2. Write specifications
+
+The examples use this entity:
+
+```csharp
+public class Person
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; } = "";
+    public string LastName { get; set; } = "";
+    public int Age { get; set; }
+    public bool IsActive { get; set; }
+}
+```
+
+A specification returns its filter from `AsExpression()`:
+
+```csharp
+using System;
+using System.Linq.Expressions;
+using LinqBuilder;
+
+public class IsAdult : Specification<Person>
 {
     public override Expression<Func<Person, bool>> AsExpression()
     {
-        return person => person.Firstname == "Foo";
+        return person => person.Age >= 18;
     }
 }
 
-ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo();
-```
-
-**By extending DynamicSpecification:**
-```csharp
-public class FirstnameIs : DynamicSpecification<Person, string>
+public class LastNameIs : DynamicSpecification<Person, string>
 {
+    public LastNameIs(string lastName)
+        : base(lastName)
+    {
+    }
+
     public override Expression<Func<Person, bool>> AsExpression()
     {
-        return person => person.Firstname == Value;
+        return person => person.LastName == Value;
     }
 }
-
-ISpecification<Person> firstnameIsFoo = new FirstnameIs().Set("Foo");
 ```
 
-**By extending MultiSpecification:**
+For a one-off filter you don't need a class: `Spec<Person>.New(p => p.IsActive)`.
+
+### 3. Combine and run them
+
 ```csharp
-public class FirstnameIsFoo : MultiSpecification<Person, OtherPerson>
-{
-    public override Expression<Func<Person, bool>> AsExpressionForEntity1()
-    {
-        return person => person.Firstname == "Foo";
-    }
+using LinqBuilder;
+using LinqBuilder.OrderBy;
 
-    public override Expression<Func<OtherPerson, bool>> AsExpressionForEntity2()
-    {
-        return person => person.Firstname == "Foo";
-    }
-}
+ISpecification<Person> spec = new IsAdult()
+    .And(new LastNameIs("Smith"))
+    .OrderBy(OrderSpec<Person, string>.New(p => p.FirstName))
+    .Paginate(pageNo: 2, pageSize: 10);
 
-ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo(); // First generic is default
-ISpecification<Person> firstnameIsFoo = new FirstnameIsFoo().For<Person>();
-ISpecification<OtherPerson> firstnameIsFoo = new FirstnameIsFoo().For<OtherPerson>();
+List<Person> page = people.ExeSpec(spec).ToList(); // filter, sort, skip 10, take 10
+int total = people.Count(spec);                    // filter only: all adults named Smith
 ```
 
-**By static New method:**
-```csharp
-ISpecification<Person> firstnameIsFoo = Specification<Person>.New(p => p.Firstname == "Foo");
-// Or by alias
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-```
+`people` can be any `IEnumerable<Person>` or `IQueryable<Person>`, such as a `List<Person>` or an EF Core `DbSet<Person>`.
 
-### Example
-```csharp
-var collection = new List<Person>() { ... };
+## Methods
 
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-ISpecification<Person> firstnameIsBar = Spec<Person>.New(p => p.Firstname == "Bar");
+### Creating and combining specifications
 
-ISpecification<Entity> specification = firstnameIsFoo.Or(firstnameIsBar);
+Namespace `LinqBuilder`.
 
-var result = collection.ExeSpec(specification).ToList();
-// result = Collection items satisfied by specification
-```
-The extension ```ExeSpec``` allows all types of ```ISpecification``` to be executed on ```IQueryable``` and ```IEnumerable```.
+| Method | Description |
+| --- | --- |
+| `Spec<T>.New(expression)` | A specification from a lambda. `Spec<T>` is an alias of `Specification<T>`. |
+| `Spec<T>.New()` | An empty specification. It matches every entity and is ignored by `And` and `Or`. |
+| `a.And(b)`, `a.Or(b)`, `a.Not()` | Combine filters. The result keeps the ordering, `Skip` and `Take` of `a`. |
+| `Spec<T>.All(a, b, ...)` | Matches entities that match all of them. |
+| `Spec<T>.Any(a, b, ...)` | Matches entities that match at least one of them. |
+| `Spec<T>.None(a, b, ...)` | Same as `Spec<T>.All(a, b, ...).Not()`: matches entities that don't match all of them. For "matches none of them", use `Spec<T>.Any(a, b, ...).Not()`. |
 
-### Methods
-```csharp
-ISpecification<Entity> specification = Spec<Entity>.All(
-    new SomeSpecification(),
-    new SomeOtherSpecification(),
-    ...
-);
+`All`, `Any` and `None` keep only the filters of their arguments. See [Specifications](https://github.com/Baune8D/LinqBuilder#specifications) for dynamic (`DynamicSpecification`) and multi-entity (`MultiSpecification`) specifications.
 
-ISpecification<Entity> specification = Spec<Entity>.None(
-    new SomeSpecification(),
-    new SomeOtherSpecification(),
-    ...
-);
+### Ordering and paging
 
-ISpecification<Entity> specification = Spec<Entity>.Any(
-    new SomeSpecification(),
-    new SomeOtherSpecification(),
-    ...
-);
-```
+Namespace `LinqBuilder.OrderBy`.
 
-### Extensions
-```csharp
-ISpecification<TEntity> And<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right);
-ISpecification<TEntity> Or<TEntity>(this ISpecification<TEntity> left, ISpecification<TEntity> right);
-ISpecification<TEntity> Not<TEntity>(this ISpecification<TEntity> specification);
-bool IsSatisfiedBy<TEntity>(this ISpecification<TEntity> specification, TEntity entity);
-ISpecification<TEntity> Clone<TEntity>(this ISpecification<TEntity> specification);
-```
+| Method | Description |
+| --- | --- |
+| `OrderSpec<T, TResult>.New(keySelector, sort)` | An order specification (one sort key). `sort` is `Sort.Ascending` (the default) or `Sort.Descending`. `OrderSpec` is an alias of `OrderSpecification`. |
+| `spec.OrderBy(order)` | Adds `order` as a sort key. Returns an `IOrderedSpecification<T>`. |
+| `ordered.ThenBy(order)` | Adds another sort key, on the result of `OrderBy` or `ThenBy`, or on an order specification. |
+| `spec.UseOrdering(other)` | Adds the sort keys of `other`, and replaces `Skip` and `Take` with those of `other`. It [changes `spec` in place](https://github.com/Baune8D/LinqBuilder#adding-ordering-to-a-specification) if `spec` was built with methods such as `And`, `OrderBy` or `Skip`. |
+| `spec.Skip(count)`, `spec.Take(count)` | Set the number of entities to skip and the maximum number to return. Calling them again replaces the value. |
+| `spec.Paginate(pageNo, pageSize)` | `Skip((pageNo - 1) * pageSize)` and `Take(pageSize)`. `pageNo` starts at 1. |
+| `spec.IsOrdered()`, `spec.HasSkip()`, `spec.HasTake()` | Check whether a specification has sort keys, a `Skip` or a `Take`. |
 
-**LinqBuilder** also extends the following extensions to support ```ISpecification``` on ```IQueryable``` and ```IEnumerable```.
-```csharp
-IEnumerable<Entity> collection = collection.Where(specification);
-bool result = collection.Any(specification);
-bool result = collection.All(specification);
-int result = collection.Count(specification);
-Entity result = collection.First(specification);
-Entity result = collection.FirstOrDefault(specification);
-Entity result = collection.Single(specification);
-Entity result = collection.SingleOrDefault(specification);
-```
+### Running specifications
 
-## LinqBuilder OrderSpecifications
+Namespace `LinqBuilder`.
 
-### Usage
-Order specifications can be constructed in almost the same way as regular specifications.
+| Method | Description |
+| --- | --- |
+| `source.ExeSpec(spec)` | Applies the filter, sort keys, `Skip` and `Take`, in that order. Returns an `IQueryable<T>` for a query and an `IEnumerable<T>` for a collection. |
+| `source.ExeSpec(spec, skipSort: true)` | Applies only the filter. |
+| `Where`, `Any`, `All`, `Count`, `First`, `FirstOrDefault`, `Single`, `SingleOrDefault` | LINQ overloads that take a specification, on `IQueryable<T>` and `IEnumerable<T>`. They use only the filter and ignore the sort keys, `Skip` and `Take`. |
+| `spec.IsSatisfiedBy(entity)` | Runs the filter on one entity. |
+| `spec.Clone()` | A new specification with the same filter, sort keys, `Skip` and `Take`. |
 
-**By extending OrderSpecification:**
-```csharp
-public class FirstnameDescending : OrderSpecification<Person, string>
-{
-    public DescNumberOrderSpecification() : base(Sort.Descending) { }
+## License
 
-    public override Expression<Func<Person, string>> AsExpression()
-    {
-        return person => person.Firstname;
-    }
-}
-
-ISpecification<Person> firstnameDescending = new FirstnameDescending();
-```
-
-**By static New method:**
-```csharp
-ISpecification<Person> firstnameDescending = OrderSpecification<Person, string>.New(p => p.Firstname, Sort.Descending);
-// Or by alias
-ISpecification<Person> firstnameDescending = OrderSpec<Person, string>.New(p => p.Firstname, Sort.Descending);
-```
-
-### Example
-```csharp
-var collection = new List<Person>() { ... };
-
-ISpecification<Person> firstnameDescending = OrderSpec<Person, string>.New(p => p.Firstname, Sort.Descending);
-ISpecification<Person> lastnameDescending = OrderSpec<Person, string>.New(p => p.Lastname, Sort.Descending);
-
-ISpecification<Person> specification = firstnameDescending.ThenBy(lastnameDescending);
-
-var result = collection.ExeSpec(specification).ToList();
-// result = Collection ordered by descending number, then by other number
-```
-
-### Methods
-```csharp
-ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
-    .Take(10);
-
-ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
-    .Skip(5);
-
-ISpecification<Person> specification = OrderSpec<Person, string>.New(p => p.Firstname)
-    .Paginate(2, 10); // Equals .Skip((2 - 1) * 10).Take(10)
-```
-
-### Extensions
-```csharp
-IOrderedEnumerable<Entity> collection = collection
-    .OrderBy(specification);
-    .ThenBy(otherSpecification);
-```
-
-Order specifications can also be chained with regular LinqBuilder specifications.
-```csharp
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
-
-ISpecification<Entity> specification = firstnameIsFoo.OrderBy(firstnameAscending);
-```
-
-Chained ```OrderSpecification```'s can also be attatched to a specification later.
-```csharp
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
-ISpecification<Person> lastnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
-
-ISpecification<Person> orderSpecification = firstnameAscending.ThenBy(lastnameAscending);
-
-ISpecification<Person> specification = firstnameIsFoo.UseOrdering(orderSpecification);
-```
-
-The following extensions will help to check what kind of ordering is applied.
-```csharp
-ISpecification<Person> firstnameIsFoo = Spec<Person>.New(p => p.Firstname == "Foo");
-ISpecification<Person> firstnameAscending = OrderSpec<Person, string>.New(p => p.Firstname);
-
-firstnameIsFoo.IsOrdered(); // Returns false
-
-ISpecification<Person> specification = firstnameIsFoo.OrderBy(firstnameAscending);
-specification.IsOrdered(); // Returns true
-```
-```csharp
-ISpecification<Person> specification = Spec<Person>.New(p => p.Firstname == "Foo");
-specification.HasSkip(); // Returns false
-
-ISpecification<Person> specification = specification.Skip(10);
-specification.HasSkip(); // Returns true
-```
-```csharp
-ISpecification<Person> specification = Spec<Person>.New(p => p.Firstname == "Foo");
-specification.HasTake(); // Returns false
-
-ISpecification<Person> specification = specification.Take(10);
-specification.HasTake(); // Returns true
-```
+[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
