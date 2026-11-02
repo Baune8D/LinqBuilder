@@ -125,6 +125,28 @@ public class SpecificationExtensionsTests
     }
 
     [Fact]
+    public void UseOrdering_ShouldNotChangeSpecification()
+    {
+        var specification = _value1ShouldBe1.Skip(1);
+
+        specification.UseOrdering(_orderValue1Asc.Take(2));
+
+        specification.IsOrdered().Should().BeFalse();
+        specification.Internal.Skip.Should().Be(1);
+        specification.Internal.Take.Should().BeNull();
+    }
+
+    [Fact]
+    public void UseOrdering_WithoutSkipAndTake_ShouldKeepSkipAndTake()
+    {
+        var specification = _value1ShouldBe1.Skip(1).Take(2).UseOrdering(_orderValue1Asc);
+
+        specification.IsOrdered().Should().BeTrue();
+        specification.Internal.Skip.Should().Be(1);
+        specification.Internal.Take.Should().Be(2);
+    }
+
+    [Fact]
     public void Skip_IQueryable_ShouldReturnCorrectResult()
     {
         var result = _fixture.Query.ExeSpec(_orderValue1Asc.Skip(1)).ToList();

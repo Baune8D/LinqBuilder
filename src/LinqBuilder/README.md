@@ -124,7 +124,7 @@ Namespace `LinqBuilder.OrderBy`.
 | `OrderSpec<T, TResult>.New(keySelector, sort)` | An order specification (one sort key). `sort` is `Sort.Ascending` (the default) or `Sort.Descending`. `OrderSpec` is an alias of `OrderSpecification`. |
 | `spec.OrderBy(order)` | Adds `order` as a sort key. Returns an `IOrderedSpecification<T>`. |
 | `ordered.ThenBy(order)` | Adds another sort key, on the result of `OrderBy` or `ThenBy`, or on an order specification. |
-| `spec.UseOrdering(other)` | Adds the sort keys of `other`, and replaces `Skip` and `Take` with those of `other`. It [changes `spec` in place](https://github.com/Baune8D/LinqBuilder#adding-ordering-to-a-specification) if `spec` was built with methods such as `And`, `OrderBy` or `Skip`. |
+| `spec.UseOrdering(other)` | A copy of `spec` with the sort keys of `other` added. `Skip` and `Take` come from `other` when it sets them, otherwise from `spec`. |
 | `spec.Skip(count)`, `spec.Take(count)` | Set the number of entities to skip and the maximum number to return. Calling them again replaces the value. |
 | `spec.Paginate(pageNo, pageSize)` | `Skip((pageNo - 1) * pageSize)` and `Take(pageSize)`. `pageNo` starts at 1. |
 | `spec.IsOrdered()`, `spec.HasSkip()`, `spec.HasTake()` | Check whether a specification has sort keys, a `Skip` or a `Take`. |

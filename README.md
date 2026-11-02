@@ -278,7 +278,7 @@ The sort direction is `Sort.Ascending` (the default) or `Sort.Descending`. `Orde
 | --- | --- | --- |
 | `spec.OrderBy(order)` | `IOrderedSpecification<T>` | Adds `order` as a sort key to `spec`. |
 | `ordered.ThenBy(order)` | `IOrderedSpecification<T>` | Adds another sort key. Works on the result of `OrderBy` or `ThenBy`, and on an order specification. |
-| `spec.UseOrdering(other)` | `ISpecification<T>` | Adds the sort keys of `other` to `spec`, and replaces the `Skip` and `Take` of `spec` with those of `other`. |
+| `spec.UseOrdering(other)` | `ISpecification<T>` | A copy of `spec` with the sort keys of `other` added. `Skip` and `Take` come from `other` when it sets them, otherwise from `spec`. |
 
 ```csharp
 // Adults, sorted by last name, then oldest first
@@ -290,8 +290,6 @@ ISpecification<Person> spec = new IsAdult()
 IOrderedSpecification<Person> ordering = byLastName.ThenBy(new OldestFirst());
 ISpecification<Person> sortedAdults = new IsAdult().UseOrdering(ordering);
 ```
-
-Use the return value of `UseOrdering`, and don't reuse `spec` afterwards. Unlike the other methods, `UseOrdering` changes `spec` in place if `spec` was itself built with methods such as `And`, `OrderBy` or `Skip`. Call `Clone()` first if you still need the original.
 
 Order specifications also sort queries and collections directly:
 

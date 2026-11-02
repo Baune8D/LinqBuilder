@@ -51,11 +51,11 @@ namespace LinqBuilder.OrderBy
                 throw new ArgumentNullException(nameof(orderedSpecification));
             }
 
-            var configuration = specification.Internal;
+            var configuration = specification.Internal.Clone().Internal;
             var orderedConfiguration = orderedSpecification.Internal;
             configuration.AddOrderSpecifications(orderedConfiguration.OrderSpecifications.ToArray());
-            configuration.Skip = orderedConfiguration.Skip;
-            configuration.Take = orderedConfiguration.Take;
+            configuration.Skip = orderedConfiguration.Skip ?? configuration.Skip;
+            configuration.Take = orderedConfiguration.Take ?? configuration.Take;
             return configuration;
         }
 
