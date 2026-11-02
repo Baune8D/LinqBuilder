@@ -56,7 +56,7 @@ Use these sections, omitting empty ones, and end with a compare link:
 
 - `./build.sh Test` builds and runs the tests for all target frameworks. This machine only has the .NET 10 runtime; use `DOTNET_ROLL_FORWARD=Major ./build.sh Test` to run the net8.0/net9.0 tests on it. CI has all three runtimes. The EF6 tests only target net10.0.
 - `global.json` is required: DotNet.ReproducibleBuilds 2.x warns without it, and the build treats warnings as errors.
-- `TreatWarningsAsErrors` also turns NuGet's vulnerability warnings (NU1901 to NU1904) into errors, so a newly published advisory for any dependency, direct or transitive, fails the restore (in CI too) until the package is updated or overridden.
+- `WarningsNotAsErrors` keeps NuGet's vulnerability warnings (NU1901 to NU1904) as warnings, so a newly published advisory doesn't fail the restore. Check the restore output for them and fix them like a Dependabot alert.
 - Restores use the lock files (`packages.lock.json`) in locked mode. After changing a package, run `dotnet restore LinqBuilder.slnx --force-evaluate` and commit the lock files.
 
 ## README
