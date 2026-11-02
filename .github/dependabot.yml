@@ -8,8 +8,8 @@ updates:
     cooldown:
       default-days: 7
     commit-message:
-      prefix: chore
-      include: scope
+      # The NuGet updater ignores include: scope, so the scope is part of the prefix
+      prefix: chore(deps)
     ignore:
       # Major versions are updated manually
       - dependency-name: '*'
