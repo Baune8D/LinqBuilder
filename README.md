@@ -1,9 +1,15 @@
 # LinqBuilder
-[![Build status](https://ci.appveyor.com/api/projects/status/v0t8rfsv0d4q3hap?svg=true)](https://ci.appveyor.com/project/Baune8D/linqbuilder)
-[![codecov](https://codecov.io/gh/Baune8D/linqbuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/Baune8D/linqbuilder)
-[![NuGet Badge](https://buildstats.info/nuget/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder)
 
-**Available on NuGet:** [https://www.nuget.org/packages/LinqBuilder/](https://www.nuget.org/packages/LinqBuilder/)  
+[![Build](https://github.com/Baune8D/LinqBuilder/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/Baune8D/LinqBuilder/actions/workflows/pipeline.yml)
+[![codecov](https://codecov.io/gh/Baune8D/LinqBuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/Baune8D/LinqBuilder)
+[![License: MIT](https://img.shields.io/github/license/Baune8D/LinqBuilder)](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
+
+| Package | Version | Downloads |
+| --- | --- | --- |
+| LinqBuilder | [![NuGet Version](https://img.shields.io/nuget/v/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder) | [![NuGet Downloads](https://img.shields.io/nuget/dt/LinqBuilder)](https://www.nuget.org/packages/LinqBuilder) |
+| LinqBuilder.EFCore | [![NuGet Version](https://img.shields.io/nuget/v/LinqBuilder.EFCore)](https://www.nuget.org/packages/LinqBuilder.EFCore) | [![NuGet Downloads](https://img.shields.io/nuget/dt/LinqBuilder.EFCore)](https://www.nuget.org/packages/LinqBuilder.EFCore) |
+| LinqBuilder.EF6 | [![NuGet Version](https://img.shields.io/nuget/v/LinqBuilder.EF6)](https://www.nuget.org/packages/LinqBuilder.EF6) | [![NuGet Downloads](https://img.shields.io/nuget/dt/LinqBuilder.EF6)](https://www.nuget.org/packages/LinqBuilder.EF6) |
+
 **MyGet development feed:** [https://www.myget.org/F/baunegaard/api/v3/index.json](https://www.myget.org/F/baunegaard/api/v3/index.json)  
 
 LinqBuilder is based on the specification pattern.
@@ -232,10 +238,6 @@ specification.HasTake(); // Returns true
 ```
 
 ## LinqBuilder.EFCore / LinqBuilder.EF6
-| Package            | Version                                                                                                               |
-| -------------------|:---------------------------------------------------------------------------------------------------------------------:|
-| LinqBuilder.EFCore | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EFCore)](https://www.nuget.org/packages/LinqBuilder.EFCore) |
-| LinqBuilder.EF6    | [![NuGet Badge](https://buildstats.info/nuget/LinqBuilder.EF6)](https://www.nuget.org/packages/LinqBuilder.EF6)       |
 
 ### Extensions
 **LinqBuilder.EF** packages extends the following extensions to support ```ISpecification```.
@@ -304,3 +306,15 @@ using (var context = new SampleDbContext())
     // result.count = Total unpaginated result count
 }
 ```
+
+## Building from source
+
+The build uses [NUKE](https://nuke.build/):
+
+```bash
+./build.sh Test        # Windows: .\build.cmd Test
+```
+
+## License
+
+[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
