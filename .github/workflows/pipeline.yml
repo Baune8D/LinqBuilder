@@ -24,7 +24,16 @@ jobs:
     permissions:
       contents: read
       id-token: write # NuGet trusted publishing
+      statuses: write # report runs started by dependabot-lock-files.yml
     steps:
+      # GitHub doesn't show workflow_dispatch runs on pull requests, so runs
+      # started by dependabot-lock-files.yml report a commit status instead
+      - name: Report pending status
+        if: github.event_name == 'workflow_dispatch'
+        run: gh api "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" -f state=pending -f context=pipeline -f target_url="$RUN_URL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Checkout code
         uses: actions/checkout@v7
         with:
@@ -49,3 +58,10 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+      - name: Report status
+        if: always() && github.event_name == 'workflow_dispatch'
+        run: gh api "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" -f state="$STATE" -f context=pipeline -f target_url="$RUN_URL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          STATE: ${{ job.status == 'success' && 'success' || 'failure' }}
