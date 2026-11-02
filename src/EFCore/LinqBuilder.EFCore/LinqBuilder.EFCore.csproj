@@ -9,8 +9,9 @@ Enables most async methods to use ISpecification.</Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Baune8D/LinqBuilder</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Baune8D/LinqBuilder</PackageProjectUrl>
-    <PackageTags>Specification, Linq, EntityFrameworkCore</PackageTags>
+    <PackageTags>specification;specification-pattern;linq;entity-framework-core;efcore</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/Baune8D/LinqBuilder/releases</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
