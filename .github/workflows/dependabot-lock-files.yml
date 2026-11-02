@@ -1,0 +1,49 @@
+name: Dependabot lock files
+
+# Dependabot's NuGet updater restores each target framework separately in
+# projects with more than two, so packages.lock.json only keeps the last one
+# and the locked restore in the pipeline fails. On Dependabot's NuGet PRs,
+# regenerate the lock files and then run the pipeline on the branch.
+
+on:
+  pull_request:
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+
+  lock-files:
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/nuget/')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write # push the lock files
+      actions: write # start the pipeline
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Regenerate lock files
+        run: dotnet restore LinqBuilder.slnx --force-evaluate
+      - name: Push lock files
+        run: |
+          if [ -z "$(git status --porcelain -- '*packages.lock.json')" ]; then
+            echo "The lock files are up to date."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '*packages.lock.json'
+          git commit -m 'chore(deps): regenerate NuGet lock files'
+          git push
+      # A push with GITHUB_TOKEN doesn't start workflows, but workflow_dispatch does
+      - name: Run pipeline
+        run: gh workflow run pipeline.yml --ref "$GITHUB_HEAD_REF"
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
