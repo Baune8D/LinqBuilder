@@ -15,6 +15,7 @@ Enables most async methods to use ISpecification.</Description>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" />
+    <PackageReference Include="LinqKit.Core" />
   </ItemGroup>
 
   <ItemGroup>

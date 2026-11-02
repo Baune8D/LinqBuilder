@@ -10,9 +10,9 @@
       },
       "EntityFramework": {
         "type": "Direct",
-        "requested": "[6.5.1, )",
-        "resolved": "6.5.1",
-        "contentHash": "sQRP2lWg1i3aAGWqdliAM8zrGx7LHMUk+9/MoxUjwfTZYGMXvZ2JYZTlyTm1PqDxvn3c9E3U76TWDON7Y5+CVA==",
+        "requested": "[6.5.2, )",
+        "resolved": "6.5.2",
+        "contentHash": "8iOcnaKcgkWh35s8EhknnENNwwqvrBJ7jeNbQITbGo1mIeIOhGPfVdNOXZ3Y496T6e6wfXvz0WeXlgMdcgVYSA==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
           "System.CodeDom": "6.0.0",
@@ -20,6 +20,12 @@
           "System.Configuration.ConfigurationManager": "6.0.1",
           "System.Data.SqlClient": "4.8.6"
         }
+      },
+      "LinqKit.Core": {
+        "type": "Direct",
+        "requested": "[1.3.1, )",
+        "resolved": "1.3.1",
+        "contentHash": "5LQ2lyhoXnv7f5W3aN4kALECtAQtcRCxcq4octSpEC/zYcuijhubjtZrBsmiCpEJ1GAcsvxi89UBCsIXYX2iAg=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -182,14 +188,8 @@
       "linqbuilder": {
         "type": "Project",
         "dependencies": {
-          "LinqKit.Core": "[1.2.9, )"
+          "LinqKit.Core": "[1.3.1, )"
         }
-      },
-      "LinqKit.Core": {
-        "type": "CentralTransitive",
-        "requested": "[1.2.9, )",
-        "resolved": "1.2.9",
-        "contentHash": "o8zNpo4/Fk0rW58QjYxH6AvvhmB/i9AagphKDEGVnwkbtzRdy7C1v4bFhpTQTjSUMANmbsqGEXMNqX293oEQVg=="
       }
     }
   }
