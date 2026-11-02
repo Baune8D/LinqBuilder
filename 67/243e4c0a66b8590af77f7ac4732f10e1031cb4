@@ -1,0 +1,23 @@
+.github/workflows/dependabot-lock-files.yml
+  s_1da20591e67452::t_51be69060bc489 24,27
+.github/workflows/pipeline.yml
+  s_1da20591e67452::t_377be74277614c 38,41
+global.json
+  s_1da20591e67452::t_8b73d56e488cac 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "67243e4c0a66b8590af77f7ac4732f10e1031cb4",
+  "prompts": {},
+  "sessions": {
+    "s_1da20591e67452": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "56de8afb-cd13-4b9c-b07e-fc995dbca6f0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Morten Larsen <mortenl41@gmail.com>"
+    }
+  }
+}
