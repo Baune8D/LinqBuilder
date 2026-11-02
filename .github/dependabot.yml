@@ -1,0 +1,46 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: chore
+      include: scope
+    ignore:
+      # Major versions are updated manually
+      - dependency-name: '*'
+        update-types: [version-update:semver-major]
+      # Directory.Packages.props sets a version range for each target framework.
+      # Its lower bound is the lowest version the library supports, so raise it by hand.
+      - dependency-name: Microsoft.EntityFrameworkCore
+        update-types: [version-update:semver-minor, version-update:semver-patch]
+      - dependency-name: Microsoft.EntityFrameworkCore.Sqlite
+        update-types: [version-update:semver-minor, version-update:semver-patch]
+      - dependency-name: Microsoft.Extensions.Caching.Memory
+        update-types: [version-update:semver-minor, version-update:semver-patch]
+    groups:
+      nuget:
+        applies-to: version-updates
+        patterns: ['*']
+      nuget-security:
+        applies-to: security-updates
+        patterns: ['*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns: ['*']
