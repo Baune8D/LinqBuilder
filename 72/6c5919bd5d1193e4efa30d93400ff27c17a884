@@ -1,0 +1,25 @@
+README.md
+  s_1da20591e67452::t_059656d45b070c 281
+src/LinqBuilder.Tests/OrderBy/SpecificationExtensionsTests.cs
+  s_1da20591e67452::t_c35a255a0eae44 127-148
+src/LinqBuilder/OrderBy/SpecificationExtensions.cs
+  s_1da20591e67452::t_553a105904758e 54,57-58
+src/LinqBuilder/README.md
+  s_1da20591e67452::t_0f2b88c91d45ab 127
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "726c5919bd5d1193e4efa30d93400ff27c17a884",
+  "prompts": {},
+  "sessions": {
+    "s_1da20591e67452": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "56de8afb-cd13-4b9c-b07e-fc995dbca6f0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Morten Larsen <mortenl41@gmail.com>"
+    }
+  }
+}
