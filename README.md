@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/Baune8D/LinqBuilder/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/Baune8D/LinqBuilder/actions/workflows/pipeline.yml)
 [![codecov](https://codecov.io/gh/Baune8D/LinqBuilder/branch/main/graph/badge.svg)](https://codecov.io/gh/Baune8D/LinqBuilder)
-[![License: MIT](https://img.shields.io/github/license/Baune8D/LinqBuilder)](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
+[![License: MIT](https://img.shields.io/github/license/Baune8D/LinqBuilder)](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE)
 
 | Package | Version | Downloads |
 | --- | --- | --- |
@@ -432,4 +432,4 @@ The build uses [NUKE](https://nuke.build/):
 
 ## License
 
-[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
+[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE)

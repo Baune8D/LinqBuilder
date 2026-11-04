@@ -78,4 +78,4 @@ The package targets .NET Standard 2.1 and depends on Entity Framework 6.5.2 or l
 
 ## License
 
-[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
+[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE)

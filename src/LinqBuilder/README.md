@@ -143,4 +143,4 @@ Namespace `LinqBuilder`.
 
 ## License
 
-[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE.txt)
+[MIT](https://github.com/Baune8D/LinqBuilder/blob/main/LICENSE)
