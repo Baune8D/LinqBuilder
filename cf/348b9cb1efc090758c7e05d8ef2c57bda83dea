@@ -1,0 +1,27 @@
+LinqBuilder.slnx
+  s_1da20591e67452::t_501c392f7caff4 10
+README.md
+  s_1da20591e67452::t_96b96fd8c49139 5,435
+src/EF6/LinqBuilder.EF6/README.md
+  s_1da20591e67452::t_7b0b6eb2478a96 81
+src/EFCore/LinqBuilder.EFCore/README.md
+  s_1da20591e67452::t_90f5558c29de1e 87
+src/LinqBuilder/README.md
+  s_1da20591e67452::t_82cd18d8942fb2 146
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cf348b9cb1efc090758c7e05d8ef2c57bda83dea",
+  "prompts": {},
+  "sessions": {
+    "s_1da20591e67452": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "56de8afb-cd13-4b9c-b07e-fc995dbca6f0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Morten Larsen <mortenl41@gmail.com>"
+    }
+  }
+}
